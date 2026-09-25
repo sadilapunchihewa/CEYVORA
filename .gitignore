@@ -1,0 +1,27 @@
+# ASP.NET settings containing local secrets
+backend/appsettings.json
+
+# .NET
+**/bin/
+**/obj/
+
+# VS Code
+.vscode/
+
+# React
+**/node_modules/
+**/dist/
+
+# Environment files
+.env
+.env.*
+# Local configuration and credentials
+**/appsettings*.json
+!**/appsettings.example.json
+**/secrets.json
+**/*.pfx
+**/*.p12
+**/*.pem
+**/*.key
+.vs/
+**/TestResults/
