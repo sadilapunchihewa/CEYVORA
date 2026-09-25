@@ -1,5 +1,7 @@
 using backend.Data;
 using backend.DTOs;
+using backend.DTOs.Common;
+using backend.Services;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +30,19 @@ public class EnquiriesController(AppDbContext db) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> All(CancellationToken ct) =>
-        Ok(await db.Enquiries.AsNoTracking().OrderByDescending(e => e.CreatedAt)
-            .Select(DtoMappings.Enquiry).ToListAsync(ct));
+    public async Task<IActionResult> All([FromQuery] EnquiryQuery filter, CancellationToken ct)
+    {
+        var query = db.Enquiries.AsNoTracking();
+        if (filter.Status != null) query = query.Where(e => e.Status == filter.Status);
+        if (!string.IsNullOrWhiteSpace(filter.Search))
+        {
+            var pattern = SearchHelper.Pattern(filter.Search);
+            query = query.Where(e => EF.Functions.ILike(e.Name, pattern) || EF.Functions.ILike(e.Email, pattern) ||
+                (e.Country != null && EF.Functions.ILike(e.Country, pattern)));
+        }
+        return Ok(await query.OrderByDescending(e => e.CreatedAt).ThenByDescending(e => e.Id)
+            .Select(DtoMappings.Enquiry).ToPageAsync(filter, ct));
+    }
 
     [HttpGet("{id:int}")]
     public async Task<IActionResult> Get(int id, CancellationToken ct)

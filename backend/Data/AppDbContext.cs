@@ -27,6 +27,11 @@ namespace backend.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Destination>().HasIndex(d => d.Slug).IsUnique();
+            modelBuilder.Entity<TourPackage>().HasIndex(p => p.Slug).IsUnique();
+            modelBuilder.Entity<Booking>().HasIndex(b => b.Status);
+            modelBuilder.Entity<Booking>().HasIndex(b => b.TravelDate);
+            modelBuilder.Entity<Enquiry>().HasIndex(e => e.Status);
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(u => u.Email).IsUnique();

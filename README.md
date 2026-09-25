@@ -13,3 +13,5 @@ ASP.NET Core 8 tourism API with PostgreSQL, JWT authentication and Customer/Admi
 For deployment, supply `ConnectionStrings__DefaultConnection` and `Jwt__Key` through your hosting provider's secret store. The example configuration contains placeholders only.
 
 See [the Phase 2 report](backend/PHASE2.md) for architecture, endpoints, development admin setup and test instructions.
+
+See [the Phase 3 API contract](backend/PHASE3.md) for pagination, filters, image uploads, errors and the complete route list.

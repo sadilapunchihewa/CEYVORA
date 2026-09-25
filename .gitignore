@@ -25,3 +25,8 @@ backend/appsettings.json
 **/*.key
 .vs/
 **/TestResults/
+
+# Runtime media (keep directory placeholders)
+backend/wwwroot/uploads/**/*
+!backend/wwwroot/uploads/**/
+!backend/wwwroot/uploads/**/.gitkeep

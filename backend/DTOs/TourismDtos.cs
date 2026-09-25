@@ -1,17 +1,20 @@
 using System.ComponentModel.DataAnnotations;
+using backend.Validation;
+using backend.Services;
 
 namespace backend.DTOs;
 
 public class DestinationWriteDto
 {
     [Required, StringLength(150)] public string Name { get; set; } = string.Empty;
-    [Required, StringLength(180), RegularExpression(@"^[a-z0-9]+(?:-[a-z0-9]+)*$")]
-    public string Slug { get; set; } = string.Empty;
+    [StringLength(180), RegularExpression(@"^[a-z0-9]+(?:-[a-z0-9]+)*$")]
+    public string? Slug { get => _slug; set => _slug = string.IsNullOrWhiteSpace(value) ? null : SlugHelper.Normalize(value); }
+    private string? _slug;
     [Required, StringLength(500)] public string ShortDescription { get; set; } = string.Empty;
     [Required, StringLength(10000)] public string Description { get; set; } = string.Empty;
     [StringLength(100)] public string? District { get; set; }
     [StringLength(100)] public string? Province { get; set; }
-    [Url, StringLength(2000)] public string? ImageUrl { get; set; }
+    [ImageUrl, StringLength(2000)] public string? ImageUrl { get; set; }
     public bool IsFeatured { get; set; }
     public bool IsActive { get; set; } = true;
 }
@@ -19,15 +22,16 @@ public class DestinationWriteDto
 public class TourPackageWriteDto : IValidatableObject
 {
     [Required, StringLength(150)] public string Title { get; set; } = string.Empty;
-    [Required, StringLength(180), RegularExpression(@"^[a-z0-9]+(?:-[a-z0-9]+)*$")]
-    public string Slug { get; set; } = string.Empty;
+    [StringLength(180), RegularExpression(@"^[a-z0-9]+(?:-[a-z0-9]+)*$")]
+    public string? Slug { get => _slug; set => _slug = string.IsNullOrWhiteSpace(value) ? null : SlugHelper.Normalize(value); }
+    private string? _slug;
     [Required, StringLength(500)] public string ShortDescription { get; set; } = string.Empty;
     [Required, StringLength(10000)] public string Description { get; set; } = string.Empty;
     [Range(1, 365)] public int DurationDays { get; set; }
     [Range(0, 365)] public int DurationNights { get; set; }
     [Range(typeof(decimal), "0", "100000000")] public decimal StartingPrice { get; set; }
     [Required, RegularExpression(@"^[A-Z]{3}$")] public string Currency { get; set; } = "USD";
-    [Url, StringLength(2000)] public string? HeroImageUrl { get; set; }
+    [ImageUrl, StringLength(2000)] public string? HeroImageUrl { get; set; }
     public bool IsFeatured { get; set; }
     public bool IsActive { get; set; } = true;
     public IEnumerable<ValidationResult> Validate(ValidationContext context)

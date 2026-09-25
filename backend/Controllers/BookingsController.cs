@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using backend.Data;
 using backend.DTOs;
+using backend.DTOs.Common;
+using backend.Services;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,9 +52,28 @@ public class BookingsController(AppDbContext db) : ControllerBase
     }
 
     [HttpGet, Authorize(Roles = Roles.Admin)]
-    public async Task<IActionResult> All(CancellationToken ct) =>
-        Ok(await db.Bookings.AsNoTracking().OrderByDescending(b => b.CreatedAt)
-            .Select(DtoMappings.Booking).ToListAsync(ct));
+    public async Task<IActionResult> All([FromQuery] BookingQuery filter, CancellationToken ct)
+    {
+        var query = db.Bookings.AsNoTracking();
+        if (filter.Status != null) query = query.Where(b => b.Status == filter.Status);
+        if (!string.IsNullOrWhiteSpace(filter.Search))
+        {
+            var pattern = SearchHelper.Pattern(filter.Search);
+            query = query.Where(b => EF.Functions.ILike(b.CustomerName, pattern) || EF.Functions.ILike(b.Email, pattern));
+        }
+        if (filter.FromDate.HasValue)
+        {
+            var from = filter.FromDate.Value.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc);
+            query = query.Where(b => b.TravelDate >= from);
+        }
+        if (filter.ToDate.HasValue)
+        {
+            var to = filter.ToDate.Value.ToDateTime(TimeOnly.MaxValue, DateTimeKind.Utc);
+            query = query.Where(b => b.TravelDate <= to);
+        }
+        return Ok(await query.OrderByDescending(b => b.CreatedAt).ThenByDescending(b => b.Id)
+            .Select(DtoMappings.Booking).ToPageAsync(filter, ct));
+    }
 
     [HttpGet("{id:int}"), Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Get(int id, CancellationToken ct)

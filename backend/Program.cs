@@ -15,8 +15,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Keep the existing PostgreSQL connection configuration.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddControllers();
-builder.Services.AddProblemDetails();
+builder.Services.AddControllers(options => options.Filters.Add<ApiErrorFilter>());
+builder.Services.AddExceptionHandler<ApiExceptionHandler>();
+builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddScoped<DetailsService>();
+builder.Services.AddProblemDetails(options => options.CustomizeProblemDetails = context =>
+{
+    context.ProblemDetails.Extensions["traceId"] = context.HttpContext.TraceIdentifier;
+    if (context.ProblemDetails.Status >= 500)
+    {
+        context.ProblemDetails.Title = "An unexpected error occurred.";
+        context.ProblemDetails.Detail = null;
+    }
+});
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddOptions<JwtOptions>().BindConfiguration("Jwt")
     .Validate(o => !string.IsNullOrWhiteSpace(o.Key) && Encoding.UTF8.GetByteCount(o.Key) >= 32,
@@ -98,6 +109,7 @@ builder.Services.AddSwaggerGen(options =>
 var app = builder.Build();
 // Generic errors avoid disclosing database details, even during development.
 app.UseExceptionHandler();
+app.UseStatusCodePages();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -105,6 +117,10 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseCors("React");
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = context => context.Context.Response.Headers["X-Content-Type-Options"] = "nosniff"
+});
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRateLimiter();

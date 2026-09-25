@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using backend.Data;
 using backend.DTOs;
+using backend.DTOs.Common;
+using backend.Services;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,9 +41,15 @@ public class ReviewsController(AppDbContext db) : ControllerBase
     }
 
     [HttpGet, Authorize(Roles = Roles.Admin)]
-    public async Task<IActionResult> All(CancellationToken ct) =>
-        Ok(await db.Reviews.AsNoTracking().OrderByDescending(r => r.CreatedAt)
-            .Select(DtoMappings.Review).ToListAsync(ct));
+    public async Task<IActionResult> All([FromQuery] ReviewQuery filter, CancellationToken ct)
+    {
+        var query = db.Reviews.AsNoTracking();
+        if (filter.Approved.HasValue) query = query.Where(r => r.IsApproved == filter.Approved.Value);
+        if (filter.Rating.HasValue) query = query.Where(r => r.Rating == filter.Rating.Value);
+        if (filter.PackageId.HasValue) query = query.Where(r => r.TourPackageId == filter.PackageId.Value);
+        return Ok(await query.OrderByDescending(r => r.CreatedAt).ThenByDescending(r => r.Id)
+            .Select(DtoMappings.Review).ToPageAsync(filter, ct));
+    }
 
     [HttpPut("{id:int}/approve"), Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Approve(int id, CancellationToken ct)
