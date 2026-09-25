@@ -20,11 +20,11 @@ public class FileService(IWebHostEnvironment environment, AppDbContext db, ILogg
     {
         if (category is not ("destinations" or "packages")) throw new ArgumentException("Unknown upload category.");
         if (file.Length == 0 || file.Length > MaxBytes)
-            throw new InvalidDataException("Image must be nonempty and no larger than 5 MB.");
+            throw new ImageValidationException("Image must be nonempty and no larger than 5 MB.");
         var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
         if (!Types.TryGetValue(extension, out var mime) ||
             !string.Equals(file.ContentType, mime, StringComparison.OrdinalIgnoreCase))
-            throw new InvalidDataException("Only JPG, JPEG, PNG and WebP images with matching content types are allowed.");
+            throw new ImageValidationException("Only JPG, JPEG, PNG and WebP images with matching content types are allowed.");
 
         await using var input = file.OpenReadStream();
         using var data = new MemoryStream();
@@ -32,12 +32,12 @@ public class FileService(IWebHostEnvironment environment, AppDbContext db, ILogg
         int read;
         while ((read = await input.ReadAsync(buffer.AsMemory(), ct)) > 0)
         {
-            if (data.Length + read > MaxBytes) throw new InvalidDataException("Image cannot exceed 5 MB.");
+            if (data.Length + read > MaxBytes) throw new ImageValidationException("Image cannot exceed 5 MB.");
             await data.WriteAsync(buffer.AsMemory(0, read), ct);
         }
         var bytes = data.ToArray();
         if (!HasImageSignature(bytes, extension))
-            throw new InvalidDataException("File contents do not match the selected image format.");
+            throw new ImageValidationException("File contents do not match the selected image format.");
 
         var url = $"/uploads/{category}/{Guid.NewGuid():N}{extension}";
         var path = ResolveLocalPath(url)!;

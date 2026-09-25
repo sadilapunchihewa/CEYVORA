@@ -102,6 +102,26 @@ async Task<string?> Upload(string path, byte[] bytes, string filename, string mi
 
 try
 {
+
+    if (args.Contains("--seed-demo"))
+    {
+        await using var services = new ServiceCollection()
+            .AddDbContext<AppDbContext>(o => o.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
+            .BuildServiceProvider();
+        var seedConfig = new ConfigurationBuilder().AddInMemoryCollection(
+            new Dictionary<string, string?> { ["DemoData:Enabled"] = "true" }).Build();
+        var before = (await db.Destinations.CountAsync(), await db.TourPackages.CountAsync(), await db.ItineraryDays.CountAsync());
+        await backend.Services.DevelopmentDemoSeeder.SeedAsync(services, seedConfig, new AuditEnvironment("Production"));
+        Check(before == (await db.Destinations.CountAsync(), await db.TourPackages.CountAsync(), await db.ItineraryDays.CountAsync()),
+            "Demo seeder is disabled in Production");
+        await backend.Services.DevelopmentDemoSeeder.SeedAsync(services, seedConfig, new AuditEnvironment("Development"));
+        var after = (await db.Destinations.CountAsync(), await db.TourPackages.CountAsync(), await db.ItineraryDays.CountAsync());
+        await backend.Services.DevelopmentDemoSeeder.SeedAsync(services, seedConfig, new AuditEnvironment("Development"));
+        Check(after == (await db.Destinations.CountAsync(), await db.TourPackages.CountAsync(), await db.ItineraryDays.CountAsync()),
+            "Running demo seeder twice does not duplicate data");
+        Console.WriteLine($"DEMO: destinations={after.Item1}, packages={after.Item2}, itineraryDays={after.Item3}; before={before}.");
+    }
+
     var hadAdmin = await db.Users.AnyAsync(u => u.Role == Roles.Admin);
     app = Process.Start(start) ?? throw new InvalidOperationException("Unable to start backend.");
     // Drain logs without printing any configuration or credentials.
@@ -464,6 +484,160 @@ try
     Check(missingProblem.GetProperty("status").GetInt32() == 404 && missingProblem.TryGetProperty("traceId", out _),
         "Errors use ProblemDetails with a trace ID");
 
+
+    // Final audit: all supported image types and remaining admin operations.
+    var fixtureRoot = Path.GetFullPath(Path.Combine(backendPath, "..", "tests", "Backend.SmokeTests", "Fixtures"));
+    foreach (var (extension, source, mime) in new[]
+    {
+        ("jpg", "sample.jpg", "image/jpeg"), ("jpeg", "sample.jpg", "image/jpeg"),
+        ("png", "sample.png", "image/png"), ("webp", "sample.webp", "image/webp")
+    })
+    {
+        var imageBytes = await File.ReadAllBytesAsync(Path.Combine(fixtureRoot, source));
+        foreach (var uploadRoute in new[] { $"/api/destinations/{destinationId}/image", $"/api/tourpackages/{packageId}/image" })
+        {
+            var url = await Upload(uploadRoute, imageBytes, "valid." + extension, mime, HttpStatusCode.OK, adminToken);
+            using var served = await http.GetAsync(url);
+            Check(served.IsSuccessStatusCode && served.Content.Headers.ContentType?.MediaType == mime &&
+                (await served.Content.ReadAsByteArrayAsync()).SequenceEqual(imageBytes),
+                "Valid " + extension + " uploads and serves correctly: " + uploadRoute);
+        }
+    }
+    foreach (var extension in new[] { "exe", "txt", "pdf" })
+        await Upload($"/api/destinations/{destinationId}/image", png, "invalid." + extension,
+            "image/png", HttpStatusCode.BadRequest, adminToken);
+    await Upload($"/api/tourpackages/{packageId}/image", png, "public.png", "image/png", HttpStatusCode.Unauthorized);
+    await Request("PUT", $"/api/tourpackages/{packageId}/destinations/{destinationId}/order",
+        HttpStatusCode.Unauthorized, new { visitOrder = 1 });
+    await Request("GET", "/api/tourpackages/featured", HttpStatusCode.OK);
+    await Request("GET", "/api/tourpackages?search=sri", HttpStatusCode.OK);
+    await Request("GET", "/api/tourpackages?minDays=3&maxDays=10", HttpStatusCode.OK);
+    await Request("GET", "/api/tourpackages?featured=true", HttpStatusCode.OK);
+
+    using (var malformed = new StringContent("{", Encoding.UTF8, "application/json"))
+    using (var response = await http.PostAsync("/api/enquiries", malformed))
+    {
+        var body = await response.Content.ReadAsStringAsync();
+        Check(response.StatusCode == HttpStatusCode.BadRequest && !body.Contains("StackTrace"),
+            "Malformed JSON returns a safe 400");
+    }
+    await Request("POST", "/api/destinations", HttpStatusCode.BadRequest,
+        new { name = "", description = "Test", shortDescription = "Test" }, adminToken);
+    await Request("POST", "/api/tourpackages", HttpStatusCode.BadRequest,
+        new { title = "Invalid", shortDescription = "Test", description = "Test",
+            durationDays = 0, durationNights = -1, startingPrice = -1 }, adminToken);
+    await Request("POST", "/api/reviews", HttpStatusCode.BadRequest,
+        new { tourPackageId = packageId, rating = 5, comment = " a " }, token1);
+    foreach (var badEnquiry in new object[]
+    {
+        new { name = "", email = email1, phone = "+94770000000", numberOfTravellers = 1, message = "Test" },
+        new { name = "Test", email = "invalid", phone = "+94770000000", numberOfTravellers = 1, message = "Test" },
+        new { name = "Test", email = email1, phone = "+94770000000", numberOfTravellers = 0, message = "Test" },
+        new { name = "Test", email = email1, phone = "+94770000000", numberOfTravellers = 1, message = "" }
+    })
+        await Request("POST", "/api/enquiries", HttpStatusCode.BadRequest, badEnquiry);
+    await Request("PUT", $"/api/enquiries/{enquiryId}/status", HttpStatusCode.NoContent,
+        new { status = "InProgress" }, adminToken);
+    var updatedEnquiry = await Request("GET", $"/api/enquiries/{enquiryId}", HttpStatusCode.OK, token: adminToken);
+    Check(updatedEnquiry.GetProperty("status").GetString() == "InProgress", "Admin enquiry status change persists");
+    await Request("PUT", $"/api/itinerary/{itineraryId}", HttpStatusCode.NoContent,
+        new { dayNumber = 1, title = "Updated arrival", description = "Updated itinerary" }, adminToken);
+    var thirdDay = await Request("POST", $"/api/tourpackages/{packageId}/itinerary", HttpStatusCode.Created,
+        new { dayNumber = 3, title = "Departure", description = "Day three" }, adminToken);
+    var secondDay = await Request("POST", $"/api/tourpackages/{packageId}/itinerary", HttpStatusCode.Created,
+        new { dayNumber = 2, title = "Explore", description = "Day two" }, adminToken);
+    var ordered = await Request("GET", $"/api/tourpackages/{packageId}", HttpStatusCode.OK);
+    Check(ordered.GetProperty("itineraryDays").EnumerateArray().Select(i => i.GetProperty("dayNumber").GetInt32())
+        .SequenceEqual(new[] { 1, 2, 3 }), "Itinerary details sort by day rather than insertion order");
+    await Request("PUT", $"/api/tourpackages/{packageId}", HttpStatusCode.BadRequest,
+        new { title = "Too short", shortDescription = "Test", description = "Test",
+            durationDays = 2, durationNights = 1, startingPrice = 100 }, adminToken);
+    await Request("PUT", $"/api/tourpackages/{packageId}", HttpStatusCode.NoContent,
+        new { title = "Updated package", shortDescription = "Test", description = "Test",
+            durationDays = 3, durationNights = 2, startingPrice = 150 }, adminToken);
+    await Request("DELETE", $"/api/itinerary/{thirdDay.GetProperty("id").GetInt32()}", HttpStatusCode.NoContent, token: adminToken);
+    await Request("DELETE", $"/api/itinerary/{secondDay.GetProperty("id").GetInt32()}", HttpStatusCode.NoContent, token: adminToken);
+    await Request("DELETE", $"/api/tourpackages/{packageId}/destinations/{destinations[0].Id}", HttpStatusCode.NoContent, token: adminToken);
+    await Request("DELETE", $"/api/reviews/{hiddenReview.Id}", HttpStatusCode.NoContent, token: adminToken);
+    Check(!await db.Reviews.AsNoTracking().AnyAsync(r => r.Id == hiddenReview.Id), "Admin review deletion persists");
+
+    // Verify history protection against actual PostgreSQL foreign keys.
+    var userDeleteBlocked = false;
+    try { await db.Users.Where(u => u.Id == firstId).ExecuteDeleteAsync(); }
+    catch (Npgsql.PostgresException ex) when (ex.SqlState == "23503") { userDeleteBlocked = true; }
+    Check(userDeleteBlocked, "PostgreSQL prevents deleting a user with booking/review history");
+    var packageDeleteBlocked = false;
+    try { await db.TourPackages.Where(p => p.Id == packageId).ExecuteDeleteAsync(); }
+    catch (Npgsql.PostgresException ex) when (ex.SqlState == "23503") { packageDeleteBlocked = true; }
+    Check(packageDeleteBlocked && await db.Bookings.AnyAsync(b => b.Id == bookingId),
+        "PostgreSQL prevents package deletion and retains history");
+
+    await db.Database.OpenConnectionAsync();
+    await using (var command = db.Database.GetDbConnection().CreateCommand())
+    {
+        command.CommandText = """
+            SELECT count(*) FROM pg_constraint WHERE contype = 'f' AND confdeltype = 'r'
+            AND conrelid IN ('"Bookings"'::regclass, '"Reviews"'::regclass, '"Enquiries"'::regclass, '"PackageDestinations"'::regclass)
+            """;
+        Check(Convert.ToInt32(await command.ExecuteScalarAsync()) == 7, "All seven historical/link foreign keys use RESTRICT");
+        command.CommandText = """
+            SELECT count(*) FROM pg_indexes WHERE schemaname = 'public'
+            AND indexname IN ('IX_Users_Email', 'IX_Destinations_Slug', 'IX_TourPackages_Slug')
+            AND indexdef LIKE '%UNIQUE%'
+            """;
+        Check(Convert.ToInt32(await command.ExecuteScalarAsync()) == 3, "Email and slug unique indexes exist in PostgreSQL");
+    }
+    await db.Database.CloseConnectionAsync();
+
+    foreach (var (issuer, audience) in new[] { ("wrong-issuer", "CeyvoraClient"), ("CeyvoraAPI", "wrong-audience") })
+    {
+        var invalidToken = new JwtSecurityToken(issuer, audience,
+            new[] { new Claim("sub", firstId.ToString()), new Claim("role", "Customer") },
+            DateTime.UtcNow.AddMinutes(-1), DateTime.UtcNow.AddMinutes(5),
+            new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)), SecurityAlgorithms.HmacSha256));
+        await Request("GET", "/api/auth/me", HttpStatusCode.Unauthorized,
+            token: new JwtSecurityTokenHandler().WriteToken(invalidToken));
+    }
+    var publicOperation = swagger.GetProperty("paths").GetProperty("/api/destinations").GetProperty("get");
+    Check(!publicOperation.TryGetProperty("security", out var publicSecurity) || publicSecurity.GetArrayLength() == 0,
+        "Swagger public operations do not require a token");
+    Check(swagger.GetProperty("paths").GetProperty("/api/destinations").GetProperty("post")
+        .GetProperty("security")[0].TryGetProperty("Bearer", out _), "Swagger protected operations require Bearer");
+    errorBody.SetLength(0);
+    errorContext.Response.StatusCode = 200;
+    await handler.TryHandleAsync(errorContext, new InvalidDataException("private-filesystem-details"),
+        CancellationToken.None);
+    errorBody.Position = 0;
+    var privateError = await new StreamReader(errorBody).ReadToEndAsync();
+    Check(errorContext.Response.StatusCode == 500 && !privateError.Contains("private-filesystem-details"),
+        "Unexpected InvalidDataException messages are not exposed");
+    // ReadToEndAsync above does not dispose the response stream.
+
+    await using (var seedServices = new ServiceCollection()
+        .AddDbContext<AppDbContext>(o => o.UseNpgsql(configuration.GetConnectionString("DefaultConnection")))
+        .BuildServiceProvider())
+    {
+        var adminConfig = new ConfigurationBuilder().AddInMemoryCollection(new Dictionary<string, string?>
+        {
+            ["CEYVORA_ADMIN_EMAIL"] = adminEmail,
+            ["CEYVORA_ADMIN_PASSWORD"] = password + "Different9"
+        }).Build();
+        var adminHash = await db.Users.AsNoTracking().Where(u => u.Id == admin.Id).Select(u => u.PasswordHash).SingleAsync();
+        await backend.Services.DevelopmentAdminSeeder.SeedAsync(seedServices, adminConfig, new AuditEnvironment("Development"));
+        Check(await db.Users.AsNoTracking().Where(u => u.Id == admin.Id).Select(u => u.PasswordHash).SingleAsync() == adminHash,
+            "Development seeder never resets an existing admin password");
+        adminConfig["CEYVORA_ADMIN_EMAIL"] = email1;
+        var refusedPromotion = false;
+        try { await backend.Services.DevelopmentAdminSeeder.SeedAsync(seedServices, adminConfig, new AuditEnvironment("Development")); }
+        catch (InvalidOperationException) { refusedPromotion = true; }
+        Check(refusedPromotion && await db.Users.AnyAsync(u => u.Id == firstId && u.Role == Roles.Customer),
+            "Development seeder cannot promote a customer");
+        // Invalid credentials would throw if the production guard were bypassed.
+        adminConfig["CEYVORA_ADMIN_PASSWORD"] = "bad";
+        await backend.Services.DevelopmentAdminSeeder.SeedAsync(seedServices, adminConfig, new AuditEnvironment("Production"));
+        Check(await db.Users.AnyAsync(u => u.Id == firstId && u.Role == Roles.Customer), "Admin seeder is disabled in Production");
+    }
+
     await Request("DELETE", $"/api/destinations/{destinationId}", HttpStatusCode.NoContent, token: adminToken);
     await Request("GET", $"/api/destinations/{destinationId}", HttpStatusCode.NotFound);
     await Request("DELETE", $"/api/tourpackages/{packageId}", HttpStatusCode.NoContent, token: adminToken);
@@ -479,14 +653,8 @@ catch (Exception ex)
 finally
 {
     if (app is { HasExited: false }) { app.Kill(entireProcessTree: true); await app.WaitForExitAsync(); }
-    if (checks < 6 && appError != null)
-    {
-        var diagnostic = await appError + (appOutput == null ? "" : await appOutput);
-        diagnostic = diagnostic.Replace(key, "[redacted]").Replace(password, "[redacted]");
-        var connection = configuration.GetConnectionString("DefaultConnection");
-        if (!string.IsNullOrEmpty(connection)) diagnostic = diagnostic.Replace(connection, "[redacted]");
-        Console.WriteLine(diagnostic.Length > 6000 ? diagnostic[^6000..] : diagnostic);
-    }
+    if (appOutput != null) await appOutput;
+    if (appError != null) await appError;
     app?.Dispose();
     // Only delete fixtures owned by this run; no existing data or migrations are removed.
     await using var cleanup = await db.Database.BeginTransactionAsync();

@@ -1,7 +1,6 @@
 using System.Text;
 using System.Threading.RateLimiting;
 using backend.Data;
-using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -99,11 +98,7 @@ builder.Services.AddSwaggerGen(options =>
         Name = "Authorization", Type = SecuritySchemeType.ApiKey, In = ParameterLocation.Header,
         Description = "Enter: Bearer TOKEN"
     });
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        [new OpenApiSecurityScheme { Reference = new OpenApiReference
-            { Type = ReferenceType.SecurityScheme, Id = "Bearer" } }] = Array.Empty<string>()
-    });
+    options.OperationFilter<SwaggerAuthorizationFilter>();
 });
 
 var app = builder.Build();
@@ -126,6 +121,7 @@ app.UseAuthorization();
 app.UseRateLimiter();
 app.MapControllers();
 await DevelopmentAdminSeeder.SeedAsync(app.Services, app.Configuration, app.Environment);
+await DevelopmentDemoSeeder.SeedAsync(app.Services, app.Configuration, app.Environment);
 app.Run();
 
 public partial class Program { }

@@ -94,7 +94,8 @@ public class ReviewCreateDto
 {
     [Range(1, int.MaxValue)] public int TourPackageId { get; set; }
     [Range(1, 5)] public int Rating { get; set; }
-    [Required, StringLength(3000, MinimumLength = 3)] public string Comment { get; set; } = string.Empty;
+    [Required, StringLength(3000, MinimumLength = 3)] public string Comment { get => _comment; set => _comment = value?.Trim() ?? string.Empty; }
+    private string _comment = string.Empty;
 }
 
 public record DestinationDto(int Id, string Name, string Slug, string ShortDescription, string Description,

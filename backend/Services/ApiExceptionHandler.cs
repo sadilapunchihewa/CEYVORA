@@ -11,7 +11,7 @@ public sealed class ApiExceptionHandler(ILogger<ApiExceptionHandler> logger) : I
     {
         var (status, message) = exception switch
         {
-            InvalidDataException e => (400, e.Message),
+            ImageValidationException e => (400, e.Message),
             BadHttpRequestException e => (e.StatusCode, "Invalid request or request body too large."),
             DbUpdateConcurrencyException => (409, "The resource changed. Reload and try again."),
             DbUpdateException { InnerException: PostgresException { SqlState: PostgresErrorCodes.UniqueViolation,

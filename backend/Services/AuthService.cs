@@ -51,7 +51,7 @@ public class AuthService(AppDbContext db, IOptions<JwtOptions> options) : IAuthS
         if (Encoding.UTF8.GetByteCount(dto.Password) > 72 || dto.Password.Contains('\0'))
             return null;
         var email = NormalizeEmail(dto.Email);
-        var user = await db.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
+        var user = await db.Users.AsNoTracking().SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
         var validPassword = BCrypt.Net.BCrypt.Verify(dto.Password, user?.PasswordHash ?? DummyHash);
         if (user == null || !validPassword || !user.IsActive)
             return null;
