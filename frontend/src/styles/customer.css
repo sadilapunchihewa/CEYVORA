@@ -1,0 +1,313 @@
+.customer-page {
+  padding-top: 145px;
+  padding-bottom: 100px;
+  min-height: 75vh;
+}
+.customer-page h1 {
+  font-size: clamp(2.3rem, 4.5vw, 4rem);
+  line-height: 1.1;
+  margin: 0 0 24px;
+  overflow-wrap: anywhere;
+}
+.customer-page h2 {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+.customer-intro {
+  max-width: 650px;
+  font-size: 1.12rem;
+  margin-bottom: 40px;
+}
+.auth-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 6vw, 90px);
+  align-items: stretch;
+}
+.auth-picture {
+  position: relative;
+  min-height: 660px;
+  overflow: hidden;
+  background: #163f35;
+}
+.auth-picture img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  object-fit: cover;
+}
+.auth-picture::after {
+  content: '';
+  position: absolute;
+  inset: 30% 0 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.65));
+}
+.auth-picture div {
+  position: absolute;
+  z-index: 1;
+  bottom: 35px;
+  left: 35px;
+  right: 35px;
+  color: white;
+}
+.auth-picture h2 {
+  color: white;
+  font-size: clamp(2rem, 3.5vw, 3.5rem);
+  max-width: 400px;
+  line-height: 1.1;
+}
+.auth-content {
+  align-self: center;
+  max-width: 520px;
+  padding: 15px 0;
+}
+.customer-form {
+  display: grid;
+  gap: 22px;
+  margin-top: 28px;
+}
+.customer-field {
+  min-width: 0;
+}
+.customer-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.customer-field input,
+.customer-field textarea,
+.customer-field select {
+  width: 100%;
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid #a6b5ac;
+  border-radius: 3px;
+  background: white;
+  color: #263630;
+  font: inherit;
+}
+.customer-field textarea {
+  resize: vertical;
+}
+.customer-field small {
+  display: block;
+  margin-top: 7px;
+}
+.customer-field [aria-invalid='true'] {
+  border-color: #9c352e;
+}
+.customer-field .field-error,
+.form-message {
+  color: #8b2f28;
+}
+.customer-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.password-input {
+  position: relative;
+}
+.password-input input {
+  padding-right: 75px;
+}
+.password-input button {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  bottom: 4px;
+  padding: 0 13px;
+  border: 0;
+  background: transparent;
+  color: #163f35;
+  cursor: pointer;
+  font: inherit;
+}
+.auth-switch {
+  margin-top: 28px;
+}
+.auth-switch a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.account-layout {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 65px;
+}
+.account-navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 20px;
+}
+.account-navigation a {
+  padding: 5px 0;
+}
+.account-navigation a.active {
+  font-weight: 700;
+  border-bottom: 2px solid #163f35;
+}
+.account-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin: 45px 0;
+}
+.account-links a {
+  padding: 24px 0;
+  border-top: 1px solid #c5cfc7;
+}
+.account-links a:hover h2 {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.account-links h2 {
+  font-size: 1.5rem;
+}
+.account-landscape {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+.customer-facts {
+  max-width: 800px;
+  margin: 35px 0;
+}
+.customer-facts > div {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 25px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e0e5df;
+}
+.customer-facts dt {
+  color: #65736b;
+}
+.customer-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.booking-layout {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(30px, 7vw, 100px);
+  margin-top: 40px;
+}
+.booking-summary .travel-image {
+  aspect-ratio: 4/3;
+}
+.booking-summary h2 {
+  margin-top: 25px;
+}
+.booking-summary p {
+  max-width: 440px;
+}
+.booking-entry {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 30px;
+  padding: 30px 0;
+  border-bottom: 1px solid #dce2db;
+}
+.booking-entry .travel-image {
+  height: 100%;
+  min-height: 245px;
+}
+.booking-entry h2 {
+  margin: 15px 0;
+}
+.booking-entry small {
+  display: block;
+  margin-bottom: 18px;
+}
+.booking-status {
+  display: inline-block;
+  padding: 5px 11px;
+  font-size: 0.85rem;
+  background: #edf0ed;
+  color: #46574d;
+  border-radius: 3px;
+}
+.status-pending {
+  background: #f5ead1;
+  color: #71561c;
+}
+.status-confirmed {
+  background: #e1eee4;
+  color: #245537;
+}
+.status-cancelled {
+  background: #f3e5e1;
+  color: #853f34;
+}
+.booking-title {
+  margin-top: 25px;
+}
+.booking-success {
+  max-width: 800px;
+  text-align: center;
+}
+.booking-success p {
+  margin: 25px 0 35px;
+}
+.review-form {
+  max-width: 700px;
+}
+.review-form select {
+  max-width: 220px;
+}
+@media (max-width: 1000px) {
+  .account-layout {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .account-navigation {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+}
+@media (max-width: 700px) {
+  .customer-page {
+    padding-top: 115px;
+    padding-bottom: 65px;
+  }
+  .auth-layout,
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+  .auth-picture {
+    min-height: 260px;
+  }
+  .auth-picture div {
+    bottom: 20px;
+    left: 22px;
+    right: 22px;
+  }
+  .auth-content {
+    max-width: none;
+  }
+  .account-links {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 25px 0;
+  }
+  .customer-facts > div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .booking-entry {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .booking-entry .travel-image {
+    height: 220px;
+    min-height: 0;
+  }
+  .customer-form-row {
+    gap: 12px;
+  }
+  .account-content {
+    min-width: 0;
+  }
+}

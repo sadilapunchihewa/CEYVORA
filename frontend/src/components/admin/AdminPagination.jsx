@@ -1,0 +1,16 @@
+export default function AdminPagination({ page, totalPages, onChange }) {
+  if (totalPages <= 1) return null
+  return (
+    <nav className="admin-pagination" aria-label="Pagination">
+      <button disabled={page <= 1} onClick={() => onChange(page - 1)}>
+        Previous
+      </button>
+      <span>
+        Page {page} of {totalPages}
+      </span>
+      <button disabled={page >= totalPages} onClick={() => onChange(page + 1)}>
+        Next
+      </button>
+    </nav>
+  )
+}

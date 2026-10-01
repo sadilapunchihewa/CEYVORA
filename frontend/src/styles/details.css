@@ -1,0 +1,409 @@
+.detail-header {
+  padding-top: 128px;
+}
+.breadcrumbs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--color-muted);
+  margin-bottom: 35px;
+}
+.breadcrumbs a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.breadcrumbs > span:last-child {
+  overflow-wrap: anywhere;
+}
+.detail-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
+  margin-bottom: 36px;
+}
+.detail-title-row > div:first-child {
+  max-width: 850px;
+  min-width: 0;
+}
+.detail-title-row h1 {
+  font-size: clamp(40px, 4.8vw, 68px);
+  overflow-wrap: anywhere;
+}
+.detail-intro {
+  max-width: 680px;
+  color: var(--color-muted);
+  margin: 22px 0 0;
+}
+.detail-location {
+  font-size: 14px;
+  color: var(--color-secondary);
+}
+.hero-journey-facts {
+  flex-shrink: 0;
+  padding-left: 30px;
+  border-left: 1px solid var(--color-border);
+  min-width: 230px;
+}
+.hero-journey-facts > p:first-child {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.detail-price {
+  font-family: var(--font-display);
+  font-size: 29px;
+  color: var(--color-primary);
+  margin-bottom: 18px;
+}
+.detail-price span {
+  font: 13px var(--font-body);
+}
+.detail-hero-image {
+  overflow: hidden;
+  border-radius: 12px;
+}
+.detail-hero-image .travel-image img {
+  aspect-ratio: auto;
+  width: 100%;
+  height: clamp(280px, 38vw, 510px);
+  object-fit: cover;
+}
+.detail-hero-image .image-note {
+  left: 20px;
+  bottom: 18px;
+  font-size: 12px;
+  padding: 5px 10px;
+}
+.detail-section {
+  padding-block: 38px;
+  border-bottom: 1px solid var(--color-border);
+}
+.detail-section h2 {
+  font-size: clamp(29px, 3vw, 38px);
+  margin-bottom: 24px;
+}
+.detail-section > p,
+.destination-overview > div > p {
+  color: var(--color-muted);
+}
+.detail-section > p:last-child {
+  margin-bottom: 0;
+}
+.preserve-lines {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+.tour-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 60px;
+  padding-block: 30px 80px;
+  align-items: start;
+}
+.tour-reading-column {
+  min-width: 0;
+}
+.journey-plan {
+  position: sticky;
+  top: 120px;
+  margin-top: 38px;
+  background: #edf2ea;
+  border-radius: 10px;
+  padding: 30px;
+}
+.journey-plan h2 {
+  font-size: 28px;
+}
+.journey-plan dl {
+  margin: 25px 0;
+}
+.journey-plan dt {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+.journey-plan dd {
+  margin: 3px 0 18px;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.journey-plan p {
+  font-size: 13px;
+  color: var(--color-muted);
+}
+.journey-plan .button {
+  width: 100%;
+}
+.included-places {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 20px;
+}
+.included-places li {
+  min-width: 0;
+}
+.included-places a {
+  display: block;
+  height: 100%;
+}
+.included-places .travel-image {
+  border-radius: 7px;
+}
+.included-places a > span {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 21px;
+  color: var(--color-primary);
+  margin-top: 10px;
+}
+.included-places a:hover > span {
+  text-decoration: underline;
+}
+.included-places small {
+  color: var(--color-muted);
+}
+.included-places .image-note {
+  font-size: 9px;
+  left: 5px;
+  bottom: 6px;
+}
+.itinerary-day {
+  border-top: 1px solid var(--color-border);
+}
+.itinerary-day summary {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 0;
+  list-style: none;
+}
+.itinerary-day summary::-webkit-details-marker {
+  display: none;
+}
+.day-number {
+  font-size: 13px;
+  color: var(--color-secondary);
+  min-width: 48px;
+}
+.itinerary-day h3 {
+  font-size: 17px;
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+.accordion-mark {
+  font-size: 24px;
+  width: 22px;
+  text-align: center;
+}
+.itinerary-day[open] .accordion-mark {
+  transform: rotate(45deg);
+}
+.itinerary-content {
+  padding: 0 28px 25px 66px;
+  color: var(--color-muted);
+}
+.itinerary-content dl {
+  background: #edf2ea;
+  padding: 18px;
+  font-size: 13px;
+  margin-bottom: 0;
+  border-radius: 6px;
+}
+.itinerary-content dt {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+.itinerary-content dd {
+  margin: 3px 0 14px;
+  overflow-wrap: anywhere;
+}
+.itinerary-content dd:last-child {
+  margin-bottom: 0;
+}
+.detail-empty {
+  padding: 25px;
+  background: #edf2ea;
+  border-radius: 7px;
+  color: var(--color-muted);
+}
+.detail-empty p {
+  margin: 0;
+}
+.package-review {
+  border-top: 1px solid var(--color-border);
+  padding-top: 24px;
+  margin-top: 24px;
+}
+.review-byline {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.review-byline h3 {
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+.review-byline time {
+  font-size: 12px;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+.package-review .stars {
+  margin: 10px 0;
+}
+.package-review > p:last-child {
+  color: var(--color-muted);
+}
+.destination-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 90px;
+  padding-block: 65px;
+  align-items: start;
+}
+.destination-overview h2 {
+  margin-bottom: 25px;
+}
+.destination-note {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 30px;
+}
+.destination-note h3 {
+  margin-bottom: 15px;
+}
+.destination-note p {
+  color: var(--color-muted);
+  font-size: 14px;
+}
+.destination-note .button {
+  margin-bottom: 12px;
+  width: 100%;
+}
+.related-tours {
+  background: #edf2ea;
+}
+.detail-state {
+  padding-block: 160px 100px;
+  min-height: 65svh;
+}
+.detail-state h1 {
+  max-width: 900px;
+  margin-bottom: 30px;
+}
+.detail-state > p {
+  max-width: 650px;
+  margin-bottom: 30px;
+  color: var(--color-muted);
+}
+.enquiry-package {
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  background: #edf2ea;
+  border-radius: 7px;
+  margin-top: 20px;
+}
+.enquiry-package p {
+  margin-bottom: 8px;
+}
+.enquiry-package span {
+  display: block;
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-bottom: 5px;
+}
+.enquiry-package strong {
+  display: block;
+  color: var(--color-primary);
+}
+.text-action {
+  border: none;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 13px;
+  padding: 6px 0;
+  text-align: left;
+  margin-right: 15px;
+}
+@media (max-width: 1000px) {
+  .tour-detail-layout {
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 30px;
+  }
+  .journey-plan {
+    padding: 22px;
+  }
+  .destination-overview {
+    gap: 40px;
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+  .detail-title-row {
+    gap: 30px;
+  }
+  .included-places {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 750px) {
+  .detail-header {
+    padding-top: 108px;
+  }
+  .breadcrumbs {
+    font-size: 12px;
+    gap: 8px;
+    margin-bottom: 25px;
+  }
+  .detail-title-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 25px;
+  }
+  .hero-journey-facts {
+    border-left: 0;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .hero-journey-facts .button {
+    width: 100%;
+  }
+  .tour-detail-layout,
+  .destination-overview {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .journey-plan {
+    position: static;
+    margin-top: 0;
+  }
+  .destination-overview {
+    padding-block: 45px;
+  }
+  .detail-section {
+    padding-block: 28px;
+  }
+  .itinerary-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .itinerary-day summary {
+    gap: 10px;
+  }
+  .itinerary-day h3 {
+    font-size: 16px;
+  }
+  .review-byline {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .detail-hero-image .image-note {
+    font-size: 10px;
+  }
+  .detail-state {
+    padding-top: 130px;
+  }
+}

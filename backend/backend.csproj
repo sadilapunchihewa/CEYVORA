@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>ceyvora-backend-development</UserSecretsId>
+    <!-- C# Dev Kit 11 project-data tasks require .NET 10; skip them in ordinary .NET 8 builds. -->
+    <EnableProjectDataOnBuild>false</EnableProjectDataOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

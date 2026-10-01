@@ -15,6 +15,7 @@ backend/appsettings.json
 # Environment files
 .env
 .env.*
+!frontend/.env.example
 # Local configuration and credentials
 **/appsettings*.json
 !**/appsettings.example.json

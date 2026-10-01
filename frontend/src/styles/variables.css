@@ -1,0 +1,20 @@
+:root {
+  --color-primary: #163f35;
+  --color-secondary: #28614e;
+  --color-accent: #e4c78c;
+  --color-background: #faf9f5;
+  --color-surface: #fff;
+  --color-text: #263630;
+  --color-muted: #65736b;
+  --color-border: #dce2d9;
+  --color-error: #a02d2d;
+  --color-success: #267451;
+  --color-warning: #9b6b17;
+  --shadow-subtle: 0 8px 30px rgb(22 63 53 / 6%);
+  --control-height: 48px;
+  --font-body: 'Segoe UI', system-ui, sans-serif;
+  --font-display: Georgia, 'Times New Roman', serif;
+  --container-width: 1200px;
+  --border-radius: 12px;
+  --section-space: clamp(56px, 7vw, 100px);
+}
