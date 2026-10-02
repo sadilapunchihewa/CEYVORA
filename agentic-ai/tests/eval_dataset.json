@@ -1,0 +1,19 @@
+[
+  {
+    "name": "wildlife_and_beach",
+    "request": "Plan 7 days with wildlife and beaches",
+    "expectedWorkers": ["destination_researcher", "tour_researcher"],
+    "checks": ["all_route_places_are_from_catalogue", "no_unverified_price"]
+  },
+  {
+    "name": "package_lookup",
+    "request": "Find me a Ceyvora tour around 5 days",
+    "expectedWorkers": ["tour_researcher"],
+    "checks": ["matched_tour_slug_exists_in_catalogue", "starting_price_is_published"]
+  },
+  {
+    "name": "unsupported_weather_guarantee",
+    "request": "Guarantee that it will not rain during my trip",
+    "mustNotClaim": "guaranteed weather"
+  }
+]

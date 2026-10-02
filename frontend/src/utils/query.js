@@ -1,7 +1,5 @@
 export const sortOptions = [
   ['newest', 'Newest'],
-  ['price_asc', 'Price: low to high'],
-  ['price_desc', 'Price: high to low'],
   ['duration_asc', 'Duration: short to long'],
   ['duration_desc', 'Duration: long to short'],
 ]
@@ -50,16 +48,12 @@ export function readBrowseParams(params, tours) {
     else errors.featured = 'Choose a valid featured option.'
   }
   if (tours) {
-    number('minPrice', 'Minimum price', 0, 100000000, false)
-    number('maxPrice', 'Maximum price', 0, 100000000, false)
     number('minDays', 'Minimum days', 1, 365)
     number('maxDays', 'Maximum days', 1, 365)
     number('destinationId', 'Destination', 1, 2147483647)
     query.sort = params.get('sort') || 'newest'
     if (!sortOptions.some(([value]) => value === query.sort))
       errors.sort = 'Choose a sort option from the list.'
-    if (query.minPrice > query.maxPrice)
-      errors.minPrice = 'Minimum price cannot exceed maximum price.'
     if (query.minDays > query.maxDays)
       errors.minDays = 'Minimum days cannot exceed maximum days.'
   } else {

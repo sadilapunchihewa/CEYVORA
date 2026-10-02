@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import useWebsiteContent from '../../hooks/useWebsiteContent'
-export default function PageMetadata() {
+export default function PageMetadata({ title: pageTitle, description: pageDescription } = {}) {
   const { pathname } = useLocation()
   const { items: journeys } = useWebsiteContent('journeys')
   const { items: experiences } = useWebsiteContent('experiences')
@@ -9,8 +9,10 @@ export default function PageMetadata() {
     const item = pathname.startsWith('/journeys/')
       ? journeys.find((x) => pathname === '/journeys/' + x.slug)
       : experiences.find((x) => pathname === '/experiences/' + x.slug)
-    const title = item ? item.name + ' | Ceyvora' : document.title
+    const title =
+      pageTitle || (item ? item.name + ' | Ceyvora' : document.title)
     const description =
+      pageDescription ||
       item?.description ||
       'Explore Sri Lanka with Ceyvora: destination guides, journey ideas and experiences for your next trip.'
     const set = (key, value, property = false) => {
@@ -24,7 +26,7 @@ export default function PageMetadata() {
       }
       tag.content = value
     }
-    if (item) document.title = title
+    if (pageTitle || item) document.title = title
     set('description', description)
     set('og:title', title, true)
     set('og:description', description, true)
@@ -49,6 +51,6 @@ export default function PageMetadata() {
       document.head.appendChild(canonical)
     }
     canonical.href = window.location.origin + pathname
-  }, [pathname, journeys, experiences])
+  }, [pathname, journeys, experiences, pageTitle, pageDescription])
   return null
 }

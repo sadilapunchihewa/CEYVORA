@@ -163,5 +163,236 @@
     ],
     "advice": "Allow breathing room for viewpoints and changing weather. A hill-country rail segment can be discussed, with road travel as an alternative if suitable seats are unavailable.",
     "nights": 8
+  },
+  {
+    "name": "Beyond the Ordinary Sri Lanka",
+    "slug": "beyond-the-ordinary-sri-lanka",
+    "category": "Join a Group",
+    "image": "/images/sigiriya.webp",
+    "description": "Culture, hill country and coastal discoveries in one varied island journey.",
+    "heading": "An island introduction with room to explore",
+    "route": [
+      "negombo",
+      "sigiriya",
+      "sigiriya",
+      "kandy",
+      "nuwara-eliya",
+      "ella",
+      "galle",
+      "colombo"
+    ],
+    "advice": "Ask about group size, departure dates and the balance of shared activities and free time.",
+    "nights": 7
+  },
+  {
+    "name": "Southern Riviera",
+    "slug": "southern-riviera",
+    "category": "Barefoot Luxury",
+    "image": "/images/south-coast.webp",
+    "description": "Follow the southern coastline through heritage streets, seaside stays and unhurried beach days.",
+    "heading": "Slow days along the southern coast",
+    "route": [
+      "colombo",
+      "galle",
+      "galle",
+      "mirissa",
+      "tangalle",
+      "tangalle",
+      "colombo"
+    ],
+    "advice": "Choose the coast and season with your planner. Beach conditions and boat excursions need local confirmation.",
+    "nights": 6
+  },
+  {
+    "name": "Sri Lanka & The Maldives Tour",
+    "slug": "sri-lanka-and-the-maldives-tour",
+    "category": "Barefoot Luxury",
+    "image": "/images/destinations/mirissa.jpg",
+    "description": "Pair a Sri Lankan cultural journey with a separately arranged Maldives island extension.",
+    "heading": "Sri Lankan discoveries before an island escape",
+    "route": [
+      "negombo",
+      "sigiriya",
+      "sigiriya",
+      "kandy",
+      "colombo"
+    ],
+    "advice": "This suggested route covers Sri Lanka only. Maldives flights, entry requirements, resort stays and transfers must be arranged and quoted separately.",
+    "nights": 4
+  },
+  {
+    "name": "Sri Lanka Ramayana Tour",
+    "slug": "sri-lanka-ramayana-tour",
+    "category": "Authentic Ceylon",
+    "image": "/images/kandy-temple.webp",
+    "description": "Explore places associated with Ramayana traditions alongside the scenery of the central hills.",
+    "heading": "A journey through living traditions",
+    "route": [
+      "colombo",
+      "kandy",
+      "nuwara-eliya",
+      "nuwara-eliya",
+      "ella",
+      "colombo"
+    ],
+    "advice": "Discuss the specific religious sites you want to visit with a specialist guide. Traditions and access arrangements vary between sites.",
+    "nights": 5
+  },
+  {
+    "name": "Sri Lanka’s Big Five Game",
+    "slug": "sri-lankas-big-five-game",
+    "category": "Following the Wild",
+    "image": "/images/wildlife.webp",
+    "description": "Build a wildlife-focused journey around park landscapes and a coastal stay.",
+    "heading": "Wild landscapes and ocean horizons",
+    "route": [
+      "negombo",
+      "wilpattu",
+      "wilpattu",
+      "sigiriya",
+      "udawalawe",
+      "yala",
+      "mirissa",
+      "mirissa",
+      "colombo"
+    ],
+    "advice": "Wildlife sightings are never guaranteed. Confirm park access, ethical guiding and seasonal suitability for any marine excursion.",
+    "nights": 8
+  },
+  {
+    "name": "Sri Lankan Rendezvous",
+    "slug": "sri-lankan-rendezvous",
+    "category": "Romantic Serendipity",
+    "image": "/images/tea-country.webp",
+    "description": "Share a relaxed escape through tea country, scenic hills and the southern coast.",
+    "heading": "Time together from hills to sea",
+    "route": [
+      "colombo",
+      "hatton",
+      "hatton",
+      "ella",
+      "galle",
+      "galle",
+      "colombo"
+    ],
+    "advice": "Allow restful afternoons and discuss private transfers and your preferred stays before confirming arrangements.",
+    "nights": 6
+  },
+  {
+    "name": "Sustainable Luxury",
+    "slug": "sustainable-luxury",
+    "category": "Mindful Travel",
+    "image": "/images/tea-picker.webp",
+    "description": "Travel thoughtfully with longer stays, local experiences and space to enjoy each landscape.",
+    "heading": "A slower, more considered island journey",
+    "route": [
+      "negombo",
+      "sigiriya",
+      "sigiriya",
+      "kandy",
+      "hatton",
+      "hatton",
+      "galle",
+      "galle",
+      "colombo"
+    ],
+    "advice": "Ask accommodation providers about their environmental practices and choose locally guided experiences. Sustainability claims should be checked with each provider.",
+    "nights": 8
+  },
+  {
+    "name": "The Colonial Golf Clubs of Ceylon",
+    "slug": "colonial-golf-clubs-of-ceylon",
+    "category": "Barefoot Luxury",
+    "image": "/images/hills.webp",
+    "description": "Combine golf interests with Colombo, Kandy and the cool scenery of the central highlands.",
+    "heading": "Fairways and hill-country stays",
+    "route": [
+      "colombo",
+      "colombo",
+      "kandy",
+      "kandy",
+      "nuwara-eliya",
+      "nuwara-eliya",
+      "colombo"
+    ],
+    "advice": "Tee times, visitor access, dress codes, equipment and green fees need separate confirmation with each club.",
+    "nights": 6
+  },
+  {
+    "name": "Honeymoon Collection",
+    "slug": "honeymoon-collection",
+    "category": "Romantic Serendipity",
+    "image": "/images/destinations/tangalle.jpg",
+    "description": "Create a personal honeymoon with hill-country hideaways, heritage walks and quiet coastal days.",
+    "heading": "Your own romantic island escape",
+    "route": [
+      "colombo",
+      "hatton",
+      "hatton",
+      "ella",
+      "tangalle",
+      "tangalle",
+      "colombo"
+    ],
+    "advice": "Share your preferred pace and stay style. Special dinners, room upgrades and private activities are requests to confirm, not included services.",
+    "nights": 6,
+    "referenceTitle": "The Jetwing Honeymoon Collection"
+  },
+  {
+    "name": "Trails & Treks Tour Sri Lanka",
+    "slug": "trails-and-treks-tour-sri-lanka",
+    "category": "Adventurous Spirit",
+    "image": "/images/experiences/waterfall-trek.jpg",
+    "description": "Make walking the heart of your journey through forests, river landscapes and hill country.",
+    "heading": "Explore the island on foot",
+    "route": [
+      "negombo",
+      "kitulgala",
+      "kitulgala",
+      "hatton",
+      "ella",
+      "ella",
+      "colombo"
+    ],
+    "advice": "Choose trails with a local guide around your fitness, weather and access rules. Confirm permits and suitable equipment before setting out.",
+    "nights": 6
+  },
+  {
+    "name": "Travel like a local",
+    "slug": "travel-like-a-local",
+    "category": "Authentic Ceylon",
+    "image": "/images/ella-train.webp",
+    "description": "Discover everyday Sri Lanka through neighbourhood walks, local food and time in smaller communities.",
+    "heading": "Everyday moments, memorable places",
+    "route": [
+      "colombo",
+      "kandy",
+      "kandy",
+      "ella",
+      "ella",
+      "galle",
+      "colombo"
+    ],
+    "advice": "Discuss locally hosted experiences and public transport options. Train reservations, community visits and meal arrangements must be confirmed.",
+    "nights": 6
+  },
+  {
+    "name": "Wrecks & Reefs",
+    "slug": "wrecks-and-reefs",
+    "category": "Adventurous Spirit",
+    "image": "/images/experiences/snorkelling-and-diving.jpg",
+    "description": "Plan a coastal escape around your interest in underwater landscapes and time beside the ocean.",
+    "heading": "Coastal days above and below the water",
+    "route": [
+      "colombo",
+      "hikkaduwa",
+      "hikkaduwa",
+      "galle",
+      "unawatuna",
+      "unawatuna",
+      "colombo"
+    ],
+    "advice": "Choose a licensed dive operator and a coast suited to your travel dates. Certification, medical suitability, sea conditions and dive sites require operator confirmation.",
+    "nights": 6
   }
 ]

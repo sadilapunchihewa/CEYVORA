@@ -89,6 +89,19 @@ const plans = {
 }
 
 export const placeNotes = {
+  hikkaduwa: [
+    'Hikkaduwa',
+    'Enjoy a coastal day at your own pace. Discuss snorkelling or diving with a licensed operator after checking seasonal sea conditions.',
+  ],
+  unawatuna: [
+    'Unawatuna',
+    'Allow time beside the sea and for nearby coastal walks. Any swimming or water activity depends on local conditions.',
+  ],
+  wilpattu: [
+    'Wilpattu',
+    'Discuss a guided park visit with an authorised safari operator. Confirm entry and vehicle arrangements; wildlife sightings cannot be guaranteed.',
+  ],
+
   colombo: [
     'Colombo',
     'Explore the city at a comfortable pace, with time for a neighbourhood walk and a meal before your onward journey.',

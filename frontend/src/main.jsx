@@ -9,6 +9,8 @@ import './styles/customer.css'
 import './styles/admin.css'
 import './styles/coastal.css'
 import './styles/polish.css'
+import './styles/ai-planner.css'
+import './styles/destination-story.css'
 import App from './App'
 createRoot(document.getElementById('root')).render(
   <StrictMode>

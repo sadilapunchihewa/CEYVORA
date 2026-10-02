@@ -38,6 +38,7 @@ public class EnquiriesController(AppDbContext db) : ControllerBase
         {
             var pattern = SearchHelper.Pattern(filter.Search);
             query = query.Where(e => EF.Functions.ILike(e.Name, pattern) || EF.Functions.ILike(e.Email, pattern) ||
+                EF.Functions.ILike(e.Message, pattern) ||
                 (e.Country != null && EF.Functions.ILike(e.Country, pattern)));
         }
         return Ok(await query.OrderByDescending(e => e.CreatedAt).ThenByDescending(e => e.Id)
@@ -50,6 +51,29 @@ public class EnquiriesController(AppDbContext db) : ControllerBase
         var enquiry = await db.Enquiries.AsNoTracking().Where(e => e.Id == id)
             .Select(DtoMappings.Enquiry).SingleOrDefaultAsync(ct);
         return enquiry == null ? NotFound() : Ok(enquiry);
+    }
+
+    [HttpGet("summary")]
+    public async Task<IActionResult> Summary(CancellationToken ct)
+    {
+        var today = DateTime.UtcNow.Date;
+        var start = today.AddDays(-13);
+        var daily = await db.Enquiries.AsNoTracking().Where(e => e.CreatedAt >= start)
+            .GroupBy(e => e.CreatedAt.Date)
+            .Select(g => new { Date = g.Key, Count = g.Count() }).ToListAsync(ct);
+        var countries = await db.Enquiries.AsNoTracking()
+            .GroupBy(e => e.Country == null || e.Country == "" ? "Not provided" : e.Country)
+            .Select(g => new { Country = g.Key, Count = g.Count() })
+            .OrderByDescending(x => x.Count).Take(5).ToListAsync(ct);
+        return Ok(new {
+            total = await db.Enquiries.CountAsync(ct),
+            recentCount = daily.Sum(x => x.Count),
+            travellers = await db.Enquiries.SumAsync(e => (long)e.NumberOfTravellers, ct),
+            daily = Enumerable.Range(0, 14).Select(i => new {
+                date = start.AddDays(i).ToString("yyyy-MM-dd"),
+                count = daily.FirstOrDefault(x => x.Date == start.AddDays(i))?.Count ?? 0
+            }), countries
+        });
     }
 
     [HttpPut("{id:int}/status")]

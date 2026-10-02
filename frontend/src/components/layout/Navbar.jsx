@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { useAuth } from '../../context/authContextValue'
 import Button from '../common/Button'
 export default function Navbar() {
-  const { isAuthenticated, loading, logout, user } = useAuth()
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(window.scrollY > 30)
@@ -31,14 +29,16 @@ export default function Navbar() {
     <header
       className={
         'site-header ' +
-        ([
+        (([
           '/',
           '/tours',
           '/destinations',
           '/experiences',
+          '/ai-planner',
           '/about',
           '/contact',
-        ].includes(pathname) &&
+        ].includes(pathname) ||
+          pathname.startsWith('/destinations/')) &&
         !scrolled &&
         !open
           ? 'is-overlay'
@@ -52,22 +52,6 @@ export default function Navbar() {
             CEYVORA<span>Sri Lanka, your way</span>
           </Link>
           <div className="nav-actions">
-            {!loading && isAuthenticated ? (
-              <>
-                <NavLink to={user?.role === 'Admin' ? '/admin' : '/account'}>
-                  {user?.role === 'Admin' ? 'Admin dashboard' : 'My account'}
-                </NavLink>
-                <button
-                  className="nav-text-action"
-                  type="button"
-                  onClick={logout}
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              !loading && <NavLink to="/login">Login</NavLink>
-            )}
             <Button to="/contact" variant="sand">
               Plan your trip
             </Button>
@@ -94,6 +78,7 @@ export default function Navbar() {
             ['/destinations', 'Destinations'],
             ['/tours', 'Tours'],
             ['/experiences', 'Experiences'],
+            ['/ai-planner', 'AI planner'],
             ['/about', 'About'],
             ['/contact', 'Contact'],
           ].map(([to, text]) => (
@@ -107,40 +92,9 @@ export default function Navbar() {
             </NavLink>
           ))}
           <div className="mobile-nav-actions">
-            {isAuthenticated ? (
-              <>
-                <NavLink
-                  to={user?.role === 'Admin' ? '/admin' : '/account'}
-                  onClick={() => setOpen(false)}
-                >
-                  {user?.role === 'Admin' ? 'Admin dashboard' : 'My account'}
-                </NavLink>
-                <Button
-                  variant="sand"
-                  onClick={() => {
-                    logout()
-                    setOpen(false)
-                  }}
-                >
-                  Logout
-                </Button>
-              </>
-            ) : loading ? (
-              <span>Opening account…</span>
-            ) : (
-              <>
-                <NavLink to="/login" onClick={() => setOpen(false)}>
-                  Login
-                </NavLink>
-                <Button
-                  to="/contact"
-                  variant="sand"
-                  onClick={() => setOpen(false)}
-                >
-                  Plan your trip
-                </Button>
-              </>
-            )}
+            <Button to="/contact" variant="sand" onClick={() => setOpen(false)}>
+              Plan your trip
+            </Button>
           </div>
         </nav>
       </div>

@@ -41,14 +41,7 @@ export default function TourDetailsPage() {
               <p>
                 {tour.durationDays} days / {tour.durationNights} nights
               </p>
-              <p className="detail-price">
-                <span>From </span>
-                {tour.currency}{' '}
-                {Number(tour.startingPrice).toLocaleString('en-US')}
-              </p>
-              <Button to={'/tours/' + encodeURIComponent(tour.slug) + '/book'}>
-                Plan this journey
-              </Button>
+              <Button to={contact}>Request a quote</Button>
             </div>
           </DetailHero>
           <nav className="guide-jump container" aria-label="Journey sections">
@@ -110,19 +103,12 @@ export default function TourDetailsPage() {
                 <dd>
                   {tour.durationDays} days / {tour.durationNights} nights
                 </dd>
-                <dt>Starting price</dt>
-                <dd>
-                  {tour.currency}{' '}
-                  {Number(tour.startingPrice).toLocaleString('en-US')}
-                </dd>
               </dl>
               <p>
                 Share your dates and interests to discuss this journey.
                 Availability and final pricing will need to be confirmed.
               </p>
-              <Button to={'/tours/' + encodeURIComponent(tour.slug) + '/book'}>
-                Plan this journey
-              </Button>
+              <Button to={contact}>Request a quote</Button>
             </aside>
           </div>
           <section className="cta-section">
@@ -132,11 +118,7 @@ export default function TourDetailsPage() {
                 <p>Let’s talk about how {tour.title} could fit your plans.</p>
               </div>
               <div className="button-row">
-                <Button
-                  to={'/tours/' + encodeURIComponent(tour.slug) + '/book'}
-                >
-                  Plan this journey
-                </Button>
+                <Button to={contact}>Request a quote</Button>
                 <Button to={contact} variant="outline">
                   Contact us
                 </Button>

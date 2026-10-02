@@ -1,3 +1,4 @@
+import JourneyProcess from '../components/common/JourneyProcess'
 import TravelFAQ from '../components/common/TravelFAQ'
 import InnerPageHero from '../components/common/InnerPageHero'
 import TourIdeas from '../components/browse/TourIdeas'
@@ -16,6 +17,7 @@ export default function ToursPage() {
         linkText="Find your journey"
       />
       <TourIdeas />
+      <JourneyProcess />
       <CTASection />
       <TravelFAQ />
     </>

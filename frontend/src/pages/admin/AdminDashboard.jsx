@@ -1,67 +1,172 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AdminPageHeader from '../../components/admin/AdminPageHeader'
-import * as destinations from '../../services/adminDestinationService'
-import * as tours from '../../services/adminTourService'
-import * as bookings from '../../services/adminBookingService'
-import * as enquiries from '../../services/adminEnquiryService'
-import * as reviews from '../../services/adminReviewService'
-const entries = [
-  [
-    'Destinations',
-    '/admin/destinations',
-    'Shape the places travellers discover.',
-  ],
-  ['Tour packages', '/admin/tours', 'Manage prices, routes and itineraries.'],
-  ['Bookings', '/admin/bookings', 'Review and progress customer bookings.'],
-  ['Enquiries', '/admin/enquiries', 'Follow up with prospective travellers.'],
-  ['Reviews', '/admin/reviews', 'Moderate stories from completed trips.'],
-]
+import {
+  listEnquiries,
+  getEnquirySummary,
+} from '../../services/adminEnquiryService'
+import { shortDate } from '../../utils/admin'
+import { enquiryInterest } from '../../utils/enquiries'
 export default function AdminDashboard() {
-  const [counts, setCounts] = useState({})
+  const [summary, setSummary] = useState(null)
+  const [chartError, setChartError] = useState('')
+  const [total, setTotal] = useState(null)
+  const [recent, setRecent] = useState([])
+  const [error, setError] = useState('')
   useEffect(() => {
-    const c = new AbortController()
-    Promise.allSettled([
-      destinations.listDestinations({ pageSize: 1 }, c.signal),
-      tours.listTours({ pageSize: 1 }, c.signal),
-      bookings.listBookings({ status: 'Pending', pageSize: 1 }, c.signal),
-      enquiries.listEnquiries({ status: 'New', pageSize: 1 }, c.signal),
-      reviews.listReviews({ approved: false, pageSize: 1 }, c.signal),
-    ]).then((r) =>
-      setCounts(
-        Object.fromEntries(
-          r.map((x, i) => [
-            i,
-            x.status === 'fulfilled' ? x.value.totalItems : null,
-          ]),
-        ),
-      ),
-    )
-    return () => c.abort()
+    const controller = new AbortController()
+    getEnquirySummary(controller.signal)
+      .then((value) => {
+        if (!controller.signal.aborted) setSummary(value)
+      })
+      .catch(() => {
+        if (!controller.signal.aborted)
+          setChartError('Enquiry analytics could not be loaded.')
+      })
+    listEnquiries({ pageSize: 5 }, controller.signal)
+      .then((data) => {
+        if (!controller.signal.aborted) {
+          setRecent(data.items)
+          setTotal(data.totalItems)
+        }
+      })
+      .catch(() => {
+        if (!controller.signal.aborted)
+          setError(
+            'Enquiries could not be loaded. Open traveller enquiries to retry.',
+          )
+      })
+    return () => controller.abort()
   }, [])
   return (
     <>
       <AdminPageHeader
-        title="Ceyvora Admin"
-        description="Keep journeys accurate, respond to travellers, and publish the best of Sri Lanka."
+        title="Your travel desk"
+        description="Review requests, contact travellers by email or phone, and discuss their travel plans."
       />
-      <div className="admin-counts">
-        {entries.map((x, i) => (
-          <Link to={x[1]} key={x[0]}>
-            <span>{counts[i] ?? '—'}</span>
-            <strong>
-              {i === 2
-                ? 'Pending bookings'
-                : i === 3
-                  ? 'New enquiries'
-                  : i === 4
-                    ? 'Pending reviews'
-                    : x[0]}
-            </strong>
-            <p>{x[2]}</p>
-          </Link>
-        ))}
+      <div className="admin-overview-metrics">
+        <Link to="/admin/enquiries">
+          <span>Total enquiries</span>
+          <strong>{summary?.total ?? total ?? '—'}</strong>
+          <small>Every traveller conversation</small>
+        </Link>
+        <div>
+          <span>Last 14 days</span>
+          <strong>{summary?.recentCount ?? '—'}</strong>
+          <small>New requests received</small>
+        </div>
+        <div>
+          <span>Travellers represented</span>
+          <strong>{summary?.travellers ?? '—'}</strong>
+          <small>Across all enquiry requests</small>
+        </div>
       </div>
+      <div className="admin-analytics-grid">
+        <section className="admin-panel">
+          <h2>Enquiry activity</h2>
+          <p>Requests received over the last 14 days · UTC</p>
+          {summary ? (
+            <div
+              className="enquiry-chart"
+              role="img"
+              aria-label={summary.daily
+                .map((item) => `${item.date}: ${item.count} requests`)
+                .join(', ')}
+            >
+              {summary.daily.map((item) => (
+                <div className="enquiry-chart-column" key={item.date}>
+                  <span>{item.count}</span>
+                  <div className="enquiry-chart-track">
+                    <div
+                      style={{
+                        height: `${item.count ? Math.max(4, (item.count / Math.max(1, ...summary.daily.map((x) => x.count))) * 100) : 0}%`,
+                      }}
+                    />
+                  </div>
+                  <small>{item.date.slice(8)}</small>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>{chartError || 'Loading activity…'}</p>
+          )}
+          {summary?.recentCount === 0 && (
+            <p>No requests received in this period.</p>
+          )}
+        </section>
+        <section className="admin-panel">
+          <h2>Where travellers enquire from</h2>
+          <p>Top countries · all enquiries</p>
+          {summary ? (
+            summary.countries.length ? (
+              <div className="enquiry-country-chart">
+                {summary.countries.map((item) => (
+                  <div key={item.country}>
+                    <div>
+                      <span>{item.country}</span>
+                      <strong>{item.count}</strong>
+                    </div>
+                    <div className="enquiry-country-track">
+                      <span
+                        style={{
+                          width: `${(item.count / Math.max(1, summary.total)) * 100}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>Country insights will appear after enquiries arrive.</p>
+            )
+          ) : (
+            <p>{chartError || 'Loading countries…'}</p>
+          )}
+        </section>
+      </div>
+      <section className="admin-panel">
+        <h2>Latest requests</h2>
+        <p>
+          {error ||
+            'Open a request to view contact details and travel preferences.'}
+        </p>
+        <div className="admin-table-wrap">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Traveller</th>
+                <th>Journey request</th>
+                <th>Received</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recent.map((item) => (
+                <tr key={item.id}>
+                  <td data-label="Traveller">
+                    <strong>{item.name}</strong>
+                    <small>{item.email}</small>
+                  </td>
+                  <td data-label="Journey request">{enquiryInterest(item)}</td>
+                  <td data-label="Received">{shortDate(item.createdAt)}</td>
+                  <td data-label="Action">
+                    <Link
+                      className="table-link"
+                      to={'/admin/enquiries/' + item.id}
+                    >
+                      View request
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {!recent.length && !error && <p>No recent requests to display.</p>}
+        <Link className="button button-outline" to="/admin/enquiries">
+          All enquiries
+        </Link>
+      </section>
     </>
   )
 }

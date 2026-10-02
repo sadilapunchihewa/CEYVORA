@@ -133,30 +133,10 @@ export default function TourFormPage() {
                     required
                   />
                 </label>
-                <label>
-                  Starting price *
-                  <input
-                    type="number"
-                    name="startingPrice"
-                    min="0"
-                    max="100000000"
-                    step="0.01"
-                    value={form.startingPrice}
-                    onChange={change}
-                    required
-                  />
-                </label>
-                <label>
-                  Currency *
-                  <input
-                    name="currency"
-                    value={form.currency}
-                    onChange={change}
-                    pattern="[A-Za-z]{3}"
-                    maxLength="3"
-                    required
-                  />
-                </label>
+                <p className="wide">
+                  Journey prices are quoted individually after reviewing the
+                  traveller's enquiry.
+                </p>
                 <label className="wide">
                   Short description *
                   <textarea

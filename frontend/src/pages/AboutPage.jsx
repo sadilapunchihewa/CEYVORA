@@ -1,3 +1,4 @@
+import JourneyProcess from '../components/common/JourneyProcess'
 import useWebsiteContent from '../hooks/useWebsiteContent'
 import InnerPageHero from '../components/common/InnerPageHero'
 import WhyChooseUs from '../components/home/WhyChooseUs'
@@ -87,6 +88,7 @@ export default function AboutPage() {
         </div>
       </section>
       <WhyChooseUs />
+      <JourneyProcess />
       <CTASection />
     </>
   )

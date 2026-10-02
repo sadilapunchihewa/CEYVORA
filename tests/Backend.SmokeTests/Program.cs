@@ -540,6 +540,16 @@ try
         new { status = "InProgress" }, adminToken);
     var updatedEnquiry = await Request("GET", $"/api/enquiries/{enquiryId}", HttpStatusCode.OK, token: adminToken);
     Check(updatedEnquiry.GetProperty("status").GetString() == "InProgress", "Admin enquiry status change persists");
+    foreach (var stage in new[] { "Replied", "Contacted", "QuoteSent", "Confirmed" })
+    {
+        await Request("PUT", $"/api/enquiries/{enquiryId}/status", HttpStatusCode.NoContent,
+            new { status = stage }, adminToken);
+        var stagedEnquiry = await Request("GET", $"/api/enquiries/{enquiryId}", HttpStatusCode.OK, token: adminToken);
+        Check(stagedEnquiry.GetProperty("status").GetString() == stage, $"Enquiry {stage} stage persists");
+        var stagedFilter = await Request("GET", $"/api/enquiries?search={email1}&status={stage}", HttpStatusCode.OK, token: adminToken);
+        Check(stagedFilter.GetProperty("totalItems").GetInt32() == 1, $"Enquiry {stage} stage can be filtered");
+    }
+
     await Request("PUT", $"/api/itinerary/{itineraryId}", HttpStatusCode.NoContent,
         new { dayNumber = 1, title = "Updated arrival", description = "Updated itinerary" }, adminToken);
     var thirdDay = await Request("POST", $"/api/tourpackages/{packageId}/itinerary", HttpStatusCode.Created,

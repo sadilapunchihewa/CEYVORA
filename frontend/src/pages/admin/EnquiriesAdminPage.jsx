@@ -1,78 +1,118 @@
+import { enquiryInterest } from '../../utils/enquiries'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import AdminPageHeader from '../../components/admin/AdminPageHeader'
 import AdminState from '../../components/admin/AdminState'
 import AdminPagination from '../../components/admin/AdminPagination'
-import StatusBadge from '../../components/admin/StatusBadge'
 import { apiError, shortDate } from '../../utils/admin'
 import * as service from '../../services/adminEnquiryService'
-const statuses = ['New', 'InProgress', 'Resolved', 'Closed']
 export default function EnquiriesAdminPage() {
+  const [params, setParams] = useSearchParams()
   const [data, setData] = useState()
-  const [page, setPage] = useState(1)
-  const [status, setStatus] = useState('')
-  const [search, setSearch] = useState('')
-  const [query, setQuery] = useState('')
+  const rawPage = Number(params.get('page'))
+  const page = Number.isInteger(rawPage) && rawPage > 0 ? rawPage : 1
+  const query = params.get('search') || ''
+  const [search, setSearch] = useState(query)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [refresh, setRefresh] = useState(0)
+  function updateFilters(changes) {
+    const next = new URLSearchParams(params)
+    for (const [key, value] of Object.entries(changes)) {
+      if (value) next.set(key, String(value))
+      else next.delete(key)
+    }
+    setParams(next)
+  }
   useEffect(() => {
+    const controller = new AbortController()
+    setLoading(true)
+    setError('')
     service
-      .listEnquiries({ page, pageSize: 10, status, search: query })
+      .listEnquiries({ page, pageSize: 10, search: query }, controller.signal)
       .then((value) => {
-        setError('')
-        setData(value)
+        if (!controller.signal.aborted) setData(value)
       })
-      .catch((e) => setError(apiError(e, 'Enquiries could not be loaded.')))
-  }, [page, status, query])
+      .catch((e) => {
+        if (!controller.signal.aborted)
+          setError(
+            apiError(
+              e,
+              'Enquiries could not be loaded. Try refreshing the list.',
+            ),
+          )
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false)
+      })
+    return () => controller.abort()
+  }, [page, query, refresh])
   return (
     <>
       <AdminPageHeader
-        title="Enquiries"
-        description="Follow up on traveller questions and quote requests."
+        title="Traveller enquiries"
+        description="Review trip requests, contact travellers by email or phone, and follow up by email or phone."
       />
       <form
         className="admin-filters"
         onSubmit={(e) => {
           e.preventDefault()
-          setPage(1)
-          setQuery(search)
+          updateFilters({ page: 1, search: search.trim() })
         }}
       >
         <input
-          placeholder="Search name, email or country"
+          placeholder="Search traveller, email, country or journey"
           aria-label="Search enquiries"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <select
-          value={status}
-          aria-label="Enquiry status"
-          onChange={(e) => {
-            setPage(1)
-            setStatus(e.target.value)
-          }}
-        >
-          <option value="">All statuses</option>
-          {statuses.map((x) => (
-            <option key={x}>{x}</option>
-          ))}
-        </select>
         <button className="button button-outline">Search</button>
+        {query && (
+          <button
+            type="button"
+            className="button button-outline"
+            onClick={() => {
+              setSearch('')
+              setParams({})
+            }}
+          >
+            Clear filters
+          </button>
+        )}
+        <button
+          type="button"
+          className="button button-outline"
+          disabled={loading}
+          onClick={() => setRefresh((value) => value + 1)}
+        >
+          Refresh
+        </button>
       </form>
+      {data && !loading && !error && (
+        <p role="status">
+          {data.totalItems} {data.totalItems === 1 ? 'request' : 'requests'}
+        </p>
+      )}
       <AdminState
-        loading={!data && !error}
+        loading={loading}
         error={error}
-        empty={data?.items.length === 0 && 'No enquiries match these filters.'}
+        empty={
+          !loading &&
+          data?.items.length === 0 &&
+          'No enquiries match. Clear filters or refresh to check for new requests.'
+        }
       >
         {data && (
           <div className="admin-table-wrap">
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Traveller</th>
-                  <th>Arrival</th>
-                  <th>Travellers</th>
-                  <th>Interested tour</th>
-                  <th>Status</th>
+                  <th>Reference / Traveller</th>
+                  <th>Contact</th>
+                  <th>Travel details</th>
+                  <th>Received</th>
+                  <th>Journey request</th>
+                  <th>Reply</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -80,20 +120,32 @@ export default function EnquiriesAdminPage() {
                 {data.items.map((x) => (
                   <tr key={x.id}>
                     <td data-label="Traveller">
+                      <small>CEY-{x.id}</small>
                       <strong>{x.name}</strong>
-                      <small>{x.email}</small>
+                      <small>{x.country || 'Country not provided'}</small>
                     </td>
-                    <td data-label="Arrival">{shortDate(x.arrivalDate)}</td>
-                    <td data-label="Travellers">{x.numberOfTravellers}</td>
-                    <td data-label="Interested tour">
-                      {x.tourPackageId ? `#${x.tourPackageId}` : 'General'}
+                    <td data-label="Contact">
+                      <a href={'mailto:' + x.email}>{x.email}</a>
+                      <small>
+                        <a href={'tel:' + x.phone.replace(/[^+\d]/g, '')}>
+                          {x.phone}
+                        </a>
+                      </small>
                     </td>
-                    <td data-label="Status">
-                      <StatusBadge>{x.status}</StatusBadge>
+                    <td data-label="Travel details">
+                      {x.arrivalDate
+                        ? shortDate(x.arrivalDate)
+                        : 'Dates flexible'}
+                      <small>{x.numberOfTravellers} travellers</small>
+                    </td>
+                    <td data-label="Received">{shortDate(x.createdAt)}</td>
+                    <td data-label="Journey request">{enquiryInterest(x)}</td>
+                    <td data-label="Reply">
+                      {x.status === 'Replied' ? 'Replied' : 'Not marked'}
                     </td>
                     <td data-label="Action">
                       <Link className="table-link" to={`${x.id}`}>
-                        View
+                        Review request
                       </Link>
                     </td>
                   </tr>
@@ -106,7 +158,7 @@ export default function EnquiriesAdminPage() {
       <AdminPagination
         page={page}
         totalPages={data?.totalPages || 1}
-        onChange={setPage}
+        onChange={(value) => updateFilters({ page: value })}
       />
     </>
   )

@@ -120,11 +120,8 @@ export function TourCard({ item, index = 0, variant }) {
         <p className="tour-card-desc">{displayDesc}</p>
         <div className="card-bottom">
           <div>
-            <span className="price-label">From</span>
-            <strong>
-              {item.currency}{' '}
-              {Number(item.startingPrice).toLocaleString('en-US')}
-            </strong>
+            <span>Personalised journey</span>
+            <strong>Quote on request</strong>
           </div>
           <Link
             className="text-link"

@@ -1,0 +1,92 @@
+name: Validate and package Ceyvora
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || 'http://localhost:5111' }}
+          VITE_AGENT_API_BASE_URL: ${{ vars.VITE_AGENT_API_BASE_URL || 'http://localhost:8000' }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist
+          retention-days: 14
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: ceyvora_ci
+          POSTGRES_USER: ceyvora_ci
+          POSTGRES_PASSWORD: ci-only-password
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U ceyvora_ci"
+          --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      ConnectionStrings__DefaultConnection: Host=localhost;Port=5432;Database=ceyvora_ci;Username=ceyvora_ci;Password=ci-only-password
+      Jwt__Key: ci-only-signing-key-for-disposable-test-environment-123456789
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: cp backend/appsettings.example.json backend/appsettings.json
+      - run: dotnet restore tests/Backend.SmokeTests/Backend.SmokeTests.csproj
+      - run: dotnet build tests/Backend.SmokeTests/Backend.SmokeTests.csproj --no-restore
+      - run: dotnet tool install --global dotnet-ef --version 8.0.11
+      - run: dotnet ef database update --project backend --no-build
+      - run: dotnet tests/Backend.SmokeTests/bin/Debug/net8.0/Backend.SmokeTests.dll backend
+      - run: dotnet publish backend/backend.csproj -c Release -o artifacts/backend
+      - name: Remove CI-only configuration from release package
+        run: rm -f artifacts/backend/appsettings.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: backend-release
+          path: artifacts/backend
+          retention-days: 14
+  ai:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: agentic-ai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: agentic-ai/requirements.txt
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ai-service-source
+          path: |
+            agentic-ai/app
+            agentic-ai/requirements.txt
+            agentic-ai/README.md
+          retention-days: 14

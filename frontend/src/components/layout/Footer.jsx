@@ -18,14 +18,14 @@ export default function Footer() {
           <Link to="/destinations">Destinations</Link>
           <Link to="/tours">Tours</Link>
           <Link to="/about">About Ceyvora</Link>
-          <Link to="/experiences">Experiences</Link>
+            <Link to="/experiences">Experiences</Link>
+            <Link to="/ai-planner">AI journey planner</Link>
         </div>
         <div>
           <h2>Let’s plan</h2>
           <Link to="/contact">Contact us</Link>
           <Link to="/faq">Travel FAQ</Link>
           <Link to="/contact">Plan your trip</Link>
-          <Link to="/account/bookings">My bookings</Link>
         </div>
       </div>
       <div className="container footer-statement">

@@ -86,7 +86,7 @@ public class EnquiryCreateDto
 
 public class EnquiryStatusDto
 {
-    [Required, RegularExpression("^(New|InProgress|Resolved|Closed)$")]
+    [Required, RegularExpression("^(New|Replied|InProgress|Contacted|QuoteSent|Confirmed|Resolved|Closed)$")]
     public string Status { get; set; } = string.Empty;
 }
 

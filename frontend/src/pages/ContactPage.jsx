@@ -3,7 +3,7 @@ import { countries, callingCodes } from '../data/countries'
 import { validateContact, enquiryMessage } from '../utils/contactForm'
 import TravelFAQ from '../components/common/TravelFAQ'
 import { useCallback, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import useResource from '../hooks/useResource'
 import { getTourPackageBySlug } from '../services/tourPackageService'
 import InnerPageHero from '../components/common/InnerPageHero'
@@ -79,6 +79,7 @@ const fields = [
   { name: 'departureDate', label: 'Departure date', type: 'date' },
 ]
 export default function ContactPage() {
+  const location = useLocation()
   const [searchParams, setSearchParams] = useSearchParams()
   const packageSlug = searchParams.get('package') || ''
   const loadPackage = useCallback(
@@ -101,13 +102,16 @@ export default function ContactPage() {
   }
   const [values, setValues] = useState(() => ({
     ...initial,
-    message: searchParams.get('interest')
-      ? `I’m interested in a journey inspired by ${searchParams.get('interest').slice(0, 200)}. Please help me plan the details.`
-      : '',
+    message:
+      location.state?.enquiryDraft?.slice(0, 3500) ||
+      (searchParams.get('interest')
+        ? `I’m interested in a journey inspired by ${searchParams.get('interest').slice(0, 200)}. Please help me plan the details.`
+        : ''),
   }))
   const [errors, setErrors] = useState({})
   const [pending, setPending] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [reference, setReference] = useState(null)
   const [serverError, setServerError] = useState('')
   const inFlight = useRef(false)
   const form = useRef(null)
@@ -146,7 +150,7 @@ export default function ContactPage() {
     inFlight.current = true
     setPending(true)
     try {
-      await createEnquiry({
+      const received = await createEnquiry({
         ...(packageSlug && selectedPackage.data
           ? { tourPackageId: selectedPackage.data.id }
           : {}),
@@ -161,6 +165,7 @@ export default function ContactPage() {
           Number(values.adults) + Number(values.kids) + Number(values.infants),
         message: enquiryMessage(values),
       })
+      setReference(received?.id || null)
       setSuccess(true)
       requestAnimationFrame(() => feedback.current?.focus())
     } catch (error) {
@@ -206,6 +211,16 @@ export default function ContactPage() {
         <aside className="contact-aside">
           <h2>Start with a conversation.</h2>
           <BusinessDetails />
+          <div className="contact-next-steps">
+            <h3>What happens next?</h3>
+            <ol>
+              <li>We review your dates and travel preferences.</li>
+              <li>We discuss the route and prepare a personalised quote.</li>
+              <li>
+                You review the details before confirming any arrangements.
+              </li>
+            </ol>
+          </div>
           <p>
             Share your travel dates, interests and the people coming along.
             There’s no need to have everything figured out.
@@ -231,10 +246,16 @@ export default function ContactPage() {
             <span aria-hidden="true" className="success-mark">
               ✓
             </span>
-            <h2>Your enquiry is on its way.</h2>
+            <h2>Your enquiry has been received.</h2>
+            {reference && (
+              <p className="enquiry-reference">
+                Your reference: CEY-{reference}
+              </p>
+            )}
             <p>
               Thank you for sharing your plans. Your enquiry has been received
-              by Ceyvora.
+              by Ceyvora. We’ll use the contact details you provided to discuss
+              your route and quote. No reservation or payment has been made.
             </p>
             <Button
               onClick={() => {

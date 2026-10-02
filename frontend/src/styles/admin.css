@@ -721,3 +721,151 @@
     transition: none;
   }
 }
+
+.enquiry-follow-up {
+  display: grid;
+  gap: 18px;
+  margin: 24px 0;
+}
+.enquiry-follow-up p {
+  max-width: 75ch;
+}
+.enquiry-follow-up textarea {
+  width: 100%;
+  min-height: 240px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font: inherit;
+  line-height: 1.65;
+  resize: vertical;
+}
+.enquiry-follow-up .button-row {
+  flex-wrap: wrap;
+}
+.enquiry-follow-up > .button {
+  justify-self: start;
+}
+.enquiry-follow-up .muted {
+  color: var(--color-text-muted, #68716c);
+  font-size: 0.875rem;
+}
+.status-contacted,
+.status-quotesent {
+  background: #eef5fa;
+  color: #285c7a;
+}
+.status-confirmed {
+  background: #edf6ef;
+  color: #286641;
+}
+
+.admin-overview-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin: 28px 0;
+}
+.admin-overview-metrics > * {
+  background: white;
+  border: 1px solid #dde5e9;
+  border-radius: 16px;
+  padding: 26px;
+  display: grid;
+  gap: 12px;
+}
+.admin-overview-metrics > :first-child {
+  background: #142d4e;
+  color: white;
+}
+.admin-overview-metrics strong {
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 600;
+}
+.admin-overview-metrics small {
+  opacity: 0.7;
+}
+.admin-analytics-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+.admin-analytics-grid .admin-panel {
+  margin: 0;
+  border-radius: 16px;
+  min-width: 0;
+}
+.enquiry-chart {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  height: 220px;
+  padding-top: 20px;
+}
+.enquiry-chart-column {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  height: 100%;
+}
+.enquiry-chart-column > span {
+  font-size: 12px;
+}
+.enquiry-chart-track {
+  height: 160px;
+  width: 100%;
+  display: flex;
+  align-items: end;
+  border-bottom: 1px solid #cad6de;
+}
+.enquiry-chart-track > div {
+  width: 100%;
+  background: #407c8c;
+  border-radius: 5px 5px 0 0;
+}
+.enquiry-chart-column small {
+  font-size: 10px;
+  color: #64778c;
+}
+.enquiry-country-chart {
+  display: grid;
+  gap: 22px;
+  margin-top: 28px;
+}
+.enquiry-country-chart > div > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.enquiry-country-track {
+  height: 9px;
+  background: #edf1f4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.enquiry-country-track span {
+  display: block;
+  height: 100%;
+  background: #e89073;
+  border-radius: 8px;
+}
+@media (max-width: 1000px) {
+  .admin-analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .admin-overview-metrics {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .enquiry-chart {
+    gap: 5px;
+  }
+}

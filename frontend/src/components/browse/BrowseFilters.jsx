@@ -250,22 +250,6 @@ export default function BrowseFilters({ params, tours, onApply, onClear }) {
             error={errors.destinationId}
           />
           <div className="range-fields">
-            {input('minPrice', 'Min price', {
-              type: 'number',
-              min: 0,
-              max: 100000000,
-              step: 'any',
-              placeholder: 'No minimum',
-            })}
-            {input('maxPrice', 'Max price', {
-              type: 'number',
-              min: 0,
-              max: 100000000,
-              step: 'any',
-              placeholder: 'No maximum',
-            })}
-          </div>
-          <div className="range-fields">
             {input('minDays', 'Min days', {
               type: 'number',
               min: 1,

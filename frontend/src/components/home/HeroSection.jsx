@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Button from '../common/Button'
+import { Link } from 'react-router-dom'
 
 const scenes = [
   {
@@ -78,18 +78,34 @@ export default function HeroSection() {
           <br />
           Unforgettable
         </h1>
-        <p className="hero-description">
-          Ancient paths. Wild places. Ocean days.
-          <br />
-          Discover a journey that feels like you.
-        </p>
-        <div className="button-row">
-          <Button to="/destinations" variant="sand">
-            Explore destinations
-          </Button>
-          <Button to="/tours" variant="light">
-            Explore journeys
-          </Button>
+        <div className="home-hero-actions">
+          <Link
+            to="/destinations"
+            className="home-hero-action home-hero-action-primary"
+          >
+            Explore destinations <span aria-hidden="true">↗</span>
+          </Link>
+          <Link to="/tours" className="home-hero-action">
+            Explore journeys <span aria-hidden="true">↗</span>
+          </Link>
+          <Link
+            className="home-hero-action home-hero-action-ai"
+            to="/ai-planner"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
+              <path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z" />
+              <path d="m20 2 .7 1.8L22.5 4l-1.8.7L20 6.5l-.7-1.8L17.5 4l1.8-.2L20 2Z" />
+            </svg>
+            Plan with AI <span aria-hidden="true">↗</span>
+          </Link>
         </div>
       </div>
 
@@ -126,7 +142,6 @@ export default function HeroSection() {
       >
         <span aria-hidden="true">{isPaused ? '▶' : 'Ⅱ'}</span>
       </button>
-
     </section>
   )
 }

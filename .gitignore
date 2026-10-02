@@ -11,11 +11,13 @@ backend/appsettings.json
 # React
 **/node_modules/
 **/dist/
+.vite/
 
 # Environment files
 .env
 .env.*
 !frontend/.env.example
+!agentic-ai/.env.example
 # Local configuration and credentials
 **/appsettings*.json
 !**/appsettings.example.json
@@ -34,3 +36,8 @@ backend/wwwroot/uploads/**/*
 
 # Published website content (back up separately)
 backend/App_Data/
+
+# Local visual verification screenshots
+frontend/*-preview.jpg
+frontend/home-modern-buttons.jpg
+frontend/destination-correct-photos.jpg

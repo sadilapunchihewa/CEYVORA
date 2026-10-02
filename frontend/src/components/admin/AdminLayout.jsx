@@ -9,12 +9,11 @@ import {
 import { useAuth } from '../../context/authContextValue'
 import { ToastProvider } from './Toast'
 const links = [
-  ['/admin', 'Dashboard', '⌂'], ['/admin/content', 'Website content', '✎'],
+  ['/admin', 'Overview', '⌂'],
+  ['/admin/enquiries', 'Traveller enquiries', '✉'],
+  ['/admin/content', 'Website content', '✎'],
   ['/admin/destinations', 'Destinations', '⌖'],
-  ['/admin/tours', 'Tour packages', '◇'],
-  ['/admin/bookings', 'Bookings', '▣'],
-  ['/admin/enquiries', 'Enquiries', '✉'],
-  ['/admin/reviews', 'Reviews', '★'],
+  ['/admin/tours', 'Tour itineraries', '◇'],
 ]
 export default function AdminLayout() {
   const [open, setOpen] = useState(false)
@@ -39,7 +38,7 @@ export default function AdminLayout() {
         <aside className={`admin-sidebar ${open ? 'is-open' : ''}`}>
           <div className="admin-brand">
             <strong>CEYVORA</strong>
-            <span>Tourism operations</span>
+            <span>Enquiries & website</span>
           </div>
           <nav aria-label="Admin navigation">
             {links.map(([to, label, icon]) => (
@@ -88,4 +87,3 @@ export default function AdminLayout() {
     </ToastProvider>
   )
 }
-

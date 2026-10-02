@@ -1,0 +1,37 @@
+name: Deploy validated main
+on:
+  workflow_run:
+    workflows: [Validate and package Ceyvora]
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Trigger configured hosting deploy hooks
+        env:
+          FRONTEND_DEPLOY_HOOK: ${{ secrets.FRONTEND_DEPLOY_HOOK }}
+          BACKEND_DEPLOY_HOOK: ${{ secrets.BACKEND_DEPLOY_HOOK }}
+          AI_DEPLOY_HOOK: ${{ secrets.AI_DEPLOY_HOOK }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for hook in "$FRONTEND_DEPLOY_HOOK" "$BACKEND_DEPLOY_HOOK" "$AI_DEPLOY_HOOK"; do
+            if [[ -z "$hook" || "$hook" != https://* ]]; then
+              echo "Configure all three HTTPS deployment hooks before enabling CD."
+              exit 1
+            fi
+          done
+          for hook in "$FRONTEND_DEPLOY_HOOK" "$BACKEND_DEPLOY_HOOK" "$AI_DEPLOY_HOOK"; do
+            curl --fail --silent --show-error --output /dev/null --max-time 60 --request POST "$hook"
+          done

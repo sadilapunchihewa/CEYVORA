@@ -20,6 +20,7 @@ export default function MainLayout() {
       '/about': 'About Ceyvora',
       '/faq': 'Travel FAQ | Ceyvora',
       '/experiences': 'Sri Lanka Experiences | Ceyvora',
+      '/ai-planner': 'AI Journey Planner | Ceyvora',
       '/contact': 'Plan Your Sri Lanka Journey | Ceyvora',
       '/login': 'Login',
       '/register': 'Create an account',

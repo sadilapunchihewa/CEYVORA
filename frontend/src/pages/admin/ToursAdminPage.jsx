@@ -7,7 +7,7 @@ import StatusBadge from '../../components/admin/StatusBadge'
 import ConfirmDialog from '../../components/admin/ConfirmDialog'
 import { useToast } from '../../components/admin/toastContext'
 import { resolveImageUrl } from '../../utils/images'
-import { apiError, money } from '../../utils/admin'
+import { apiError } from '../../utils/admin'
 import * as service from '../../services/adminTourService'
 export default function ToursAdminPage() {
   const [data, setData] = useState()
@@ -74,7 +74,7 @@ export default function ToursAdminPage() {
                 <tr>
                   <th>Tour package</th>
                   <th>Duration</th>
-                  <th>Starting price</th>
+                  <th>Planning</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -98,9 +98,7 @@ export default function ToursAdminPage() {
                     <td data-label="Duration">
                       {x.durationDays} days / {x.durationNights} nights
                     </td>
-                    <td data-label="Starting price">
-                      {money(x.startingPrice, x.currency)}
-                    </td>
+                    <td data-label="Planning">Quote on request</td>
                     <td data-label="Status">
                       <StatusBadge status={x.isActive ? 'active' : 'inactive'}>
                         {x.isActive ? 'Active' : 'Inactive'}

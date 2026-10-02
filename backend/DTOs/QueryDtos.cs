@@ -43,7 +43,7 @@ public class BookingQuery : PageQuery, IValidatableObject
 
 public class EnquiryQuery : PageQuery
 {
-    [RegularExpression("^(New|InProgress|Resolved|Closed)$")] public string? Status { get; set; }
+    [RegularExpression("^(New|Replied|InProgress|Contacted|QuoteSent|Confirmed|Resolved|Closed)$")] public string? Status { get; set; }
     [StringLength(200)] public string? Search { get; set; }
 }
 
