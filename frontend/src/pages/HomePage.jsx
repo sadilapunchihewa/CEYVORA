@@ -11,6 +11,7 @@ import CTASection from '../components/home/CTASection'
 import IslandIntro from '../components/home/IslandIntro'
 import StoryBreak from '../components/home/StoryBreak'
 import SriLankaStories from '../components/home/SriLankaStories'
+import PlanningNotes from '../components/home/PlanningNotes'
 export default function HomePage() {
   const destinations = useResource(getFeaturedDestinations)
   const tours = useResource(getFeaturedTourPackages)
@@ -18,11 +19,12 @@ export default function HomePage() {
     <>
       <HeroSection />
       <IslandIntro />
+      <TravelExperience />
       <FeaturedDestinations resource={destinations} />
       <StoryBreak />
       <FeaturedTours resource={tours} />
       <WhyChooseUs />
-      <TravelExperience />
+      <PlanningNotes />
       <SriLankaStories />
       <TestimonialsSection tours={tours} />
       <CTASection />

@@ -199,8 +199,121 @@
     order: 4;
     flex-basis: 100%;
     justify-content: center;
-  }
   .browse-results {
     scroll-margin-top: 98px;
   }
 }
+
+/* Jetwing Travels Inspired Experience Category Filter & Tour Badges */
+.experience-pills-bar {
+  margin-block: 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.pills-label {
+  font-family: var(--font-heading, Georgia, serif);
+  font-size: 14px;
+  font-style: italic;
+  color: var(--color-primary, #163F35);
+  white-space: nowrap;
+}
+.pills-scroll {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+}
+.experience-pill {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #c8d6cb;
+  background: #ffffff;
+  color: #263630;
+  cursor: pointer;
+  transition: all 0.22s ease-in-out;
+}
+.experience-pill:hover {
+  background: #f0f5f1;
+  border-color: #28614E;
+  color: #163F35;
+  transform: translateY(-1px);
+}
+.experience-pill.is-active {
+  background: var(--color-primary, #163F35);
+  color: #E4C78C;
+  border-color: #163F35;
+  box-shadow: 0 4px 12px rgba(22, 63, 53, 0.2);
+}
+
+.quick-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #65736B;
+  align-self: center;
+  margin-right: 4px;
+}
+
+/* Tour Card Image Badge */
+.tour-card-photo-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--border-radius, 8px) var(--border-radius, 8px) 0 0;
+}
+.tour-card-photo-wrapper img {
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  width: 100%;
+  display: block;
+}
+.tour-card:hover .tour-card-photo-wrapper img {
+  transform: scale(1.04);
+}
+.tour-experience-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(22, 63, 53, 0.88);
+  backdrop-filter: blur(8px);
+  color: #E4C78C;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  border: 1px solid rgba(228, 199, 140, 0.3);
+}
+.tour-experience-tag .tag-icon {
+  font-size: 10px;
+  color: #E4C78C;
+}
+
+.tour-card-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #4a5750;
+  margin-block: 10px 14px;
+}
+
+.journey-route {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary, #163F35);
+  margin-block: 6px 10px;
+  letter-spacing: 0.2px;
+}
+.journey-route i {
+  font-style: normal;
+  color: #99a89d;
+  margin-inline: 2px;
+}
+

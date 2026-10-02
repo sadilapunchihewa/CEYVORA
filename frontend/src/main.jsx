@@ -7,6 +7,7 @@ import './styles/details.css'
 import './styles/editorial.css'
 import './styles/customer.css'
 import './styles/admin.css'
+import './styles/coastal.css'
 import App from './App'
 createRoot(document.getElementById('root')).render(
   <StrictMode>

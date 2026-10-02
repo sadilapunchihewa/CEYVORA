@@ -1,0 +1,164 @@
+[
+  {
+    "slug": "gangaramaya-temple",
+    "name": "Gangaramaya Temple",
+    "destination": "Colombo",
+    "category": "Culture",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/10/Gangaramaya-Temple.jpg",
+    "image": "/images/experiences/gangaramaya-temple.jpg",
+    "description": "Explore a temple complex in the heart of Colombo, with spaces for worship and a collection of cultural objects."
+  },
+  {
+    "slug": "colombo-national-museum",
+    "name": "Colombo National Museum",
+    "destination": "Colombo",
+    "category": "Culture",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/10/Colombo-National-Museum.jpg",
+    "image": "/images/experiences/colombo-national-museum.jpg",
+    "description": "Spend time with Sri Lanka’s history through the museum’s collections and its landmark building."
+  },
+  {
+    "slug": "independence-square",
+    "name": "Independence Square",
+    "destination": "Colombo",
+    "category": "Culture",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/10/Independence-Square-800-x-500.jpg",
+    "image": "/images/experiences/independence-square.jpg",
+    "description": "Pause at a city landmark surrounded by open grounds, with time for a gentle walk and photographs."
+  },
+  {
+    "slug": "waterfalls-trek",
+    "name": "Waterfalls Trek",
+    "destination": "Sinharaja",
+    "category": "Nature",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/10/experinceWaterfal-.jpg",
+    "image": "/images/experiences/waterfalls-trek.jpg",
+    "description": "Follow a guided forest route towards waterfalls, taking time to notice the rainforest along the way."
+  },
+  {
+    "slug": "dalawella-beach-swings",
+    "name": "Dalawella Beach Swings",
+    "destination": "Unawatuna",
+    "category": "Coast",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/10/feathured-experinces-03.jpg",
+    "image": "/images/experiences/dalawella-beach-swings.jpg",
+    "description": "Take in the coastal views around Dalawella and discuss locally available beach activities during your visit."
+  },
+  {
+    "slug": "japanese-peace-pagoda",
+    "name": "Japanese Peace Pagoda",
+    "destination": "Unawatuna",
+    "category": "Culture",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/10/feathured-experinces-02.jpg",
+    "image": "/images/experiences/japanese-peace-pagoda.jpg",
+    "description": "Visit the shrine on Rumassala hill and enjoy a different perspective on the coastline."
+  },
+  {
+    "slug": "jungle-beach",
+    "name": "Jungle Beach",
+    "destination": "Unawatuna",
+    "category": "Coast",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/10/feathured-experinces-01.jpg",
+    "image": "/images/experiences/jungle-beach.jpg",
+    "description": "Set aside a slower afternoon for a small coastal cove near Unawatuna."
+  },
+  {
+    "slug": "cultural-dance-show",
+    "name": "Cultural Dance Show",
+    "destination": "Kandy",
+    "category": "Culture",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Cultural-dance-show.jpg",
+    "image": "/images/experiences/cultural-dance-show.jpg",
+    "description": "Discover a performance of traditional dance, costume and drumming as part of your Kandy visit."
+  },
+  {
+    "slug": "peradeniya-botanical-garden",
+    "name": "Peradeniya Botanical Garden",
+    "destination": "Kandy",
+    "category": "Nature",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/botanical-hotspots-of-sri-lanka-800-x-500.jpg",
+    "image": "/images/experiences/peradeniya-botanical-garden.jpg",
+    "description": "Walk among palms, garden collections and shaded paths near Kandy."
+  },
+  {
+    "slug": "temple-of-the-tooth-relic",
+    "name": "Temple of the Tooth Relic",
+    "destination": "Kandy",
+    "category": "Culture",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Temple-of-the-tooth-relic-800-x-500-scaled.jpg",
+    "image": "/images/experiences/temple-of-the-tooth-relic.jpg",
+    "description": "Explore one of Kandy’s best-known sacred landmarks and learn about its place in Sri Lankan tradition."
+  },
+  {
+    "slug": "sithulpawwa-monastery",
+    "name": "Sithulpawwa Monastery",
+    "destination": "Yala",
+    "category": "Culture",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/feathured-experinces-01-5.jpg",
+    "image": "/images/experiences/sithulpawwa-monastery.jpg",
+    "description": "Include an ancient monastic site in a journey through the landscapes around Yala."
+  },
+  {
+    "slug": "bundala-game-drive",
+    "name": "Bundala Game Drive",
+    "destination": "Yala",
+    "category": "Wildlife",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/feathured-experinces-02-5.jpg",
+    "image": "/images/experiences/bundala-game-drive.jpg",
+    "description": "Plan a guided outing through wetland landscapes with time for birdwatching and observation."
+  },
+  {
+    "slug": "yala-game-drive",
+    "name": "Yala Game Drive",
+    "destination": "Yala",
+    "category": "Wildlife",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/feathured-experinces-03-1.jpg",
+    "image": "/images/experiences/yala-game-drive.jpg",
+    "description": "Explore the park with a guide, watching for wildlife while enjoying the changing dry-zone scenery."
+  },
+  {
+    "slug": "safari-camping",
+    "name": "Safari Camping",
+    "destination": "Yala",
+    "category": "Wildlife",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/feathured-experinces-1.jpg",
+    "image": "/images/experiences/safari-camping.jpg",
+    "description": "Discuss a stay close to nature, combining time outdoors with a guided wildlife itinerary."
+  },
+  {
+    "slug": "ellawala-waterfall",
+    "name": "Ellawala Waterfall",
+    "destination": "Wellawaya",
+    "category": "Nature",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/feathured-experinces-03-2.jpg",
+    "image": "/images/experiences/ellawala-waterfall.jpg",
+    "description": "Make time for waterfall scenery on a journey through the Wellawaya area."
+  },
+  {
+    "slug": "waterfall-trek",
+    "name": "Waterfall Trek",
+    "destination": "Wellawaya",
+    "category": "Adventure",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/feathured-experinces-02-7.jpg",
+    "image": "/images/experiences/waterfall-trek.jpg",
+    "description": "Ask about a guided walking route that suits your fitness, available time and local conditions."
+  },
+  {
+    "slug": "archaeology-experience",
+    "name": "Archaeology Experience",
+    "destination": "Wellawaya",
+    "category": "Culture",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/feathured-experinces-01-7.jpg",
+    "image": "/images/experiences/archaeology-experience.jpg",
+    "description": "Explore the region’s historic places with time to hear the stories behind what remains."
+  },
+  {
+    "slug": "snorkelling-and-diving",
+    "name": "Snorkelling and Diving",
+    "destination": "Trincomalee",
+    "category": "Adventure",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Trincomalee-feathured-experinces-01-1.jpg",
+    "image": "/images/experiences/snorkelling-and-diving.jpg",
+    "description": "Discuss a coastal outing with a qualified local operator, matched to your experience and sea conditions."
+  }
+]

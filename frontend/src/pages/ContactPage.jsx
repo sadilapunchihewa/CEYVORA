@@ -1,8 +1,11 @@
+import { countries, callingCodes } from '../data/countries'
+import { validateContact, enquiryMessage } from '../utils/contactForm'
+import TravelFAQ from '../components/common/TravelFAQ'
 import { useCallback, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import useResource from '../hooks/useResource'
 import { getTourPackageBySlug } from '../services/tourPackageService'
-import PageHeader from '../components/common/PageHeader'
+import InnerPageHero from '../components/common/InnerPageHero'
 import Button from '../components/common/Button'
 import { createEnquiry } from '../services/enquiryService'
 
@@ -12,7 +15,12 @@ const initial = {
   phone: '',
   country: '',
   arrivalDate: '',
-  numberOfTravellers: '2',
+  adults: '2',
+  kids: '0',
+  infants: '0',
+  departureDate: '',
+  phoneCode: '+94',
+  consent: false,
   message: '',
 }
 const fields = [
@@ -25,53 +33,50 @@ const fields = [
   },
   {
     name: 'email',
-    label: 'Email address',
+    label: 'Your email',
     type: 'email',
     autoComplete: 'email',
     required: true,
     maxLength: 254,
   },
+  { name: 'country', label: 'Country', required: true },
   {
     name: 'phone',
-    label: 'Phone number',
+    label: 'Phone',
     type: 'tel',
-    autoComplete: 'tel',
+    autoComplete: 'tel-national',
     required: true,
-    maxLength: 30,
+    maxLength: 24,
   },
   {
-    name: 'country',
-    label: 'Country (optional)',
-    autoComplete: 'country-name',
-    maxLength: 100,
-  },
-  { name: 'arrivalDate', label: 'Arrival date (optional)', type: 'date' },
-  {
-    name: 'numberOfTravellers',
-    label: 'Number of travellers',
+    name: 'adults',
+    label: 'No. of adults (12+)',
     type: 'number',
     min: 1,
     max: 1000,
     step: 1,
     required: true,
   },
+  {
+    name: 'kids',
+    label: 'No. of kids (0–11 years)',
+    type: 'number',
+    min: 0,
+    max: 1000,
+    step: 1,
+  },
+  {
+    name: 'infants',
+    label: 'No. of infants (under 2)',
+    type: 'number',
+    min: 0,
+    max: 1000,
+    step: 1,
+    required: true,
+  },
+  { name: 'arrivalDate', label: 'Arrival date', type: 'date' },
+  { name: 'departureDate', label: 'Departure date', type: 'date' },
 ]
-function validate(values) {
-  const errors = {}
-  if (!values.name.trim()) errors.name = 'Please enter your name.'
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim()))
-    errors.email = 'Please enter a valid email address.'
-  if (!/^\+?[\d\s().-]{5,30}$/.test(values.phone.trim()))
-    errors.phone = 'Please enter a phone number, including your country code.'
-  const count = Number(values.numberOfTravellers)
-  if (!Number.isInteger(count) || count < 1 || count > 1000)
-    errors.numberOfTravellers = 'Choose between 1 and 1,000 travellers.'
-  if (!values.message.trim())
-    errors.message = 'Tell us a little about your trip.'
-  if (values.arrivalDate && !Number.isFinite(Date.parse(values.arrivalDate)))
-    errors.arrivalDate = 'Choose a valid arrival date.'
-  return errors
-}
 export default function ContactPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const packageSlug = searchParams.get('package') || ''
@@ -93,7 +98,12 @@ export default function ContactPage() {
     setSearchParams(next)
     setServerError('')
   }
-  const [values, setValues] = useState(initial)
+  const [values, setValues] = useState(() => ({
+    ...initial,
+    message: searchParams.get('interest')
+      ? `I’m interested in a journey inspired by ${searchParams.get('interest').slice(0, 200)}. Please help me plan the details.`
+      : '',
+  }))
   const [errors, setErrors] = useState({})
   const [pending, setPending] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -102,8 +112,18 @@ export default function ContactPage() {
   const form = useRef(null)
   const feedback = useRef(null)
   function change(event) {
-    const { name, value } = event.target
-    setValues((current) => ({ ...current, [name]: value }))
+    const { name, value, type, checked } = event.target
+    setValues((current) => {
+      const country =
+        name === 'country'
+          ? countries.find((item) => item.name === value)
+          : null
+      return {
+        ...current,
+        [name]: type === 'checkbox' ? checked : value,
+        ...(country ? { phoneCode: callingCodes[country.code] || '' } : {}),
+      }
+    })
     setErrors((current) => ({ ...current, [name]: undefined }))
   }
   function focusFirst(nextErrors) {
@@ -115,7 +135,7 @@ export default function ContactPage() {
     event.preventDefault()
     if (inFlight.current) return
     if (packageBlocked) return
-    const nextErrors = validate(values)
+    const nextErrors = validateContact(values)
     setErrors(nextErrors)
     setServerError('')
     if (Object.keys(nextErrors).length) {
@@ -131,13 +151,14 @@ export default function ContactPage() {
           : {}),
         name: values.name.trim(),
         email: values.email.trim(),
-        phone: values.phone.trim(),
+        phone: values.phoneCode + ' ' + values.phone.trim(),
         country: values.country.trim() || null,
         arrivalDate: values.arrivalDate
           ? new Date(values.arrivalDate + 'T00:00:00Z').toISOString()
           : null,
-        numberOfTravellers: Number(values.numberOfTravellers),
-        message: values.message.trim(),
+        numberOfTravellers:
+          Number(values.adults) + Number(values.kids) + Number(values.infants),
+        message: enquiryMessage(values),
       })
       setSuccess(true)
       requestAnimationFrame(() => feedback.current?.focus())
@@ -171,12 +192,13 @@ export default function ContactPage() {
   }
   return (
     <>
-      <PageHeader
+      <InnerPageHero
+        className="contact-page-header"
         title="Let’s make it your Sri Lanka."
         description="A few ideas or a whole itinerary in mind? Tell us about the journey you’d like to take."
         eyebrow="Begin your journey"
-        image="/images/colombo-market.webp"
-        imageAlt="Tuk-tuks and pedestrians moving through Pettah Market in Colombo"
+        image="/images/destinations/weligama.jpg"
+        imageAlt="A fishing boat floating in the turquoise waters of Weligama"
         marker="START HERE · 04"
       />
       <section className="section container contact-layout">
@@ -232,7 +254,8 @@ export default function ContactPage() {
             noValidate
             aria-busy={pending}
           >
-            <h2>Tell us about your trip</h2>
+            <p className="directory-region">Connect with us</p>
+            <h2>Let’s craft your dream journey together.</h2>
             {packageSlug && (
               <div className="enquiry-package">
                 {selectedPackage.loading ? (
@@ -277,18 +300,95 @@ export default function ContactPage() {
                     {label}
                     {required && ' *'}
                   </label>
-                  <input
-                    id={name}
-                    name={name}
-                    {...props}
-                    required={required}
-                    value={values[name]}
-                    onChange={change}
-                    aria-invalid={Boolean(errors[name])}
-                    aria-describedby={
-                      errors[name] ? name + '-error' : undefined
-                    }
-                  />
+                  {name === 'country' ? (
+                    <select
+                      id={name}
+                      name={name}
+                      required
+                      value={values.country}
+                      onChange={change}
+                      autoComplete="country-name"
+                      aria-invalid={Boolean(errors.country)}
+                      aria-describedby={
+                        errors.country ? 'country-error' : undefined
+                      }
+                    >
+                      <option value="">Select your country</option>
+                      {countries.map((country) => (
+                        <option key={country.code} value={country.name}>
+                          {country.name}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <div
+                      className={name === 'phone' ? 'contact-phone' : undefined}
+                    >
+                      {name === 'phone' && (
+                        <div>
+                          <label className="small-text" htmlFor="phoneCode">
+                            Calling code
+                          </label>
+                          <input
+                            id="phoneCode"
+                            name="phoneCode"
+                            type="tel"
+                            autoComplete="tel-country-code"
+                            list="calling-codes"
+                            value={values.phoneCode}
+                            onChange={change}
+                            placeholder="+94"
+                            maxLength={5}
+                            required
+                            aria-invalid={Boolean(errors.phoneCode)}
+                            aria-describedby={
+                              errors.phoneCode ? 'phoneCode-error' : undefined
+                            }
+                          />
+                          <datalist id="calling-codes">
+                            {Object.entries(callingCodes).map(
+                              ([code, dial]) => (
+                                <option key={code} value={dial}>
+                                  {
+                                    countries.find(
+                                      (country) => country.code === code,
+                                    )?.name
+                                  }
+                                </option>
+                              ),
+                            )}
+                          </datalist>
+                        </div>
+                      )}
+                      <input
+                        id={name}
+                        name={name}
+                        {...props}
+                        required={required}
+                        value={values[name]}
+                        onChange={change}
+                        min={
+                          name === 'departureDate'
+                            ? values.arrivalDate || undefined
+                            : props.min
+                        }
+                        aria-invalid={Boolean(errors[name])}
+                        aria-describedby={
+                          errors[name] ? name + '-error' : undefined
+                        }
+                      />
+                    </div>
+                  )}
+                  {name === 'phone' && errors.phoneCode && (
+                    <p className="field-error" id="phoneCode-error">
+                      {errors.phoneCode}
+                    </p>
+                  )}
+                  {name === 'kids' && (
+                    <p className="small-text">
+                      Count children under 2 in the infants field only.
+                    </p>
+                  )}
                   {errors[name] && (
                     <p className="field-error" id={name + '-error'}>
                       {errors[name]}
@@ -297,14 +397,12 @@ export default function ContactPage() {
                 </div>
               ))}
               <div className="field full-width">
-                <label htmlFor="message">
-                  What would you love to experience? *
-                </label>
+                <label htmlFor="message">Message *</label>
                 <textarea
                   id="message"
                   name="message"
                   rows="5"
-                  maxLength="5000"
+                  maxLength="4500"
                   required
                   value={values.message}
                   onChange={change}
@@ -321,6 +419,30 @@ export default function ContactPage() {
                 )}
               </div>
             </div>
+            <div className="contact-consent">
+              <label htmlFor="consent">
+                <input
+                  id="consent"
+                  name="consent"
+                  type="checkbox"
+                  checked={values.consent}
+                  onChange={change}
+                  required
+                  aria-invalid={Boolean(errors.consent)}
+                  aria-describedby={
+                    errors.consent ? 'consent-error' : undefined
+                  }
+                />{' '}
+                I have read the <a href="#privacy-notice">Privacy Policy</a> /{' '}
+                <a href="#enquiry-terms">Terms and Conditions</a>, and agree to
+                my details being used to respond to this enquiry. *
+              </label>
+              {errors.consent && (
+                <p className="field-error" id="consent-error">
+                  {errors.consent}
+                </p>
+              )}
+            </div>
             {serverError && (
               <p className="form-error" role="alert">
                 {serverError}
@@ -335,6 +457,39 @@ export default function ContactPage() {
           </form>
         )}
       </section>
+      <section className="section container enquiry-notices">
+        <details id="privacy-notice" open>
+          <summary>Privacy Policy — travel enquiries</summary>
+          <p>
+            This form collects your name, email, country, phone number, travel
+            dates, group details and message. Ceyvora stores the enquiry so its
+            authorised admin team can review it and respond about your trip. Do
+            not include passport details, card numbers or other sensitive
+            documents in your message.
+          </p>
+          <p>
+            To ask about your submitted information or request a correction or
+            deletion, send an enquiry identifying your earlier request. This
+            acknowledgement concerns your enquiry only; it is not a marketing
+            subscription.
+          </p>
+        </details>
+        <details id="enquiry-terms" open>
+          <summary>Terms and Conditions — enquiries</summary>
+          <p>
+            Submitting this form is a request for information, not a confirmed
+            booking or payment. Routes, prices, availability and inclusions must
+            be agreed separately. Ask for the applicable booking, payment and
+            cancellation terms before accepting a quote.
+          </p>
+          <p>
+            Group ages and dates help with planning. Count each traveller once,
+            and confirm ages at the time of travel when discussing activities
+            and accommodation.
+          </p>
+        </details>
+      </section>
+      <TravelFAQ />
     </>
   )
 }

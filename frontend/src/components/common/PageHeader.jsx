@@ -4,7 +4,6 @@ export default function PageHeader({
   eyebrow = 'Sri Lanka, your way',
   image,
   imageAlt = '',
-  marker = 'CEYVORA',
   className = '',
 }) {
   return (
@@ -16,12 +15,11 @@ export default function PageHeader({
           <p>{eyebrow}</p>
           <h1>{title}</h1>
           <p className="page-description">{description}</p>
-          {image && <span className="page-header-marker">{marker}</span>}
         </div>
         {image && (
           <figure className="page-header-image">
             <img src={image} alt={imageAlt} width="1000" height="1200" />
-            <figcaption>Island notes · 07° N, 81° E</figcaption>
+            <figcaption>{imageAlt}</figcaption>
           </figure>
         )}
       </div>

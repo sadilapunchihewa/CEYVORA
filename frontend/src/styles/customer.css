@@ -27,7 +27,7 @@
   position: relative;
   min-height: 660px;
   overflow: hidden;
-  background: #163f35;
+  background: #142d4e;
 }
 .auth-picture img {
   width: 100%;
@@ -82,7 +82,7 @@
   border: 1px solid #a6b5ac;
   border-radius: 3px;
   background: white;
-  color: #263630;
+  color: #23354a;
   font: inherit;
 }
 .customer-field textarea {
@@ -118,7 +118,7 @@
   padding: 0 13px;
   border: 0;
   background: transparent;
-  color: #163f35;
+  color: #142d4e;
   cursor: pointer;
   font: inherit;
 }
@@ -145,7 +145,7 @@
 }
 .account-navigation a.active {
   font-weight: 700;
-  border-bottom: 2px solid #163f35;
+  border-bottom: 2px solid #142d4e;
 }
 .account-links {
   display: grid;

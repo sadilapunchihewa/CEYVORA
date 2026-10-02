@@ -1,6 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import JourneyIdeaPage from './pages/JourneyIdeaPage'
+import FAQPage from './pages/FAQPage'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import MainLayout from './components/layout/MainLayout'
 import HomePage from './pages/HomePage'
+import ExperiencesPage from './pages/ExperiencesPage'
 import DestinationsPage from './pages/DestinationsPage'
 import ToursPage from './pages/ToursPage'
 import AboutPage from './pages/AboutPage'
@@ -75,8 +78,15 @@ export default function App() {
               element={<DestinationDetailsPage />}
             />
             <Route path="tours" element={<ToursPage />} />
+            <Route path="journeys/:slug" element={<JourneyIdeaPage />} />
+            <Route path="faq" element={<FAQPage />} />
             <Route path="tours/:slug" element={<TourDetailsPage />} />
             <Route path="about" element={<AboutPage />} />
+            <Route path="experiences" element={<ExperiencesPage />} />
+            <Route
+              path="travel-guide"
+              element={<Navigate to="/experiences" replace />}
+            />
             <Route path="contact" element={<ContactPage />} />
             <Route path="login" element={<AuthPage key="login" />} />
             <Route

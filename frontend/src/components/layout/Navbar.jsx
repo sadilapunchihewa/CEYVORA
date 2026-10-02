@@ -31,7 +31,18 @@ export default function Navbar() {
     <header
       className={
         'site-header ' +
-        (pathname === '/' && !scrolled && !open ? 'is-overlay' : 'is-solid')
+        ([
+          '/',
+          '/tours',
+          '/destinations',
+          '/experiences',
+          '/about',
+          '/contact',
+        ].includes(pathname) &&
+        !scrolled &&
+        !open
+          ? 'is-overlay'
+          : 'is-solid')
       }
     >
       <div className="container nav-shell">
@@ -80,6 +91,7 @@ export default function Navbar() {
             ['/', 'Home'],
             ['/destinations', 'Destinations'],
             ['/tours', 'Tours'],
+            ['/experiences', 'Experiences'],
             ['/about', 'About'],
             ['/contact', 'Contact'],
           ].map(([to, text]) => (

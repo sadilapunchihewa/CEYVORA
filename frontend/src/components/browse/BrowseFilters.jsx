@@ -96,7 +96,7 @@ export default function BrowseFilters({ params, tours, onApply, onClear }) {
               <option value="false">More to discover</option>
             </select>
           </div>
-          <input type="hidden" name="pageSize" value="6" />
+          <input type="hidden" name="pageSize" value="9" />
         </div>
         {Object.keys(errors).length > 0 && (
           <p role="alert" className="field-error">
@@ -168,10 +168,45 @@ export default function BrowseFilters({ params, tours, onApply, onClear }) {
           </select>
         </div>
       </div>
-      <div className="journey-filter-bar">
-        <div className="quick-filters" aria-label="Quick filters">
+      <div className="experience-pills-bar" aria-label="Select Tour Experience">
+        <span className="pills-label">Experiences:</span>
+        <div className="pills-scroll">
           {[
-            ['all', 'All journeys', '', '', ''],
+            ['', 'All Experiences'],
+            ['cultur', 'Culture & heritage'],
+            ['wildlife', 'Wildlife'],
+            ['hill', 'Hill country'],
+            ['beach', 'Beach escapes'],
+          ].map(([val, label]) => {
+            const active = (params.get('search') || '') === val
+            return (
+              <button
+                type="button"
+                key={val}
+                className={`experience-pill${active ? ' is-active' : ''}`}
+                aria-pressed={active}
+                onClick={() => {
+                  const next = new URLSearchParams(params)
+                  if (val) {
+                    next.set('search', val)
+                  } else {
+                    next.delete('search')
+                  }
+                  next.set('page', '1')
+                  onApply(next)
+                }}
+              >
+                {label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+      <div className="journey-filter-bar">
+        <div className="quick-filters" aria-label="Quick duration filters">
+          <span className="quick-label">Duration:</span>
+          {[
+            ['all', 'All', '', '', ''],
             ['3-5', '3–5 days', '3', '5', ''],
             ['6-10', '6–10 days', '6', '10', ''],
             ['10+', '10+ days', '11', '', ''],

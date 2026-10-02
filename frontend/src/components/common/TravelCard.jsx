@@ -1,6 +1,37 @@
 import { Link } from 'react-router-dom'
 import TravelImage from './TravelImage'
-export function DestinationCard({ item }) {
+export function DestinationCard({ item, variant }) {
+  if (variant === 'directory')
+    return (
+      <article className="destination-directory-card">
+        <Link
+          to={'/destinations/' + encodeURIComponent(item.slug)}
+          className="directory-photo"
+          aria-label={'Explore ' + item.name}
+        >
+          <TravelImage
+            path={item.imageUrl}
+            alt={item.name}
+            collection="places"
+          />
+        </Link>
+        <div className="directory-copy">
+          <p className="directory-region">{item.province || 'Sri Lanka'}</p>
+          <h3>
+            <Link to={'/destinations/' + encodeURIComponent(item.slug)}>
+              {item.name}
+            </Link>
+          </h3>
+          <p>{item.shortDescription}</p>
+          <Link
+            className="directory-link"
+            to={'/destinations/' + encodeURIComponent(item.slug)}
+          >
+            Discover {item.name} <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+      </article>
+    )
   return (
     <article className="travel-card destination-card">
       <div className="destination-portrait">
@@ -29,15 +60,36 @@ export function TourCard({ item, index = 0, variant }) {
   const route = [...(item.destinations || [])]
     .sort((a, b) => (a.visitOrder || 0) - (b.visitOrder || 0))
     .map((destination) => destination.name)
+
+  let category = ''
+  let displayDesc = item.shortDescription || ''
+  if (displayDesc.startsWith('[')) {
+    const endIdx = displayDesc.indexOf(']')
+    if (endIdx > 1) {
+      category = displayDesc.substring(1, endIdx)
+      displayDesc = displayDesc.substring(endIdx + 1).trim()
+    }
+  }
+
   return (
     <article
       className={`travel-card tour-card${variant === 'editorial' ? ' tour-card-editorial' : ''}`}
     >
-      <TravelImage
-        path={item.heroImageUrl}
-        alt={item.title}
-        collection="journeys"
-      />
+      <div className="tour-card-photo-wrapper">
+        <TravelImage
+          path={item.heroImageUrl}
+          alt={item.title}
+          collection="journeys"
+        />
+        {category && (
+          <div className="tour-experience-tag">
+            <span className="tag-icon" aria-hidden="true">
+              ✦
+            </span>
+            <span className="tag-text">{category}</span>
+          </div>
+        )}
+      </div>
       <div className="card-body">
         {variant === 'editorial' && (
           <p className="journey-index">
@@ -47,8 +99,12 @@ export function TourCard({ item, index = 0, variant }) {
         <p className="card-meta">
           {item.durationDays} days / {item.durationNights} nights
         </p>
-        <h3>{item.title}</h3>
-        {variant === 'editorial' && route.length > 0 && (
+        <h3>
+          <Link to={'/tours/' + encodeURIComponent(item.slug)}>
+            {item.title}
+          </Link>
+        </h3>
+        {route.length > 0 && (
           <p
             className="journey-route"
             aria-label={'Route: ' + route.join(', ')}
@@ -56,12 +112,12 @@ export function TourCard({ item, index = 0, variant }) {
             {route.map((place, placeIndex) => (
               <span key={`${place}-${placeIndex}`}>
                 {place}
-                {placeIndex < route.length - 1 && <i aria-hidden="true" />}
+                {placeIndex < route.length - 1 && <i aria-hidden="true"> → </i>}
               </span>
             ))}
           </p>
         )}
-        <p>{item.shortDescription}</p>
+        <p className="tour-card-desc">{displayDesc}</p>
         <div className="card-bottom">
           <div>
             <span className="price-label">From</span>

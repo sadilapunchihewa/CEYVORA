@@ -194,7 +194,7 @@ a:focus-visible {
 .is-solid {
   color: var(--color-primary);
   background: #faf9f5fa;
-  box-shadow: 0 1px 0 #163f3517;
+  box-shadow: 0 1px 0 #142d4e17;
 }
 .nav-row {
   min-height: 96px;
@@ -346,7 +346,7 @@ a:focus-visible {
   border-radius: var(--border-radius);
   background: white;
   overflow: hidden;
-  box-shadow: 0 5px 22px #163f3507;
+  box-shadow: 0 5px 22px #142d4e07;
   display: flex;
   flex-direction: column;
   border: 1px solid #dce2d970;
@@ -373,7 +373,7 @@ a:focus-visible {
   position: absolute;
   bottom: 10px;
   left: 10px;
-  background: #12382de8;
+  background: #142d4ee8;
   color: white;
   padding: 3px 8px;
   border-radius: 3px;

@@ -1,3 +1,4 @@
+import DestinationTips from '../components/details/DestinationTips'
 import { useCallback, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import useResource from '../hooks/useResource'
@@ -43,21 +44,24 @@ export default function DestinationDetailsPage() {
                 Explore the tours that include {destination.name}, or tell us
                 what you have in mind.
               </p>
-              <Button to={'/tours?destinationId=' + destination.id}>
-                Find journeys here
+              <Button
+                to={'/contact?interest=' + encodeURIComponent(destination.name)}
+              >
+                Plan a visit here
               </Button>
               <Button to="/contact" variant="outline">
                 Contact us
               </Button>
             </aside>
           </div>
+          <DestinationTips slug={slug} name={destination.name} />
           <section className="section related-tours">
             <div className="container">
               <SectionTitle
                 title={'Journeys through ' + destination.name}
                 description="Explore a route that brings this place into your trip."
-                to={'/tours?destinationId=' + destination.id}
-                linkLabel="View all matching tours"
+                to={'/contact?interest=' + encodeURIComponent(destination.name)}
+                linkLabel="Ask about this destination"
               />
               {destination.tourPackages?.length ? (
                 <div className="tour-grid">

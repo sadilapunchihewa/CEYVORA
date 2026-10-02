@@ -1,15 +1,16 @@
-import PageHeader from '../components/common/PageHeader'
+import InnerPageHero from '../components/common/InnerPageHero'
 import WhyChooseUs from '../components/home/WhyChooseUs'
 import CTASection from '../components/home/CTASection'
 export default function AboutPage() {
   return (
     <>
-      <PageHeader
+      <InnerPageHero
+        className="about-page-header"
         title="Discover Sri Lanka your way."
         description="Ceyvora brings the island’s places and journeys together, so your trip can begin with curiosity."
         eyebrow="The Ceyvora way"
-        image="/images/kandy-temple.webp"
-        imageAlt="Visitors gathering at a hilltop temple in Kandy"
+        image="/images/destinations/wellawaya.jpg"
+        imageAlt="Ancient rock carvings at Buduruwagala near Wellawaya"
         marker="OUR STORY · 03"
       />
       <section className="section container about-grid">

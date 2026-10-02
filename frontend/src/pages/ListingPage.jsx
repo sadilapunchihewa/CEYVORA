@@ -1,8 +1,8 @@
+import InnerPageHero from '../components/common/InnerPageHero'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import useResource from '../hooks/useResource'
 import ResourceState from '../components/common/ResourceState'
-import PageHeader from '../components/common/PageHeader'
 import Button from '../components/common/Button'
 import BrowseFilters from '../components/browse/BrowseFilters'
 import Pagination from '../components/browse/Pagination'
@@ -10,6 +10,9 @@ import { DestinationCard, TourCard } from '../components/common/TravelCard'
 import { getDestinations } from '../services/destinationService'
 import { getTourPackages } from '../services/tourPackageService'
 import { readBrowseParams } from '../utils/query'
+import { Link } from 'react-router-dom'
+import CTASection from '../components/home/CTASection'
+import TourIdeas from '../components/browse/TourIdeas'
 
 export default function ListingPage({ type }) {
   const [params, setParams] = useSearchParams()
@@ -53,31 +56,75 @@ export default function ListingPage({ type }) {
     !resource.loading && !resource.error && !resource.data?.items?.length
   return (
     <>
-      <PageHeader
-        title={
-          tours ? 'Find your way through Sri Lanka.' : 'Discover Sri Lanka'
-        }
-        description={
-          tours
-            ? 'Slow journeys through ancient cities, tea country, wilderness and coast.'
-            : 'From ancient cities to quiet shores, discover where your curiosity leads.'
-        }
-        eyebrow={tours ? 'Journeys / 02' : 'Places worth the journey'}
-        image={tours ? '/images/tea-country.webp' : '/images/galle-fort.webp'}
-        imageAlt={
-          tours
-            ? 'Tea fields rolling across the hills of Nuwara Eliya'
-            : 'The historic Galle Fort rising above Sri Lanka’s southern coast'
-        }
-        marker={tours ? '07° N — 81° E · ISLAND ROUTES' : 'PLACES · 02'}
-        className={tours ? 'tours-page-header' : 'destination-page-header'}
-      />
-      <section className={`section container listing-section listing-${type}`}>
+      {!tours ? (
+        <InnerPageHero
+          eyebrow="Sri Lanka, beyond the familiar"
+          title="An island of endless discovery."
+          description="From mist-covered mountains to the edge of the Indian Ocean."
+          image="/images/destinations/hatton.jpg"
+          imageAlt="Sunrise illuminating layers of misty mountains around Hatton"
+          href="#destination-directory"
+          linkText="Find your next destination"
+        />
+      ) : (
+        <header className="destination-directory-hero tours-directory-hero">
+          <img
+            src="/images/ella-train.webp"
+            alt="A train winding through Sri Lanka’s hill country"
+            fetchPriority="high"
+          />
+          <div className="container">
+            <p>Travel at your own pace</p>
+            <h1>
+              Your next chapter,
+              <br />
+              written across the island.
+            </h1>
+            <a href="#destination-directory" className="button button-sand">
+              Find your journey
+            </a>
+          </div>
+        </header>
+      )}
+      <section
+        id="destination-directory"
+        className={`section container listing-section listing-${type}`}
+      >
+        {tours && (
+          <div className="directory-intro">
+            <nav aria-label="Breadcrumb">
+              <Link to="/">Home</Link> / Tours
+            </nav>
+            <p>Go where your curiosity takes you</p>
+            <h2>Find your journey.</h2>
+            <p>
+              From heritage trails to hill-country escapes, choose a route that
+              fits your interests and the time you have. Explore the journey
+              details or start a conversation about a trip of your own.
+            </p>
+            <Link className="text-link" to="/experiences">
+              Discover things to do in Sri Lanka
+            </Link>
+          </div>
+        )}
         {!tours && (
-          <div className="destination-index-intro">
-            <p>THE ISLAND DIRECTORY</p>
-            <h2>Choose a place. Follow its story.</h2>
-            <span>Culture · Hills · Wild · Coast</span>
+          <div className="directory-intro">
+            <nav aria-label="Breadcrumb">
+              <Link to="/">Home</Link>
+              <span aria-hidden="true"> / </span>
+              <span>Destinations</span>
+            </nav>
+            <p>Find the places that stay with you</p>
+            <h2>
+              A different discovery
+              <br />
+              in every direction.
+            </h2>
+            <p>
+              Ancient cities and ocean towns. Tea-covered hills and paths
+              through the wild. Explore the island one place at a time, then
+              bring your favourites together into a journey that feels like you.
+            </p>
           </div>
         )}
         <BrowseFilters
@@ -135,12 +182,16 @@ export default function ListingPage({ type }) {
                         ? resource.data.totalItems === 1
                           ? 'journey'
                           : 'journeys'
-                        : 'destinations'}
+                        : resource.data.totalItems === 1
+                          ? 'destination'
+                          : 'destinations'}
                       {query.search ? ' for “' + query.search + '”' : ''}
                     </p>
                     <div
                       className={
-                        tours ? 'tour-grid' : 'destination-grid listing-grid'
+                        tours
+                          ? 'tour-directory-grid'
+                          : 'destination-directory-grid'
                       }
                     >
                       {resource.data.items.map((item, index) => (
@@ -148,7 +199,7 @@ export default function ListingPage({ type }) {
                           key={item.id}
                           item={item}
                           index={index}
-                          variant={tours ? 'editorial' : undefined}
+                          variant="directory"
                         />
                       ))}
                     </div>
@@ -167,6 +218,8 @@ export default function ListingPage({ type }) {
           )}
         </div>
       </section>
+      {tours && <TourIdeas />}
+      <CTASection />
     </>
   )
 }

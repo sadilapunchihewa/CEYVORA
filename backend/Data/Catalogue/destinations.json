@@ -1,0 +1,234 @@
+[
+  {
+    "name": "Anuradhapura",
+    "slug": "anuradhapura",
+    "district": "Anuradhapura",
+    "province": "North Central Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/Jetavanaramaya-800-x-550.jpg",
+    "shortDescription": "Explore sacred monuments, ancient reservoirs and the landscapes of Sri Lanka’s early kingdoms."
+  },
+  {
+    "name": "Arugam Bay",
+    "slug": "arugam-bay",
+    "district": "Ampara",
+    "province": "Eastern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/surf-board.jpg",
+    "shortDescription": "Find a laid-back coastal base for surf culture, beach walks and time beside the ocean."
+  },
+  {
+    "name": "Bentota",
+    "slug": "bentota",
+    "district": "Galle",
+    "province": "Southern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/1-02-14.jpg",
+    "shortDescription": "Bring together sandy shores, riverside scenery and an unhurried beach break."
+  },
+  {
+    "name": "Colombo",
+    "slug": "colombo",
+    "district": "Colombo",
+    "province": "Western Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/National-museum-800x550-1.jpg",
+    "shortDescription": "Explore lively neighbourhoods, museums, markets and the city’s ocean-facing promenades."
+  },
+  {
+    "name": "Dambulla",
+    "slug": "dambulla",
+    "district": "Matale",
+    "province": "Central Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Dambulla-Cave-Temple-800x550-1.jpg",
+    "shortDescription": "Discover cave-temple heritage and a useful starting point for the Cultural Triangle."
+  },
+  {
+    "name": "Ella",
+    "slug": "ella",
+    "district": "Badulla",
+    "province": "Uva Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Demodara-Bridge-800x550-1.jpg",
+    "shortDescription": "Follow hill-country trails, railway views and green valleys around a relaxed mountain town."
+  },
+  {
+    "name": "Galle",
+    "slug": "galle",
+    "district": "Galle",
+    "province": "Southern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Fort-Lighthouse.jpg",
+    "shortDescription": "Wander fort streets, pause by the lighthouse and follow the ramparts towards the sea."
+  },
+  {
+    "name": "Habarana",
+    "slug": "habarana",
+    "district": "Anuradhapura",
+    "province": "North Central Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Habarana-800x550-2.jpg",
+    "shortDescription": "Settle among dry-zone landscapes within reach of cultural sites and wildlife excursions."
+  },
+  {
+    "name": "Hatton",
+    "slug": "hatton",
+    "district": "Nuwara Eliya",
+    "province": "Central Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/1-02-5.jpg",
+    "shortDescription": "Slow down among tea estates, winding hill roads and reservoir views."
+  },
+  {
+    "name": "Hikkaduwa",
+    "slug": "hikkaduwa",
+    "district": "Galle",
+    "province": "Southern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/Gallery-dummy-image2-1920x960-1.jpg",
+    "shortDescription": "Spend time in a lively beach town with ocean views and a relaxed coastal rhythm."
+  },
+  {
+    "name": "Jaffna",
+    "slug": "jaffna",
+    "district": "Jaffna",
+    "province": "Northern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/1-02-10.jpg",
+    "shortDescription": "Discover northern Sri Lanka through its temples, local food and distinctive peninsula landscapes."
+  },
+  {
+    "name": "Kalpitiya",
+    "slug": "kalpitiya",
+    "district": "Puttalam",
+    "province": "North Western Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/1-02-12.jpg",
+    "shortDescription": "Explore a coastal peninsula shaped by lagoon waters, open beaches and watersports."
+  },
+  {
+    "name": "Kandy",
+    "slug": "kandy",
+    "district": "Kandy",
+    "province": "Central Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Temple-of-the-tooth-relic-800x550-1.jpg",
+    "shortDescription": "Experience temple traditions, lakeside walks and the cultural life of the central hills."
+  },
+  {
+    "name": "Kitulgala",
+    "slug": "kitulgala",
+    "district": "Kegalle",
+    "province": "Sabaragamuwa Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/09/Kithulgala-800x550-1.jpg",
+    "shortDescription": "Make room for river adventures, forest surroundings and an active escape outdoors."
+  },
+  {
+    "name": "Mirissa",
+    "slug": "mirissa",
+    "district": "Matara",
+    "province": "Southern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/1-02.jpg",
+    "shortDescription": "Enjoy a southern beach town with sheltered bays, ocean views and easy-going evenings."
+  },
+  {
+    "name": "Negombo",
+    "slug": "negombo",
+    "district": "Gampaha",
+    "province": "Western Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Negombo-800x550-2.jpg",
+    "shortDescription": "Take in lagoon scenery, fishing-town life and stretches of the western coast."
+  },
+  {
+    "name": "Nuwara Eliya",
+    "slug": "nuwara-eliya",
+    "district": "Nuwara Eliya",
+    "province": "Central Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Listing-page-F-2.jpg",
+    "shortDescription": "Explore tea country, gardens and mountain scenery at a gentler pace."
+  },
+  {
+    "name": "Passikudah",
+    "slug": "passikudah",
+    "district": "Batticaloa",
+    "province": "Eastern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/03/yala-home-featured.jpg",
+    "shortDescription": "Make space for a restful east-coast stay with long beach walks and sea views."
+  },
+  {
+    "name": "Polonnaruwa",
+    "slug": "polonnaruwa",
+    "district": "Polonnaruwa",
+    "province": "North Central Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Listing-page-F.jpg",
+    "shortDescription": "Follow the remains of an ancient royal city through stone monuments and open landscapes."
+  },
+  {
+    "name": "Sigiriya",
+    "slug": "sigiriya",
+    "district": "Matale",
+    "province": "Central Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/1-02-11.jpg",
+    "shortDescription": "Discover a striking rock fortress, landscaped gardens and wide views over the surrounding plains."
+  },
+  {
+    "name": "Sinharaja",
+    "slug": "sinharaja",
+    "district": "Ratnapura",
+    "province": "Sabaragamuwa Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Listing-page-F-1.jpg",
+    "shortDescription": "Explore rainforest surroundings and make time to notice the smaller details of the natural world."
+  },
+  {
+    "name": "Tangalle",
+    "slug": "tangalle",
+    "district": "Hambantota",
+    "province": "Southern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/tangalle-800x550-1.jpg",
+    "shortDescription": "Follow the quieter rhythm of the southern coast, from palm-lined shores to small bays."
+  },
+  {
+    "name": "Trincomalee",
+    "slug": "trincomalee",
+    "district": "Trincomalee",
+    "province": "Eastern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Trincomalee-feature.jpg",
+    "shortDescription": "Bring together harbour views, temple visits and beach time on the east coast."
+  },
+  {
+    "name": "Udawalawe",
+    "slug": "udawalawe",
+    "district": "Ratnapura",
+    "province": "Sabaragamuwa Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/1-02-2.jpg",
+    "shortDescription": "Plan a wildlife-focused stop among open landscapes and reservoir country."
+  },
+  {
+    "name": "Unawatuna",
+    "slug": "unawatuna",
+    "district": "Galle",
+    "province": "Southern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/10/Unawatuna-Listing-Page-scaled.jpg",
+    "shortDescription": "Pair beach days and coastal walks with time exploring nearby Galle."
+  },
+  {
+    "name": "Weligama",
+    "slug": "weligama",
+    "district": "Matara",
+    "province": "Southern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/headBanner-01-2-scaled.jpg",
+    "shortDescription": "Enjoy a broad coastal bay, surf-town energy and easy days beside the sea."
+  },
+  {
+    "name": "Wellawaya",
+    "slug": "wellawaya",
+    "district": "Monaragala",
+    "province": "Uva Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/1-02-3.jpg",
+    "shortDescription": "Explore a quieter side of Uva, with rural scenery and routes between the hills and southern plains."
+  },
+  {
+    "name": "Wilpattu",
+    "slug": "wilpattu",
+    "district": "Puttalam",
+    "province": "North Western Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Wilpattu-Leopard-Listing-Page-Featured-Image.jpg",
+    "shortDescription": "Discover woodland, natural lakes and the landscapes of a wildlife-focused northern escape."
+  },
+  {
+    "name": "Yala",
+    "slug": "yala",
+    "district": "Hambantota",
+    "province": "Southern Province",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/08/Yala-Listing-Page-Featured-Image.jpg",
+    "shortDescription": "Explore dry-zone wilderness and plan time for a guided wildlife drive."
+  }
+]

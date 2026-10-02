@@ -51,9 +51,18 @@ export default function TourDetailsPage() {
               </Button>
             </div>
           </DetailHero>
+          <nav className="guide-jump container" aria-label="Journey sections">
+            <a href="#overview">Overview</a>
+            <a href="#places-heading">Destinations</a>
+            <a href="#itinerary-heading">Day by day</a>
+            <a href="#reviews-heading">Reviews</a>
+          </nav>
           <div className="container tour-detail-layout">
             <div className="tour-reading-column">
-              <section className="detail-section overview-section">
+              <section
+                id="overview"
+                className="detail-section overview-section"
+              >
                 <h2>A little about this journey</h2>
                 <p className="preserve-lines">{tour.description}</p>
               </section>

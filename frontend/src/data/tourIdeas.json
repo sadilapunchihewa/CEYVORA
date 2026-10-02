@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Courtyards & Verandahs",
+    "category": "Authentic Ceylon",
+    "slug": "courtyards-verandahs",
+    "image": "/images/tour-ideas/courtyards-verandahs.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/05/headBannerfff.jpg",
+    "description": "Explore Sri Lanka through architecture, gardens and the spaces where everyday life meets design."
+  },
+  {
+    "name": "Cycling in Sri Lanka Tour",
+    "category": "Adventurous Spirit",
+    "slug": "cycling-in-sri-lanka-tour",
+    "image": "/images/tour-ideas/cycling-in-sri-lanka-tour.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/05/Featured-Image.jpg",
+    "description": "Discuss an active route through village roads, rural scenery and the landscapes you want to explore by bicycle."
+  },
+  {
+    "name": "Everlasting Summer in Lanka",
+    "category": "Barefoot Luxury",
+    "slug": "everlasting-summer-in-lanka",
+    "image": "/images/tour-ideas/everlasting-summer-in-lanka.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/12/botanical_garden.jpg",
+    "description": "Bring together leisurely sightseeing, garden visits and time to unwind along the way."
+  },
+  {
+    "name": "Experiential East",
+    "category": "Authentic Ceylon",
+    "slug": "experiential-east",
+    "image": "/images/tour-ideas/experiential-east.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/12/Beach-34.jpg",
+    "description": "Look towards the eastern coast for a journey combining sea views, local culture and slower days."
+  },
+  {
+    "name": "Fabulous Sri Lanka",
+    "category": "Join a Group",
+    "slug": "fabulous-sri-lanka",
+    "image": "/images/tour-ideas/fabulous-sri-lanka.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/featured-image.jpg",
+    "description": "Ask about a shared journey through the island’s varied landscapes and cultural places."
+  },
+  {
+    "name": "Love Songs of Ceylon",
+    "category": "Romantic Serendipity",
+    "slug": "love-songs-of-ceylon",
+    "image": "/images/tour-ideas/love-songs-of-ceylon.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/beach-couple-Featured-Image.jpg",
+    "description": "Shape a trip for two around quiet stays, beautiful scenery and time together."
+  },
+  {
+    "name": "Meditation & Yoga",
+    "category": "Island of Wellness",
+    "slug": "meditation-yoga",
+    "image": "/images/tour-ideas/meditation-yoga.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/Meditation-Feature-image.jpg",
+    "description": "Explore a gentler travel rhythm with time for yoga, reflection and restful surroundings."
+  },
+  {
+    "name": "Scenic Sri Lanka",
+    "category": "Authentic Ceylon",
+    "slug": "scenic-sri-lanka",
+    "image": "/images/tour-ideas/scenic-sri-lanka.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/Scenic-Sri-Lanka-Featured-Image.jpg",
+    "description": "Combine changing landscapes and cultural stops into a scenic introduction to the island."
+  }
+]

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import journeyIdeas from '../../data/tourIdeas.json'
 export default function MainLayout() {
   const location = useLocation()
   const main = useRef(null)
@@ -16,6 +17,8 @@ export default function MainLayout() {
       '/tours': 'Sri Lanka Tours | Ceyvora',
       '/destinations': 'Sri Lanka Destinations | Ceyvora',
       '/about': 'About Ceyvora',
+      '/faq': 'Travel FAQ | Ceyvora',
+      '/experiences': 'Sri Lanka Experiences | Ceyvora',
       '/contact': 'Plan Your Sri Lanka Journey | Ceyvora',
       '/login': 'Login',
       '/register': 'Create an account',
@@ -23,7 +26,10 @@ export default function MainLayout() {
       '/account/profile': 'My profile',
       '/account/bookings': 'My bookings',
     }
-    const title = titles[location.pathname]
+    const idea = journeyIdeas.find(
+      (item) => location.pathname === '/journeys/' + item.slug,
+    )
+    const title = idea ? `${idea.name} | Ceyvora` : titles[location.pathname]
     document.title = title
       ? title.includes('Ceyvora')
         ? title

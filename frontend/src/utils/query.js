@@ -43,7 +43,7 @@ export function readBrowseParams(params, tours) {
   }
   text('search', 200)
   number('page', 'Page', 1, 1000000, true, 1)
-  number('pageSize', 'Results per page', 1, 50, true, 6)
+  number('pageSize', 'Results per page', 1, 50, true, tours ? 6 : 9)
   const featured = params.get('featured')
   if (featured) {
     if (featured === 'true' || featured === 'false') query.featured = featured

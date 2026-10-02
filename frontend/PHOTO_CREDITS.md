@@ -14,3 +14,10 @@ The following photographs are used under the [Unsplash License](https://unsplash
 - `colombo-lake.webp` — Tropical lake in Colombo by [Gerald Tan](https://unsplash.com/photos/jHrboRZWLuw)
 - `tea-country.webp` — Nuwara Eliya tea country by [Austin Curtis](https://unsplash.com/photos/tLMWRLk9V1Y)
 - `tea-picker.webp` — Tea picker by [Asantha Abeysooriya](https://unsplash.com/photos/beNiTTa8Pp8)
+
+## Destination directory reference photos
+The files in `public/images/destinations/` were sourced from the user-specified Jetwing Travels destination directory for this design request. Original photo URLs are recorded in `backend/Data/Catalogue/destinations.json`. No ownership or open-license claim is made. Destination descriptions are original Ceyvora text, not copied from the reference.
+Reference: https://jetwingtravels.com/destinations/
+
+## Tours and experiences references
+Journey idea names and experience place names were referenced from https://jetwingtravels.com/tours/ and https://jetwingtravels.com/experiences/ for the requested redesign. Ceyvora descriptions are independently written. Photo source URLs are recorded in `src/data/tourIdeas.json` and `src/data/experiences.json`; downloaded photos are retained locally. No ownership or open-license claim is made. Journey ideas are enquiry prompts, not confirmed Ceyvora packages, prices or availability.
