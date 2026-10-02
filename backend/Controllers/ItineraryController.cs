@@ -11,9 +11,9 @@ namespace backend.Controllers;
 public class ItineraryController(AppDbContext db) : ControllerBase
 {
     [HttpGet("api/tourpackages/{packageId:int}/itinerary"), AllowAnonymous]
-    public async Task<IActionResult> Get(int packageId, CancellationToken ct)
+    public async Task<IActionResult> Get(int packageId, CancellationToken ct, [FromQuery] bool includeInactive = false)
     {
-        if (!await db.TourPackages.AnyAsync(p => p.Id == packageId && p.IsActive, ct)) return NotFound();
+        if (!await db.TourPackages.AnyAsync(p => p.Id == packageId && (p.IsActive || (includeInactive && User.IsInRole(Roles.Admin))), ct)) return NotFound();
         return Ok(await db.ItineraryDays.AsNoTracking().Where(i => i.TourPackageId == packageId)
             .OrderBy(i => i.DayNumber).Select(DtoMappings.Itinerary).ToListAsync(ct));
     }
@@ -66,3 +66,4 @@ public class ItineraryController(AppDbContext db) : ControllerBase
         item.Meals = dto.Meals;
     }
 }
+

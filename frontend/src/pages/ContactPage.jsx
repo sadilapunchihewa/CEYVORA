@@ -1,3 +1,4 @@
+import BusinessDetails from '../components/common/BusinessDetails'
 import { countries, callingCodes } from '../data/countries'
 import { validateContact, enquiryMessage } from '../utils/contactForm'
 import TravelFAQ from '../components/common/TravelFAQ'
@@ -204,6 +205,7 @@ export default function ContactPage() {
       <section className="section container contact-layout">
         <aside className="contact-aside">
           <h2>Start with a conversation.</h2>
+          <BusinessDetails />
           <p>
             Share your travel dates, interests and the people coming along.
             There’s no need to have everything figured out.

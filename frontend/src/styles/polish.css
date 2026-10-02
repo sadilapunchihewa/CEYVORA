@@ -1,0 +1,1055 @@
+/* Shared interaction and surface system across public, account and admin pages. */
+:root {
+  --color-background: #faf9f6;
+  --color-border: #dce2e8;
+  --color-muted: #5c6979;
+  --control-height: 52px;
+}
+body {
+  -webkit-font-smoothing: antialiased;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not(
+    [type='hidden']
+  ),
+select,
+textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  border: 1px solid #cdd6df;
+  border-radius: 10px;
+  background: #fff;
+  color: #142d4e;
+  padding: 13px 16px;
+  line-height: 1.5;
+  font-size: 15px;
+  transition:
+    border-color 0.18s,
+    box-shadow 0.18s;
+}
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not(
+    [type='hidden']
+  ),
+select {
+  min-height: 52px;
+}
+textarea {
+  resize: vertical;
+}
+input::placeholder,
+textarea::placeholder {
+  color: #708091;
+  opacity: 1;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #345878;
+  outline: 3px solid #34587824;
+  outline-offset: 1px;
+}
+input[aria-invalid='true'],
+select[aria-invalid='true'],
+textarea[aria-invalid='true'] {
+  border-color: var(--color-error);
+}
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: #142d4e;
+  width: 18px;
+  height: 18px;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid #d26b51;
+  outline-offset: 4px;
+}
+.button,
+.admin-form button.button {
+  min-height: 48px;
+  padding: 13px 23px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.button-outline {
+  border: 1px solid #b9c6d2;
+  background: transparent;
+}
+.button-outline:hover {
+  background: #eef2f5;
+  color: #142d4e;
+}
+.site-header.is-solid {
+  background: #faf9f6f5;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 #142d4e10;
+}
+.site-header .navigation a {
+  padding-inline: 12px;
+}
+.directory-intro {
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+.directory-intro h2 {
+  font-size: clamp(34px, 4.2vw, 58px);
+  line-height: 1.13;
+  letter-spacing: -0.025em;
+}
+.directory-intro > p:last-child {
+  max-width: 65ch;
+  margin-inline: auto;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--color-muted);
+}
+.journey-filter-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(240px, 1fr);
+  align-items: end;
+  gap: 24px;
+  padding: 26px;
+  margin: 0 0 22px;
+  background: #fff;
+  border: 1px solid #e2e7ed;
+  border-radius: 16px;
+  box-shadow: 0 10px 35px #142d4e06;
+}
+.journey-filter-bar .tour-ideas-select {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #42546a;
+}
+.journey-filter-bar .tour-ideas-select input,
+.journey-filter-bar .tour-ideas-select select {
+  width: 100%;
+  background: #f7f9fb;
+  border: 1px solid #dce3eb;
+  border-radius: 10px;
+  padding: 14px 16px;
+  min-height: 54px;
+}
+.journey-filter-bar > p {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+.journey-filter-bar > p button,
+.filter-reset {
+  border: 0;
+  background: #edf2f6;
+  color: #142d4e;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.journey-results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 28px;
+}
+.journey-results-bar p {
+  margin: 0;
+  font-size: 14px;
+  color: #5c6979;
+}
+.destination-directory-grid {
+  gap: 28px;
+}
+.destination-directory-card {
+  background: #fff;
+  border: 1px solid #e2e7ed;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.destination-directory-card .experience-photo {
+  overflow: hidden;
+}
+.destination-directory-card img {
+  transition: transform 0.35s ease;
+}
+.destination-directory-card:hover img {
+  transform: scale(1.035);
+}
+.destination-directory-card .directory-copy {
+  padding: 25px;
+}
+.directory-copy h3 {
+  font-size: 27px;
+  line-height: 1.2;
+  margin: 10px 0 14px;
+}
+.directory-copy > p:not(.directory-region) {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #5c6979;
+}
+.directory-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.directory-region {
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
+.experience-filters,
+.browse-filters {
+  border-radius: 14px;
+}
+.enquiry-form,
+.auth-form,
+.admin-form {
+  border-radius: 16px;
+}
+.enquiry-form .field input:not([type='checkbox']),
+.enquiry-form .field select,
+.enquiry-form .field textarea {
+  border: 1px solid #d5dee7;
+  border-radius: 10px;
+  background: #f8fafb;
+  padding: 14px 16px;
+}
+.enquiry-form .field label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.enquiry-form .field {
+  margin-bottom: 6px;
+}
+.enquiry-form h2 {
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1.15;
+}
+.form-grid {
+  gap: 24px;
+}
+.field-error,
+.form-error {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.contact-consent {
+  padding: 18px;
+  background: #f4f7fa;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.contact-phone {
+  grid-template-columns: 100px minmax(0, 1fr);
+}
+.travel-faq details {
+  background: white;
+  padding: 20px 24px;
+  border: 1px solid #e1e6ec;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+.travel-faq summary {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.travel-faq details p {
+  font-size: 15px;
+  color: var(--color-muted);
+}
+.planning-aside {
+  border-radius: 16px;
+}
+.planning-note {
+  border-radius: 0 12px 12px 0;
+}
+.itinerary-day {
+  scroll-margin-top: 150px;
+}
+.itinerary-day summary {
+  min-height: 60px;
+}
+.journey-photo-strip img {
+  border-radius: 12px;
+}
+.account-navigation {
+  border-right: 1px solid #e0e6eb;
+  padding-right: 24px;
+}
+.account-navigation a {
+  border-radius: 9px;
+  padding: 13px 16px;
+}
+.account-navigation a.active {
+  background: #eaf0f5;
+  color: #142d4e;
+}
+.account-links a {
+  padding: 24px;
+  border: 1px solid #dce3ea;
+  border-radius: 12px;
+  background: white;
+}
+.admin-header {
+  background: #ffffffed;
+  border-bottom: 1px solid #e0e6ec;
+}
+.admin-main {
+  background: #f5f7fa;
+  min-height: calc(100vh - 80px);
+}
+.admin-page-header h1 {
+  letter-spacing: -0.03em;
+}
+.admin-filters {
+  padding: 20px;
+  border: 1px solid #e2e7ed;
+  border-radius: 12px;
+  gap: 16px;
+  align-items: end;
+}
+.admin-filters label {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.admin-filters button:not(.button) {
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 1px solid #cdd6df;
+  border-radius: 9px;
+  background: white;
+  color: #142d4e;
+}
+.admin-table-wrap {
+  border-radius: 12px;
+  border: 1px solid #e1e7ed;
+  background: white;
+}
+.admin-table th {
+  background: #edf2f6;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  padding-block: 16px;
+}
+.admin-table td {
+  padding-block: 18px;
+}
+.admin-table tbody tr:hover {
+  background: #f8fafc;
+}
+.admin-form-grid {
+  gap: 22px;
+}
+.admin-form label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+  margin-top: 8px;
+  font-weight: 400;
+}
+.admin-form > label {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+.admin-form > .button {
+  margin-top: 24px;
+}
+.admin-counts a {
+  background: #fff;
+  border: 1px solid #e1e7ed;
+  border-radius: 14px;
+  padding: 28px;
+}
+.admin-counts a:hover {
+  border-color: #8299ae;
+}
+.admin-counts p {
+  color: #5c6979;
+  font-size: 14px;
+}
+.resource-state,
+.detail-empty {
+  border: 1px dashed #bfccd8;
+  border-radius: 14px;
+  background: #f5f8fa;
+  padding: 36px;
+}
+@media (max-width: 700px) {
+  .journey-filter-bar {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 20px;
+  }
+  .journey-filter-bar > p {
+    grid-row: auto;
+  }
+  .directory-intro {
+    margin-bottom: 30px;
+  }
+  .destination-directory-card .directory-copy {
+    padding: 22px;
+  }
+  .travel-faq details {
+    padding: 18px;
+  }
+  .account-navigation {
+    border-right: 0;
+    padding-right: 0;
+  }
+  .admin-filters {
+    align-items: stretch;
+  }
+  .admin-filters input,
+  .admin-filters select {
+    width: 100%;
+  }
+  .enquiry-form {
+    padding: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .destination-directory-card img,
+  input,
+  select,
+  textarea {
+    transition: none;
+  }
+  .destination-directory-card:hover img {
+    transform: none;
+  }
+}
+
+/* Consistent rhythm and tighter image-led layouts across the public site. */
+:root {
+  --section-space: clamp(48px, 5.4vw, 76px);
+  --container-width: 1280px;
+}
+.container {
+  width: min(var(--container-width), calc(100% - clamp(36px, 7vw, 88px)));
+}
+.section {
+  padding-block: var(--section-space);
+}
+.page-header-visual,
+.destination-page-header,
+.tours-page-header {
+  min-height: clamp(470px, 43vw, 570px);
+  padding: 138px 0 58px;
+}
+.page-header-visual h1,
+.destination-page-header h1,
+.tours-page-header h1 {
+  font-size: clamp(48px, 5.5vw, 74px);
+}
+.listing-section,
+.listing-destinations,
+.listing-tours {
+  padding-top: clamp(38px, 4vw, 56px);
+}
+.listing-destinations .destination-explorer {
+  margin-bottom: 38px;
+  padding-block: 18px;
+}
+.listing-destinations .listing-grid {
+  gap: 42px 22px;
+}
+.listing-destinations .destination-card .travel-image img,
+.listing-destinations .destination-card:nth-child(n) .travel-image img {
+  height: clamp(290px, 27vw, 360px);
+}
+.listing-tours .journey-explorer {
+  margin-bottom: 40px;
+}
+.journey-search-row {
+  gap: 32px;
+}
+.listing-tours .result-count {
+  margin-bottom: 24px;
+}
+.listing-tours .tour-grid {
+  gap: 44px 24px;
+}
+.listing-tours .tour-card-editorial .travel-image {
+  height: clamp(300px, 29vw, 370px);
+}
+.listing-tours .tour-card-editorial h3 {
+  margin-bottom: 14px;
+  font-size: clamp(32px, 3.5vw, 46px);
+}
+.destination-index-intro {
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+}
+.about-grid {
+  gap: clamp(36px, 5vw, 72px);
+}
+.about-grid img {
+  height: clamp(400px, 42vw, 520px);
+}
+.about-grid > div {
+  padding-top: 24px;
+}
+.about-story-band {
+  padding-block: clamp(58px, 6vw, 78px);
+}
+.about-story-images img {
+  height: clamp(330px, 38vw, 450px);
+}
+.about-story-images img:last-child {
+  height: clamp(280px, 30vw, 350px);
+}
+.contact-layout {
+  gap: clamp(34px, 5vw, 68px);
+}
+.contact-layout .enquiry-form,
+.contact-layout .success-panel {
+  padding: clamp(24px, 3vw, 38px);
+}
+.contact-aside img {
+  height: clamp(230px, 25vw, 290px);
+}
+.experience-panel > img {
+  min-height: 440px;
+}
+.planning-notes {
+  gap: clamp(36px, 6vw, 80px);
+}
+.planning-photo img {
+  height: clamp(440px, 48vw, 560px);
+}
+.detail-cinema {
+  min-height: max(540px, 66svh);
+}
+.detail-section {
+  padding-block: clamp(30px, 3.5vw, 48px);
+}
+.tour-detail-layout,
+.planning-layout {
+  gap: clamp(36px, 5vw, 68px);
+}
+.travel-card,
+.destination-directory-card,
+.tour-card-editorial,
+.experience-directory .travel-card {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.destination-directory-card:hover,
+.tour-card-editorial:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px #142d4e18;
+}
+.destination-directory-card .directory-copy {
+  padding: 22px;
+}
+.destination-directory-card .directory-copy h3 {
+  margin-bottom: 10px;
+}
+.destination-directory-card .directory-copy > p:not(.directory-region) {
+  margin-bottom: 10px;
+}
+.destination-directory-card .directory-link {
+  margin-top: 8px;
+  padding-block: 7px;
+}
+.site-footer {
+  padding-top: clamp(44px, 5vw, 68px);
+}
+@media (max-width: 900px) {
+  .page-header-visual,
+  .destination-page-header,
+  .tours-page-header {
+    min-height: 500px;
+    padding-top: 130px;
+  }
+  .listing-destinations .destination-card .travel-image img,
+  .listing-destinations .destination-card:nth-child(n) .travel-image img {
+    height: 340px;
+  }
+  .listing-tours .tour-card-editorial .travel-image {
+    height: 380px;
+  }
+}
+@media (max-width: 700px) {
+  :root {
+    --section-space: 44px;
+  }
+  .container {
+    width: calc(100% - 36px);
+  }
+  .page-header-visual,
+  .destination-page-header,
+  .tours-page-header {
+    min-height: 0;
+    padding: 124px 0 36px;
+  }
+  .page-header-visual h1,
+  .destination-page-header h1,
+  .tours-page-header h1 {
+    font-size: clamp(42px, 12vw, 58px);
+  }
+  .listing-destinations .listing-grid {
+    gap: 30px 16px;
+  }
+  .listing-destinations .destination-card .travel-image img,
+  .listing-destinations .destination-card:nth-child(n) .travel-image img {
+    height: clamp(230px, 58vw, 320px);
+  }
+  .listing-tours .tour-card-editorial .travel-image {
+    height: clamp(260px, 75vw, 360px);
+  }
+  .about-grid img {
+    height: 360px;
+  }
+  .about-grid > div {
+    padding-top: 0;
+  }
+  .contact-layout .enquiry-form,
+  .contact-layout .success-panel {
+    padding: 22px;
+  }
+  .experience-panel > img {
+    min-height: 300px;
+  }
+  .planning-photo img {
+    height: 400px;
+  }
+  .detail-cinema {
+    min-height: 70svh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .destination-directory-card,
+  .tour-card-editorial {
+    transition: none;
+  }
+}
+
+/* The hero now sends visitors straight into destination discovery. */
+.hero-cinema .hero-caption {
+  bottom: 42px;
+  padding-right: 64px;
+}
+.hero-cinema .hero-motion-toggle {
+  bottom: 38px;
+}
+.hero-cinema .hero-content .button-row {
+  gap: 14px;
+}
+.hero-cinema .hero-content .button-sand {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-primary);
+}
+.hero-cinema .hero-content .button-sand:hover {
+  border-color: #ffb09e;
+  background: #ffb09e;
+}
+@media (max-width: 750px) {
+  .hero-cinema .hero-caption {
+    right: 54px;
+    bottom: 36px;
+  }
+  .hero-cinema .hero-motion-toggle {
+    right: 18px;
+    bottom: 30px;
+  }
+  .hero-cinema .hero-scene-nav {
+    right: 18px;
+    bottom: 96px;
+    left: 18px;
+    width: auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    transform: none;
+  }
+  .hero-cinema .hero-scene-button {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .hero-cinema .hero-scene-button i {
+    width: 100%;
+  }
+  .hero-cinema .hero-scene-button strong {
+    display: block;
+    font-size: 9px;
+  }
+}
+@media (max-width: 420px) {
+  .hero-cinema .hero-content .button-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hero-cinema .hero-content .button-row .button {
+    padding-inline: 15px;
+    font-size: 12px;
+  }
+}
+
+/* A more inviting introduction to the island, with a real place to explore. */
+.island-welcome {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(32px, 5vw, 76px);
+  align-items: center;
+  padding-block: clamp(48px, 6vw, 88px);
+}
+.island-welcome-photo {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 1.05;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 18px 18px 72px 18px;
+  background: #142d4e;
+}
+.island-welcome-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.island-welcome-photo::after {
+  position: absolute;
+  inset: 40% 0 0;
+  background: linear-gradient(transparent, #0b203bc9);
+  content: '';
+  pointer-events: none;
+}
+.island-welcome-photo figcaption {
+  position: absolute;
+  z-index: 1;
+  right: 30px;
+  bottom: 30px;
+  left: 30px;
+  display: grid;
+  gap: 8px;
+  color: white;
+}
+.island-welcome-photo figcaption span {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.island-welcome-photo figcaption strong {
+  font: 30px/1.2 var(--font-display, Georgia, serif);
+}
+.island-welcome-label {
+  margin: 0 0 14px;
+  color: var(--color-accent, #f47f70);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.island-welcome-copy h2 {
+  max-width: none;
+  margin: 0;
+  font-size: clamp(38px, 4.2vw, 64px);
+  line-height: 1.08;
+}
+.island-welcome-description {
+  max-width: 56ch;
+  margin: 22px 0 0;
+  color: var(--color-muted, #66758a);
+  font-size: 16px;
+  line-height: 1.8;
+}
+.island-welcome-places {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 30px 0 26px;
+}
+.island-welcome-places a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 7px 4px;
+  align-content: start;
+  padding-top: 13px;
+  border-top: 1px solid var(--color-border, #d8d2c7);
+  color: var(--color-primary, #172e4e);
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+.island-welcome-places a:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-accent, #f47f70);
+}
+.island-welcome-places a span:first-child {
+  grid-column: 1 / -1;
+  color: var(--color-muted, #66758a);
+  font-size: 12px;
+}
+.island-welcome-places a strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.island-welcome-places a span:last-child {
+  color: var(--color-accent, #f47f70);
+}
+.island-welcome-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.island-welcome {
+  position: relative;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  column-gap: clamp(36px, 7vw, 104px);
+  row-gap: 48px;
+  padding-block: clamp(76px, 9vw, 132px);
+}
+.island-welcome-copy {
+  position: relative;
+  z-index: 2;
+  padding-block: 12px;
+}
+.island-welcome-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.island-welcome-label > span {
+  color: var(--color-accent);
+  font-size: 17px;
+}
+.island-welcome-copy h2 {
+  font-size: clamp(48px, 5.5vw, 78px);
+  letter-spacing: -0.045em;
+  line-height: 0.99;
+}
+.island-welcome-description {
+  max-width: 43ch;
+  margin-top: 26px;
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.75;
+}
+.island-welcome-cta {
+  min-height: 52px;
+  margin-top: 24px;
+  padding-inline: 23px;
+  border-radius: 999px;
+  box-shadow: 0 9px 22px #142d4e1a;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.island-welcome-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 13px 26px #142d4e26;
+}
+.island-welcome-photo {
+  aspect-ratio: 1.08;
+  border-radius: 48% 48% 16px 16px;
+  box-shadow: 0 26px 65px #142d4e20;
+}
+.island-welcome-photo img {
+  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.island-welcome-photo:hover img {
+  transform: scale(1.035);
+}
+.island-welcome-photo::after {
+  inset: 45% 0 0;
+  background: linear-gradient(transparent 0%, #0b203bdb 100%);
+}
+.island-welcome-photo figcaption {
+  right: 38px;
+  bottom: 34px;
+  left: 38px;
+  gap: 10px;
+}
+.island-welcome-photo figcaption > span {
+  color: #ffe0bd;
+  font-size: 10px;
+  letter-spacing: 0.19em;
+}
+.island-welcome-photo figcaption strong {
+  font-size: clamp(28px, 3vw, 42px);
+}
+.island-welcome-photo figcaption a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-top: 4px;
+  color: #fff;
+  font-size: 13px;
+  text-decoration: underline;
+  text-decoration-color: #ffffff80;
+  text-underline-offset: 5px;
+}
+.island-welcome-stamp {
+  position: absolute;
+  top: 13%;
+  right: -24px;
+  display: grid;
+  width: 90px;
+  height: 90px;
+  align-content: center;
+  border: 1px solid #fff9;
+  border-radius: 50%;
+  background: #fff9;
+  color: var(--color-primary);
+  font: 14px/1.05 var(--font-display);
+  text-align: center;
+  transform: rotate(9deg);
+  backdrop-filter: blur(8px);
+}
+.island-welcome-places {
+  grid-column: 1 / -1;
+  gap: 18px;
+  margin: 0;
+}
+.island-welcome-places .island-place-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) 28px;
+  min-height: 94px;
+  align-items: center;
+  gap: 16px;
+  overflow: hidden;
+  padding: 10px 16px 10px 10px;
+  border: 1px solid #142d4e17;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 6px 18px #142d4e08;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.island-welcome-places .island-place-card:hover {
+  transform: translateY(-4px);
+  border-color: #ff927e91;
+  box-shadow: 0 14px 28px #142d4e14;
+}
+.island-place-card > img {
+  width: 88px;
+  height: 72px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+.island-place-copy {
+  display: grid;
+  gap: 5px;
+}
+.island-place-copy > span {
+  color: var(--color-muted);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.island-place-copy > strong {
+  color: var(--color-primary);
+  font: 17px/1.2 var(--font-display);
+}
+.island-place-arrow {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid #142d4e2b;
+  border-radius: 50%;
+  color: var(--color-primary);
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+.island-place-card:hover .island-place-arrow {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+@media (max-width: 800px) {
+  .island-welcome {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-block: 64px;
+  }
+  .island-welcome-copy { max-width: 620px; }
+  .island-welcome-photo {
+    aspect-ratio: 1.3;
+    border-radius: 42% 42% 14px 14px;
+  }
+  .island-welcome-copy h2 {
+    font-size: clamp(48px, 9vw, 68px);
+  }
+  .island-welcome-places {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+@media (max-width: 420px) {
+  .island-welcome {
+    padding-block: 48px;
+  }
+  .island-welcome-copy h2 {
+    font-size: 46px;
+  }
+  .island-welcome-photo {
+    aspect-ratio: 0.95;
+  }
+  .island-welcome-photo figcaption {
+    right: 22px;
+    bottom: 24px;
+    left: 22px;
+  }
+  .island-welcome-photo figcaption strong {
+    font-size: 29px;
+  }
+  .island-welcome-stamp {
+    right: -8px;
+    width: 72px;
+    height: 72px;
+    font-size: 12px;
+  }
+  .island-welcome-places .island-place-card {
+    grid-template-columns: 76px minmax(0, 1fr) 28px;
+    gap: 12px;
+  }
+  .island-place-card > img {
+    width: 76px;
+    height: 66px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .island-welcome-photo img,
+  .island-welcome-cta,
+  .island-welcome-places .island-place-card,
+  .island-place-arrow {
+    transition: none;
+  }
+}

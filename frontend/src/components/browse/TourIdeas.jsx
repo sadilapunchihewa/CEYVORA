@@ -1,10 +1,27 @@
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import useWebsiteContent from '../../hooks/useWebsiteContent'
+import { getJourneyPlan } from '../../data/journeyPlans'
 import { Link } from 'react-router-dom'
-import ideas from '../../data/tourIdeas.json'
+import initialIdeas from '../../data/tourIdeas.json'
 export default function TourIdeas() {
+  const { items: ideas } = useWebsiteContent(
+    'journeys',
+    initialIdeas.map((x) => ({ ...x, ...getJourneyPlan(x.slug) })),
+  )
+  const [params, setParams] = useSearchParams()
+  const search = params.get('search') || ''
   const [category, setCategory] = useState('All interests')
   const visible = ideas.filter(
-    (item) => category === 'All interests' || item.category === category,
+    (item) =>
+      (category === 'All interests' || item.category === category) &&
+      (item.name + ' ' + item.description + ' ' + (item.route || []).join(' '))
+        .toLowerCase()
+        .includes(search.toLowerCase()) &&
+      (!params.get('minDays') ||
+        item.route?.length >= Number(params.get('minDays'))) &&
+      (!params.get('maxDays') ||
+        item.route?.length <= Number(params.get('maxDays'))),
   )
   return (
     <section
@@ -25,24 +42,72 @@ export default function TourIdeas() {
           during planning.
         </p>
       </div>
-      <label className="tour-ideas-select">
-        Choose your travel style
-        <select
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
-        >
-          {[
-            'All interests',
-            ...new Set(ideas.map((item) => item.category)),
-          ].map((value) => (
-            <option key={value}>{value}</option>
-          ))}
-        </select>
-      </label>
-      <p role="status">
-        {visible.length}{' '}
-        {visible.length === 1 ? 'journey idea' : 'journey ideas'}
-      </p>
+      <div
+        className="journey-filter-bar"
+        role="search"
+        aria-label="Find a journey"
+      >
+        <label className="tour-ideas-select">
+          Search journeys
+          <input
+            value={search}
+            onChange={(e) => {
+              const next = new URLSearchParams(params)
+              next.set('search', e.target.value)
+              setParams(next, { replace: true })
+            }}
+            placeholder="Name, destination or interest"
+          />
+        </label>
+        {(params.get('minDays') || params.get('maxDays')) && (
+          <p>
+            Duration filter: {params.get('minDays') || '1'}–
+            {params.get('maxDays') || 'any'} days{' '}
+            <button onClick={() => setParams(search ? { search } : {})}>
+              Clear duration
+            </button>
+          </p>
+        )}
+        <label className="tour-ideas-select">
+          Choose your travel style
+          <select
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+          >
+            {[
+              'All interests',
+              ...new Set(ideas.map((item) => item.category)),
+            ].map((value) => (
+              <option key={value}>{value}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <div className="journey-results-bar">
+        <p role="status">
+          {visible.length}{' '}
+          {visible.length === 1 ? 'journey idea' : 'journey ideas'}
+        </p>
+        {(search ||
+          category !== 'All interests' ||
+          params.get('minDays') ||
+          params.get('maxDays')) && (
+          <button
+            className="filter-reset"
+            onClick={() => {
+              setParams({})
+              setCategory('All interests')
+            }}
+          >
+            Reset filters
+          </button>
+        )}
+      </div>
+      {!visible.length && (
+        <p>
+          No journeys match. Try another search or clear the duration filter.
+        </p>
+      )}
       <div className="destination-directory-grid">
         {visible.map((item) => (
           <article className="destination-directory-card" key={item.slug}>

@@ -13,9 +13,10 @@ namespace backend.Controllers;
 public class DestinationsController(AppDbContext db, DetailsService details, IFileService files) : ControllerBase
 {
     [HttpGet, AllowAnonymous]
-    public async Task<IActionResult> All([FromQuery] DestinationQuery filter, CancellationToken ct)
+    public async Task<IActionResult> All([FromQuery] DestinationQuery filter, CancellationToken ct, [FromQuery] bool includeInactive = false)
     {
-        var query = db.Destinations.AsNoTracking().Where(x => x.IsActive);
+        var query = db.Destinations.AsNoTracking();
+        if (!includeInactive || !User.IsInRole(Roles.Admin)) query = query.Where(x => x.IsActive);
         if (!string.IsNullOrWhiteSpace(filter.Search))
         {
             var pattern = SearchHelper.Pattern(filter.Search);
@@ -40,9 +41,9 @@ public class DestinationsController(AppDbContext db, DetailsService details, IFi
     }
 
     [HttpGet("{id:int}"), AllowAnonymous]
-    public async Task<IActionResult> Get(int id, CancellationToken ct)
+    public async Task<IActionResult> Get(int id, CancellationToken ct, [FromQuery] bool includeInactive = false)
     {
-        var item = await db.Destinations.AsNoTracking().Where(x => x.Id == id && x.IsActive)
+        var item = await db.Destinations.AsNoTracking().Where(x => x.Id == id && (x.IsActive || (includeInactive && User.IsInRole(Roles.Admin))))
             .Select(DtoMappings.Destination).SingleOrDefaultAsync(ct);
         return item == null ? NotFound() : Ok(await details.DestinationAsync(item, ct));
     }
@@ -146,3 +147,4 @@ public class DestinationsController(AppDbContext db, DetailsService details, IFi
         item.IsActive = dto.IsActive;
     }
 }
+

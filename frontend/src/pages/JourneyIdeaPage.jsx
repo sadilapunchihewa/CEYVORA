@@ -1,3 +1,4 @@
+import useWebsiteContent from '../hooks/useWebsiteContent'
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ideas from '../data/tourIdeas.json'
@@ -9,8 +10,12 @@ import NotFoundPage from './NotFoundPage'
 
 export default function JourneyIdeaPage() {
   const { slug } = useParams()
-  const idea = ideas.find((item) => item.slug === slug)
-  const plan = getJourneyPlan(slug)
+  const { items: published } = useWebsiteContent(
+    'journeys',
+    ideas.map((x) => ({ ...x, ...getJourneyPlan(x.slug) })),
+  )
+  const idea = published.find((item) => item.slug === slug)
+  const plan = idea ? { ...idea, nights: idea.route.length - 1 } : null
   useEffect(() => {
     if (idea) document.title = `${idea.name} | Ceyvora`
   }, [idea])
@@ -36,6 +41,31 @@ export default function JourneyIdeaPage() {
             inspiration, not a fixed package or a confirmed departure. Arrival
             times, travel pace and availability may change the plan.
           </p>
+          <a
+            className="button button-outline"
+            href={
+              'https://www.google.com/maps/dir/' +
+              plan.route
+                .map((x) =>
+                  encodeURIComponent(x.replaceAll('-', ' ') + ', Sri Lanka'),
+                )
+                .join('/')
+            }
+            target="_blank"
+            rel="noreferrer"
+          >
+            View suggested route on Google Maps ↗
+          </a>
+          <div className="journey-photo-strip">
+            {[...new Set(plan.route)].slice(0, 3).map((x) => (
+              <img
+                key={x}
+                src={'/images/destinations/' + x + '.jpg'}
+                alt={x.replaceAll('-', ' ')}
+                loading="lazy"
+              />
+            ))}
+          </div>
           <h2>Your suggested day-by-day route</h2>
           <div className="itinerary">
             {plan.route.map((place, index) => (
@@ -44,24 +74,26 @@ export default function JourneyIdeaPage() {
                   <span className="day-number">Day {index + 1}</span>
                   <h3>
                     {index === plan.route.length - 1 ? 'Return to ' : ''}
-                    {placeNotes[place][0]}
+                    {placeNotes[place]?.[0] || place.replaceAll('-', ' ')}
                   </h3>
                 </summary>
                 <div className="itinerary-content">
                   <p>
                     {index === plan.route.length - 1
                       ? 'Allow this day for the return journey. Confirm transfer time against your flight; an additional overnight stay may be more comfortable for an early departure.'
-                      : placeNotes[place][1]}
+                      : placeNotes[place]?.[1] ||
+                        'Discuss your preferred visits and local arrangements for this stop.'}
                   </p>
                   {index < plan.nights && (
                     <p>
                       <strong>Suggested overnight base:</strong>{' '}
-                      {placeNotes[place][0]}. Property and meals to be agreed in
-                      your quote.
+                      {placeNotes[place]?.[0] || place.replaceAll('-', ' ')}.
+                      Property and meals to be agreed in your quote.
                     </p>
                   )}
                   <Link to={'/destinations/' + place}>
-                    Explore {placeNotes[place][0]} →
+                    Explore{' '}
+                    {placeNotes[place]?.[0] || place.replaceAll('-', ' ')} →
                   </Link>
                 </div>
               </details>

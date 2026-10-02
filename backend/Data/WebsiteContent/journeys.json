@@ -1,0 +1,167 @@
+[
+  {
+    "name": "Courtyards & Verandahs",
+    "category": "Authentic Ceylon",
+    "slug": "courtyards-verandahs",
+    "image": "/images/tour-ideas/courtyards-verandahs.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/05/headBannerfff.jpg",
+    "description": "Explore Sri Lanka through architecture, gardens and the spaces where everyday life meets design.",
+    "heading": "Architecture, gardens and time to linger",
+    "route": [
+      "colombo",
+      "bentota",
+      "bentota",
+      "galle",
+      "galle",
+      "colombo"
+    ],
+    "advice": "Choose small heritage stays and allow time for gardens and architectural visits. Confirm opening arrangements before adding private properties to the itinerary.",
+    "nights": 5
+  },
+  {
+    "name": "Cycling in Sri Lanka Tour",
+    "category": "Adventurous Spirit",
+    "slug": "cycling-in-sri-lanka-tour",
+    "image": "/images/tour-ideas/cycling-in-sri-lanka-tour.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/05/Featured-Image.jpg",
+    "description": "Discuss an active route through village roads, rural scenery and the landscapes you want to explore by bicycle.",
+    "heading": "Village roads at your own pace",
+    "route": [
+      "negombo",
+      "sigiriya",
+      "sigiriya",
+      "polonnaruwa",
+      "kandy",
+      "kandy",
+      "colombo"
+    ],
+    "advice": "Discuss daily distances, elevation, bicycle fit, helmets and support transport. Cycling sections should be chosen with a local operator around your fitness and road conditions.",
+    "nights": 6
+  },
+  {
+    "name": "Everlasting Summer in Lanka",
+    "category": "Barefoot Luxury",
+    "slug": "everlasting-summer-in-lanka",
+    "image": "/images/tour-ideas/everlasting-summer-in-lanka.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/12/botanical_garden.jpg",
+    "description": "Bring together leisurely sightseeing, garden visits and time to unwind along the way.",
+    "heading": "Gardens, hill air and the coast",
+    "route": [
+      "colombo",
+      "kandy",
+      "kandy",
+      "nuwara-eliya",
+      "nuwara-eliya",
+      "bentota",
+      "bentota",
+      "colombo"
+    ],
+    "advice": "Leave a full transfer day between the hills and coast. Ask for garden visits and restful afternoons rather than filling every day with excursions.",
+    "nights": 7
+  },
+  {
+    "name": "Experiential East",
+    "category": "Authentic Ceylon",
+    "slug": "experiential-east",
+    "image": "/images/tour-ideas/experiential-east.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/12/Beach-34.jpg",
+    "description": "Look towards the eastern coast for a journey combining sea views, local culture and slower days.",
+    "heading": "Culture followed by coastal days",
+    "route": [
+      "colombo",
+      "sigiriya",
+      "polonnaruwa",
+      "trincomalee",
+      "trincomalee",
+      "passikudah",
+      "passikudah",
+      "colombo"
+    ],
+    "advice": "Build in a full final travel day from the east. Choose water activities locally according to sea conditions, and discuss whether an extra overnight stop would suit your departure.",
+    "nights": 7
+  },
+  {
+    "name": "Fabulous Sri Lanka",
+    "category": "Join a Group",
+    "slug": "fabulous-sri-lanka",
+    "image": "/images/tour-ideas/fabulous-sri-lanka.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/featured-image.jpg",
+    "description": "Ask about a shared journey through the island’s varied landscapes and cultural places.",
+    "heading": "A shared introduction to the island",
+    "route": [
+      "negombo",
+      "sigiriya",
+      "sigiriya",
+      "kandy",
+      "nuwara-eliya",
+      "ella",
+      "udawalawe",
+      "galle",
+      "colombo"
+    ],
+    "advice": "This is an idea for travelling together, not a scheduled group departure. Ask about group size, room sharing, departure dates and whether a private version is available.",
+    "nights": 8
+  },
+  {
+    "name": "Love Songs of Ceylon",
+    "category": "Romantic Serendipity",
+    "slug": "love-songs-of-ceylon",
+    "image": "/images/tour-ideas/love-songs-of-ceylon.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/beach-couple-Featured-Image.jpg",
+    "description": "Shape a trip for two around quiet stays, beautiful scenery and time together.",
+    "heading": "Room for two, and room to slow down",
+    "route": [
+      "negombo",
+      "kandy",
+      "hatton",
+      "hatton",
+      "bentota",
+      "bentota",
+      "colombo"
+    ],
+    "advice": "Prioritise fewer hotel changes, private time and a room style you both enjoy. Special meals, room upgrades and celebrations need separate confirmation.",
+    "nights": 6
+  },
+  {
+    "name": "Meditation & Yoga",
+    "category": "Island of Wellness",
+    "slug": "meditation-yoga",
+    "image": "/images/tour-ideas/meditation-yoga.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/Meditation-Feature-image.jpg",
+    "description": "Explore a gentler travel rhythm with time for yoga, reflection and restful surroundings.",
+    "heading": "A gentler rhythm",
+    "route": [
+      "colombo",
+      "kandy",
+      "kandy",
+      "kandy",
+      "bentota",
+      "bentota",
+      "colombo"
+    ],
+    "advice": "Discuss instructor availability, experience level and your preferred session length before choosing a stay. Sessions are optional planning ideas, not included treatments or guaranteed activities.",
+    "nights": 6
+  },
+  {
+    "name": "Scenic Sri Lanka",
+    "category": "Authentic Ceylon",
+    "slug": "scenic-sri-lanka",
+    "image": "/images/tour-ideas/scenic-sri-lanka.jpg",
+    "sourceImage": "https://jetwingtravels.com/wp-content/uploads/2023/07/Scenic-Sri-Lanka-Featured-Image.jpg",
+    "description": "Combine changing landscapes and cultural stops into a scenic introduction to the island.",
+    "heading": "From ancient landscapes to the ocean",
+    "route": [
+      "negombo",
+      "sigiriya",
+      "kandy",
+      "nuwara-eliya",
+      "ella",
+      "ella",
+      "udawalawe",
+      "galle",
+      "colombo"
+    ],
+    "advice": "Allow breathing room for viewpoints and changing weather. A hill-country rail segment can be discussed, with road travel as an alternative if suitable seats are unavailable.",
+    "nights": 8
+  }
+]

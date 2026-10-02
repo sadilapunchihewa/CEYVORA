@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/authContextValue'
 import Button from '../common/Button'
 export default function Navbar() {
-  const { isAuthenticated, loading, logout } = useAuth()
+  const { isAuthenticated, loading, logout, user } = useAuth()
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(window.scrollY > 30)
@@ -54,7 +54,9 @@ export default function Navbar() {
           <div className="nav-actions">
             {!loading && isAuthenticated ? (
               <>
-                <NavLink to="/account">My account</NavLink>
+                <NavLink to={user?.role === 'Admin' ? '/admin' : '/account'}>
+                  {user?.role === 'Admin' ? 'Admin dashboard' : 'My account'}
+                </NavLink>
                 <button
                   className="nav-text-action"
                   type="button"
@@ -107,8 +109,11 @@ export default function Navbar() {
           <div className="mobile-nav-actions">
             {isAuthenticated ? (
               <>
-                <NavLink to="/account" onClick={() => setOpen(false)}>
-                  My account
+                <NavLink
+                  to={user?.role === 'Admin' ? '/admin' : '/account'}
+                  onClick={() => setOpen(false)}
+                >
+                  {user?.role === 'Admin' ? 'Admin dashboard' : 'My account'}
                 </NavLink>
                 <Button
                   variant="sand"

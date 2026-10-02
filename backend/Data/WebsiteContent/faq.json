@@ -1,0 +1,37 @@
+[
+  {
+    "slug": "question-1",
+    "question": "Can I change a journey to suit my interests?",
+    "answer": "Use any journey idea as a starting point. In your enquiry, mention the places you want to see, your pace, travel dates and budget. The route and arrangements need to be agreed before you book."
+  },
+  {
+    "slug": "question-2",
+    "question": "What should I include in my enquiry?",
+    "answer": "Share your approximate dates, number of adults and children, preferred room arrangements, interests and budget with its currency. Mention mobility needs or dietary requirements that could affect the plan. You do not need a finished itinerary."
+  },
+  {
+    "slug": "question-3",
+    "question": "Does sending an enquiry confirm a booking?",
+    "answer": "No. An enquiry starts a planning conversation; it does not reserve rooms, transport or activities, and it does not take a payment. Ask for written confirmation of availability and the final arrangements before committing."
+  },
+  {
+    "slug": "question-4",
+    "question": "Are hotels, transport and entry tickets included?",
+    "answer": "Journey ideas do not have automatic inclusions. Request an itemised quote covering accommodation, room type, meals, transport, guiding, entry tickets and any optional activities. Only the agreed quote should determine what is included."
+  },
+  {
+    "slug": "question-5",
+    "question": "How do payment and cancellation work?",
+    "answer": "Request the payment schedule, accepted payment methods, cancellation charges and refund conditions with your quote. These depend on the agreed arrangements; no standard deposit or free-cancellation promise is made on these inspiration pages."
+  },
+  {
+    "slug": "question-6",
+    "question": "Can I travel with children or at a slower pace?",
+    "answer": "Include children’s ages and your preferred daily pace in the enquiry. Ask about shorter transfers, rest days, room layouts, child seats and step-free access where needed. Suitability should be checked for each stay and activity."
+  },
+  {
+    "slug": "question-7",
+    "question": "Will train rides, safaris and water activities be available?",
+    "answer": "These need separate availability checks. Train seats can sell out, wildlife sightings vary, and outdoor activities depend on weather and local conditions. Ask what alternatives can be offered before finalising the route."
+  }
+]

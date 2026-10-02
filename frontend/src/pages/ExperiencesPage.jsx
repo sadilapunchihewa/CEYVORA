@@ -1,11 +1,16 @@
+import useWebsiteContent from '../hooks/useWebsiteContent'
 import InnerPageHero from '../components/common/InnerPageHero'
 import { useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import Pagination from '../components/browse/Pagination'
 import CTASection from '../components/home/CTASection'
-import experiences from '../data/experiences.json'
+import initialExperiences from '../data/experiences.json'
 
 export default function ExperiencesPage() {
+  const { items: experiences } = useWebsiteContent(
+    'experiences',
+    initialExperiences,
+  )
   const [params, setParams] = useSearchParams()
   const query = params.get('search') || ''
   const category = params.get('category') || 'All experiences'
@@ -146,12 +151,9 @@ export default function ExperiencesPage() {
                     <p>{item.description}</p>
                     <Link
                       className="directory-link"
-                      to={
-                        '/destinations/' +
-                        item.destination.toLowerCase().replaceAll(' ', '-')
-                      }
+                      to={'/experiences/' + item.slug}
                     >
-                      Explore {item.destination}{' '}
+                      Explore this experience{' '}
                       <span aria-hidden="true">↗</span>
                     </Link>
                   </div>
@@ -193,3 +195,4 @@ export default function ExperiencesPage() {
     </>
   )
 }
+

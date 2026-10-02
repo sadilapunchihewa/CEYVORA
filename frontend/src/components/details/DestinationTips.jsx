@@ -1,7 +1,9 @@
+import useWebsiteContent from '../../hooks/useWebsiteContent'
 import { getDestinationTips } from '../../data/destinationTips'
 
 export default function DestinationTips({ slug, name }) {
-  const tips = getDestinationTips(slug)
+  const { items } = useWebsiteContent('tips')
+  const tips = items.find((x) => x.slug === slug) || getDestinationTips(slug)
   if (!tips) return null
   return (
     <section

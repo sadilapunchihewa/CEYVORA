@@ -24,14 +24,23 @@ export default function DestinationFormPage() {
   const [loading, setLoading] = useState(edit)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [loadError, setLoadError] = useState('')
   const toast = useToast()
   const navigate = useNavigate()
   useEffect(() => {
+    setLoadError('')
+    setLoading(edit)
+    if (!edit) {
+      setForm(blank)
+      return
+    }
     if (edit)
       service
         .getDestination(id)
         .then((x) => setForm(x))
-        .catch((e) => setError(apiError(e, 'Destination could not be loaded.')))
+        .catch((e) =>
+          setLoadError(apiError(e, 'Destination could not be loaded.')),
+        )
         .finally(() => setLoading(false))
   }, [edit, id])
   const change = (e) =>
@@ -67,7 +76,7 @@ export default function DestinationFormPage() {
         title={edit ? 'Edit destination' : 'Add destination'}
         description="Publish clear, useful information for travellers."
       />
-      <AdminState loading={loading} error={loading && error}>
+      <AdminState loading={loading} error={loadError}>
         {!loading && (
           <>
             <form className="admin-form" onSubmit={submit}>

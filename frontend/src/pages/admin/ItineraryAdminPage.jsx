@@ -35,6 +35,7 @@ export default function ItineraryAdminPage() {
       tours.getTourDestinations(id),
     ])
       .then(([t, d, a, at]) => {
+        setError('')
         setTour(t)
         setDays(d)
         setAll(a.items)
@@ -43,7 +44,9 @@ export default function ItineraryAdminPage() {
       .catch((e) =>
         setError(apiError(e, 'Tour management data could not be loaded.')),
       )
-  useEffect(load, [id])
+  useEffect(() => {
+    load()
+  }, [id])
   const change = (e) =>
     setForm((v) => ({ ...v, [e.target.name]: e.target.value }))
   const saveDay = async (e) => {

@@ -20,9 +20,14 @@ export default function ToursAdminPage() {
   const load = () =>
     service
       .listTours({ page, pageSize: 10, search: query })
-      .then(setData)
+      .then((value) => {
+        setError('')
+        setData(value)
+      })
       .catch((e) => setError(apiError(e, 'Tours could not be loaded.')))
-  useEffect(load, [page, query])
+  useEffect(() => {
+    load()
+  }, [page, query])
   const remove = async () => {
     try {
       await service.deactivateTour(target.id)

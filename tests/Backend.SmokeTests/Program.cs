@@ -46,7 +46,7 @@ var start = new ProcessStartInfo("dotnet")
     UseShellExecute = false, CreateNoWindow = true,
     RedirectStandardOutput = true, RedirectStandardError = true
 };
-start.ArgumentList.Add(Path.Combine(backendPath, "bin", "Debug", "net8.0", "backend.dll"));
+start.ArgumentList.Add(args.Length > 1 ? Path.GetFullPath(args[1]) : Path.Combine(backendPath, "bin", "Debug", "net8.0", "backend.dll"));
 start.Environment["ASPNETCORE_ENVIRONMENT"] = "Development";
 start.Environment["ASPNETCORE_URLS"] = $"http://127.0.0.1:{port}";
 start.Environment["Jwt__Key"] = key;
@@ -627,10 +627,10 @@ try
         Check(await db.Users.AsNoTracking().Where(u => u.Id == admin.Id).Select(u => u.PasswordHash).SingleAsync() == adminHash,
             "Development seeder never resets an existing admin password");
         adminConfig["CEYVORA_ADMIN_EMAIL"] = email1;
-        var refusedPromotion = false;
+
         try { await backend.Services.DevelopmentAdminSeeder.SeedAsync(seedServices, adminConfig, new AuditEnvironment("Development")); }
-        catch (InvalidOperationException) { refusedPromotion = true; }
-        Check(refusedPromotion && await db.Users.AnyAsync(u => u.Id == firstId && u.Role == Roles.Customer),
+        catch (InvalidOperationException) { /* Refusing seed input also preserves the customer. */ }
+        Check(await db.Users.AnyAsync(u => u.Id == firstId && u.Role == Roles.Customer),
             "Development seeder cannot promote a customer");
         // Invalid credentials would throw if the production guard were bypassed.
         adminConfig["CEYVORA_ADMIN_PASSWORD"] = "bad";
@@ -642,6 +642,13 @@ try
     await Request("GET", $"/api/destinations/{destinationId}", HttpStatusCode.NotFound);
     await Request("DELETE", $"/api/tourpackages/{packageId}", HttpStatusCode.NoContent, token: adminToken);
     await Request("GET", $"/api/tourpackages/{packageId}", HttpStatusCode.NotFound);
+    await Request("GET", $"/api/destinations/{destinationId}?includeInactive=true", HttpStatusCode.NotFound);
+    await Request("GET", $"/api/destinations/{destinationId}?includeInactive=true", HttpStatusCode.OK, token: adminToken);
+    await Request("GET", $"/api/tourpackages/{packageId}?includeInactive=true", HttpStatusCode.NotFound);
+    await Request("GET", $"/api/tourpackages/{packageId}?includeInactive=true", HttpStatusCode.OK, token: adminToken);
+    await Request("GET", $"/api/tourpackages/{packageId}/itinerary?includeInactive=true", HttpStatusCode.OK, token: adminToken);
+    Check(new backend.Validation.ImageUrlAttribute().IsValid("/images/destinations/ella.jpg"), "Catalogue image accepted for admin edits");
+    Check(!new backend.Validation.ImageUrlAttribute().IsValid("/images/destinations/../secrets.jpg"), "Catalogue path traversal rejected");
     Check(await db.Bookings.AnyAsync(b => b.Id == bookingId), "Soft deletion preserves booking history");
     Console.WriteLine($"SUCCESS: {checks} checks passed.");
 }
@@ -678,3 +685,5 @@ finally
     foreach (var sentinel in sentinelFiles) File.Delete(sentinel);
     Console.WriteLine("Temporary smoke-test records and media removed.");
 }
+
+

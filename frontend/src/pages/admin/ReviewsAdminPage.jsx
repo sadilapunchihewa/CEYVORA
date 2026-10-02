@@ -18,9 +18,14 @@ export default function ReviewsAdminPage() {
   const load = () =>
     service
       .listReviews({ page, pageSize: 10, approved, rating })
-      .then(setData)
+      .then((value) => {
+        setError('')
+        setData(value)
+      })
       .catch((e) => setError(apiError(e, 'Reviews could not be loaded.')))
-  useEffect(load, [page, approved, rating])
+  useEffect(() => {
+    load()
+  }, [page, approved, rating])
   const approve = async (id) => {
     try {
       await service.approveReview(id)

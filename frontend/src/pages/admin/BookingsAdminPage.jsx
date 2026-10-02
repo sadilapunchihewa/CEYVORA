@@ -17,7 +17,10 @@ export default function BookingsAdminPage() {
   useEffect(() => {
     service
       .listBookings({ page, pageSize: 10, status, search: query })
-      .then(setData)
+      .then((value) => {
+        setError('')
+        setData(value)
+      })
       .catch((e) => setError(apiError(e, 'Bookings could not be loaded.')))
   }, [page, status, query])
   return (

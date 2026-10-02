@@ -23,7 +23,9 @@ export const validPhone = (value) =>
 
 export function safeReturn(value) {
   return typeof value === 'string' &&
-    /^\/(account(?:\/|$)|tours\/[^/?#]+\/book(?:[?#]|$))/.test(value) &&
+    /^\/(admin(?:\/|$)|account(?:\/|$)|tours\/[^/?#]+\/book(?:[?#]|$))/.test(
+      value,
+    ) &&
     !value.includes('\\')
     ? value
     : '/account'

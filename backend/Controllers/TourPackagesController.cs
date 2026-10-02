@@ -13,9 +13,10 @@ namespace backend.Controllers;
 public class TourPackagesController(AppDbContext db, DetailsService details, IFileService files) : ControllerBase
 {
     [HttpGet, AllowAnonymous]
-    public async Task<IActionResult> All([FromQuery] PackageQuery filter, CancellationToken ct)
+    public async Task<IActionResult> All([FromQuery] PackageQuery filter, CancellationToken ct, [FromQuery] bool includeInactive = false)
     {
-        var query = db.TourPackages.AsNoTracking().Where(x => x.IsActive);
+        var query = db.TourPackages.AsNoTracking();
+        if (!includeInactive || !User.IsInRole(Roles.Admin)) query = query.Where(x => x.IsActive);
         if (!string.IsNullOrWhiteSpace(filter.Search))
         {
             var pattern = SearchHelper.Pattern(filter.Search);
@@ -42,9 +43,9 @@ public class TourPackagesController(AppDbContext db, DetailsService details, IFi
     }
 
     [HttpGet("{id:int}"), AllowAnonymous]
-    public async Task<IActionResult> Get(int id, CancellationToken ct)
+    public async Task<IActionResult> Get(int id, CancellationToken ct, [FromQuery] bool includeInactive = false)
     {
-        var item = await db.TourPackages.AsNoTracking().Where(x => x.Id == id && x.IsActive)
+        var item = await db.TourPackages.AsNoTracking().Where(x => x.Id == id && (x.IsActive || (includeInactive && User.IsInRole(Roles.Admin))))
             .Select(DtoMappings.TourPackage).SingleOrDefaultAsync(ct);
         return item == null ? NotFound() : Ok(await details.PackageAsync(item, ct));
     }
@@ -152,3 +153,4 @@ public class TourPackagesController(AppDbContext db, DetailsService details, IFi
         item.IsActive = dto.IsActive;
     }
 }
+

@@ -13,7 +13,11 @@ export default function AuthPage({ register = false }) {
   const [message, setMessage] = useState('')
   const [pending, setPending] = useState(false)
   const busy = useRef(false)
-  const from = safeReturn(location.state?.from)
+  const from = location.state?.from
+    ? safeReturn(location.state.from)
+    : auth.user?.role === 'Admin'
+      ? '/admin'
+      : '/account'
   if (auth.isAuthenticated) return <Navigate to={from} replace />
   async function submit(event) {
     event.preventDefault()

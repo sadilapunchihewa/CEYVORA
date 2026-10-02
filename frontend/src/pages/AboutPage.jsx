@@ -1,7 +1,9 @@
+import useWebsiteContent from '../hooks/useWebsiteContent'
 import InnerPageHero from '../components/common/InnerPageHero'
 import WhyChooseUs from '../components/home/WhyChooseUs'
 import CTASection from '../components/home/CTASection'
 export default function AboutPage() {
+  const { items: business } = useWebsiteContent('business')
   return (
     <>
       <InnerPageHero
@@ -13,6 +15,12 @@ export default function AboutPage() {
         imageAlt="Ancient rock carvings at Buduruwagala near Wellawaya"
         marker="OUR STORY · 03"
       />
+      {business[0]?.story && (
+        <section className="section container">
+          <h2>Our story</h2>
+          <p>{business[0].story}</p>
+        </section>
+      )}
       <section className="section container about-grid">
         <img
           src="/images/tea-picker.webp"

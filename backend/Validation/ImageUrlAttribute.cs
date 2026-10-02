@@ -10,6 +10,7 @@ public sealed class ImageUrlAttribute : ValidationAttribute
     {
         if (value is null || value is string { Length: 0 }) return true;
         if (value is not string url) return false;
+        if (Regex.IsMatch(url, @"^/images/destinations/[a-z0-9-]+\.jpg$")) return true;
         if (Regex.IsMatch(url, @"^/uploads/(destinations|packages)/[a-f0-9]{32}\.(jpg|jpeg|png|webp)$")) return true;
         return Uri.TryCreate(url, UriKind.Absolute, out var uri) &&
             (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);

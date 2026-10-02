@@ -1,3 +1,4 @@
+import useWebsiteContent from '../../hooks/useWebsiteContent'
 import { Link } from 'react-router-dom'
 
 const questions = [
@@ -32,6 +33,14 @@ const questions = [
 ]
 
 export default function TravelFAQ() {
+  const { items } = useWebsiteContent(
+    'faq',
+    questions.map(([question, answer], i) => ({
+      slug: String(i),
+      question,
+      answer,
+    })),
+  )
   return (
     <section
       className="section container travel-faq"
@@ -48,7 +57,7 @@ export default function TravelFAQ() {
         <Link to="/contact">Ask about your plans →</Link>
       </div>
       <div>
-        {questions.map(([question, answer]) => (
+        {items.map(({ question, answer }) => (
           <details key={question}>
             <summary>{question}</summary>
             <p>{answer}</p>

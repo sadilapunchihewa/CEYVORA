@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import Button from '../common/Button'
 
 const scenes = [
@@ -34,7 +33,6 @@ const scenes = [
 ]
 
 export default function HeroSection() {
-  const navigate = useNavigate()
   const [activeScene, setActiveScene] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
 
@@ -51,21 +49,6 @@ export default function HeroSection() {
   }, [isPaused])
 
   const scene = scenes[activeScene]
-
-  function findJourney(event) {
-    event.preventDefault()
-    const values = new FormData(event.currentTarget)
-    const params = new URLSearchParams()
-    const search = values.get('search')
-    const duration = values.get('duration')
-    if (search) params.set('search', search)
-    if (duration) {
-      const [minDays, maxDays] = String(duration).split('-')
-      params.set('minDays', minDays)
-      params.set('maxDays', maxDays)
-    }
-    navigate('/tours?' + params.toString())
-  }
 
   return (
     <section
@@ -101,11 +84,11 @@ export default function HeroSection() {
           Discover a journey that feels like you.
         </p>
         <div className="button-row">
-          <Button to="/tours" variant="sand">
-            Explore journeys
+          <Button to="/destinations" variant="sand">
+            Explore destinations
           </Button>
-          <Button to="/destinations" variant="light">
-            Discover Sri Lanka
+          <Button to="/tours" variant="light">
+            Explore journeys
           </Button>
         </div>
       </div>
@@ -144,32 +127,6 @@ export default function HeroSection() {
         <span aria-hidden="true">{isPaused ? '▶' : 'Ⅱ'}</span>
       </button>
 
-      <form className="hero-journey-finder" onSubmit={findJourney}>
-        <div className="journey-finder-intro">
-          <span>01</span>
-          <p>Find your way across the island</p>
-        </div>
-        <label>
-          <span>Travel mood</span>
-          <select name="search" defaultValue="">
-            <option value="">Surprise me</option>
-            <option value="culture">Culture & heritage</option>
-            <option value="wildlife">Wildlife & nature</option>
-            <option value="coast">Coast & slow days</option>
-            <option value="hill">Hill country</option>
-          </select>
-        </label>
-        <label>
-          <span>Journey length</span>
-          <select name="duration" defaultValue="">
-            <option value="">Any length</option>
-            <option value="3-6">3–6 days</option>
-            <option value="7-10">7–10 days</option>
-            <option value="11-21">11–21 days</option>
-          </select>
-        </label>
-        <button type="submit">Find my journey</button>
-      </form>
     </section>
   )
 }

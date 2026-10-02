@@ -26,14 +26,21 @@ export default function TourFormPage() {
   const [loading, setLoading] = useState(edit)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [loadError, setLoadError] = useState('')
   const toast = useToast()
   const navigate = useNavigate()
   useEffect(() => {
+    setLoadError('')
+    setLoading(edit)
+    if (!edit) {
+      setForm(blank)
+      return
+    }
     if (edit)
       service
         .getTour(id)
         .then(setForm)
-        .catch((e) => setError(apiError(e, 'Tour could not be loaded.')))
+        .catch((e) => setLoadError(apiError(e, 'Tour could not be loaded.')))
         .finally(() => setLoading(false))
   }, [edit, id])
   const change = (e) =>
@@ -77,7 +84,7 @@ export default function TourFormPage() {
         title={edit ? 'Edit tour package' : 'Add tour package'}
         description="Set the offer travellers see before managing its route and itinerary."
       />
-      <AdminState loading={loading} error={loading && error}>
+      <AdminState loading={loading} error={loadError}>
         {!loading && (
           <>
             <form className="admin-form" onSubmit={submit}>

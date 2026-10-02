@@ -9,7 +9,7 @@ import {
 import { useAuth } from '../../context/authContextValue'
 import { ToastProvider } from './Toast'
 const links = [
-  ['/admin', 'Dashboard', '⌂'],
+  ['/admin', 'Dashboard', '⌂'], ['/admin/content', 'Website content', '✎'],
   ['/admin/destinations', 'Destinations', '⌖'],
   ['/admin/tours', 'Tour packages', '◇'],
   ['/admin/bookings', 'Bookings', '▣'],
@@ -88,3 +88,4 @@ export default function AdminLayout() {
     </ToastProvider>
   )
 }
+

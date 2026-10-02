@@ -1,3 +1,5 @@
+import ExperienceDetailsPage from './pages/ExperienceDetailsPage'
+import WebsiteContentPage from './pages/admin/WebsiteContentPage'
 import JourneyIdeaPage from './pages/JourneyIdeaPage'
 import FAQPage from './pages/FAQPage'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
@@ -41,6 +43,7 @@ export default function App() {
           <Route element={<AdminProtectedRoute />}>
             <Route path="admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
+              <Route path="content" element={<WebsiteContentPage />} />
               <Route path="destinations" element={<DestinationsAdminPage />} />
               <Route
                 path="destinations/new"
@@ -83,6 +86,10 @@ export default function App() {
             <Route path="tours/:slug" element={<TourDetailsPage />} />
             <Route path="about" element={<AboutPage />} />
             <Route path="experiences" element={<ExperiencesPage />} />
+            <Route
+              path="experiences/:slug"
+              element={<ExperienceDetailsPage />}
+            />
             <Route
               path="travel-guide"
               element={<Navigate to="/experiences" replace />}

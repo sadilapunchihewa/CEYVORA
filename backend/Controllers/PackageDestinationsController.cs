@@ -13,11 +13,11 @@ namespace backend.Controllers;
 public class PackageDestinationsController(AppDbContext db) : ControllerBase
 {
     [HttpGet, AllowAnonymous]
-    public async Task<IActionResult> Get(int packageId, CancellationToken ct)
+    public async Task<IActionResult> Get(int packageId, CancellationToken ct, [FromQuery] bool includeInactive = false)
     {
-        if (!await db.TourPackages.AnyAsync(p => p.Id == packageId && p.IsActive, ct)) return NotFound();
+        if (!await db.TourPackages.AnyAsync(p => p.Id == packageId && (p.IsActive || (includeInactive && User.IsInRole(Roles.Admin))), ct)) return NotFound();
         return Ok(await db.PackageDestinations.AsNoTracking()
-            .Where(p => p.TourPackageId == packageId && p.Destination.IsActive)
+            .Where(p => p.TourPackageId == packageId && (p.Destination.IsActive || (includeInactive && User.IsInRole(Roles.Admin))))
             .OrderBy(p => p.VisitOrder).ThenBy(p => p.DestinationId).Select(p => p.Destination).Select(DtoMappings.Destination).ToListAsync(ct));
     }
 
@@ -57,3 +57,4 @@ public class PackageDestinationsController(AppDbContext db) : ControllerBase
         return NoContent();
     }
 }
+

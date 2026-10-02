@@ -19,11 +19,14 @@ export default function BookingDetailsAdminPage() {
     service
       .getBooking(id)
       .then((x) => {
+        setError('')
         setData(x)
         setNext(x.status)
       })
       .catch((e) => setError(apiError(e, 'Booking could not be loaded.')))
-  useEffect(load, [id])
+  useEffect(() => {
+    load()
+  }, [id])
   const update = async () => {
     try {
       await service.updateBookingStatus(id, next)

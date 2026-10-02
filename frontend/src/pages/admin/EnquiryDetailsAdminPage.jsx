@@ -17,11 +17,14 @@ export default function EnquiryDetailsAdminPage() {
     service
       .getEnquiry(id)
       .then((x) => {
+        setError('')
         setData(x)
         setStatus(x.status)
       })
       .catch((e) => setError(apiError(e, 'Enquiry could not be loaded.')))
-  useEffect(load, [id])
+  useEffect(() => {
+    load()
+  }, [id])
   const update = async () => {
     try {
       await service.updateEnquiryStatus(id, status)

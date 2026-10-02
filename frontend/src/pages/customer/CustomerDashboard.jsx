@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../../context/authContextValue'
 export default function CustomerDashboard() {
   const { user } = useAuth()
+  if (user?.role === 'Admin') return <Navigate to="/admin" replace />
   return (
     <>
       <h1>Welcome back, {user.fullName.split(' ')[0]}</h1>

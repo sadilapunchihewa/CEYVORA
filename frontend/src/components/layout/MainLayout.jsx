@@ -1,3 +1,4 @@
+import PageMetadata from '../common/PageMetadata'
 import { useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
@@ -41,6 +42,7 @@ export default function MainLayout() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
+      <PageMetadata />
       <Navbar key={location.pathname} />
       <main id="main-content" ref={main} tabIndex="-1">
         <Outlet />

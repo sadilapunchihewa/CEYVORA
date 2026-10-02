@@ -22,7 +22,7 @@ export default function HomePage() {
       <TravelExperience />
       <FeaturedDestinations resource={destinations} />
       <StoryBreak />
-      <FeaturedTours resource={tours} />
+      <FeaturedTours />
       <WhyChooseUs />
       <PlanningNotes />
       <SriLankaStories />
@@ -31,3 +31,4 @@ export default function HomePage() {
     </>
   )
 }
+

@@ -31,3 +31,6 @@ backend/appsettings.json
 backend/wwwroot/uploads/**/*
 !backend/wwwroot/uploads/**/
 !backend/wwwroot/uploads/**/.gitkeep
+
+# Published website content (back up separately)
+backend/App_Data/
